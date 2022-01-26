@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# import os
 import pandas as pd
 import re
 import requests
@@ -7,21 +10,62 @@ from datetime import timedelta
 from pathlib import Path
 from requests_cache import CachedSession
 
+"""
+The commented out section is boilerplate for common operations.
+Feel free to uncomment and/or delete after first commit.
+"""
+## env
+# home = os.path.expandvars("$HOME")
+# now = datetime.datetime.now()
+# out = f"{home}/Downloads/result_{now:%Y%m%d_%H%M%S}.csv"
+# env = Path('/.env')
+
+## pwd
+# cwd = os.path.dirname(os.path.abspath("__file__"))
+# # print(f"Current working directory: {cwd}")
+
+# dir_path = os.path.dirname(os.path.realpath(__file__))
+# # print(f"File directory: {dir_path}")
+
+# if cwd != dir_path:
+#     os.chdir(dir_path)
+#     print(os.getcwd())
+
+# folders = ['logs', 'user_data']
+
+# for folder in folders:
+#     if not Path(folder).exists():
+#         os.mkdir(os.path.join(cwd, folder))
+
+# # creds
+# if env.exists():
+#     HOST = config('HOST', default='localhost')
+#     USER = config('USER')
+#     PASS = config('PASS')
+# else:
+#     HOST = os.getenv('HOST', default='localhost')
+#     USER = os.getenv('USER')
+#     PASS = os.getenv('PASS')
+
+## mkdir -p ./csv && cd $_
+# if Path('csv').exists():
+#     os.chdir('./csv')
+#     print("Changed to the folder: " + os.getcwd())
+# else:
+#     try:
+#         os.makedirs('./csv')
+#     except FileExistsError as exists:
+#         print('Folder already exists')
+#     finally:
+#         os.chdir('./csv')
+#         print("Changed to the folder: " + os.getcwd())
+
 base_url = 'https://app.cloud-logon.com/dev/'
 calc_url = base_url + "calculator"
 hint_url = base_url + "easy_mode"
 
-session = CachedSession(
-    'pages_cache',
-    use_cache_dir=False,               # Save files in the default user cache dir
-    cache_control=True,                # Use Cache-Control headers for expiration, if available
-    expire_after=timedelta(days=1),    # Otherwise expire responses after one day
-    allowable_methods=['GET', 'POST'], # Cache POST requests to avoid sending the same data twice
-    allowable_codes=[200, 400],        # Cache 400 responses as a solemn reminder of your failures
-    ignored_parameters=['api_key'],    # Don't match this param or save it in the cache
-    match_headers=True,                # Match all request headers
-    stale_if_error=True,               # In case of request errors, use stale cache data if possible
-)
+requests_cache.install_cache("api_cache")
+
 main_page = requests.get(calc_url)
 
 page_soup = BeautifulSoup(main_page.text, 'html.parser')

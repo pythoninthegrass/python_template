@@ -87,7 +87,7 @@ playwright codegen wikipedia.org
 ```
 
 ## TODO
-* Add boilerplate to hello.py
+* ~~Add boilerplate to hello.py~~
 * ~~Poetry~~
 * ~~Dockerfile~~
 * ~~Playwright~~
