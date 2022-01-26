@@ -7,6 +7,7 @@
 * Install [editorconfig](https://editorconfig.org/)
 * Install [poetry](https://python-poetry.org/docs/)
 * Install [docker-compose](https://docs.docker.com/compose/install/)
+* Install [playwright](https://playwright.dev/python/docs/intro#installation)
 
 ## Usage
 ### Poetry
@@ -64,7 +65,7 @@ python hello.py
 docker-compose down
 ```
 
-#### Troubleshooting
+#### Docker Troubleshooting
 * Watch logs in real-time: `docker-compose logs -tf --tail="50" unhackable`
 * Check exit code
     ```bash
@@ -74,11 +75,23 @@ docker-compose down
     docker_python      python manage.py runserver ...   Exit 0
     ```
 
+### Playwright
+```bash
+# install
+pip install --upgrade pip
+pip install playwright
+playwright install
+
+# generate code via macro
+playwright codegen wikipedia.org
+```
+
 ## TODO
 * Add boilerplate to hello.py
 * ~~Poetry~~
 * ~~Dockerfile~~
-* Playwright
+* ~~Playwright~~
+* Terraform
 
 ## Further Reading
 [Basic writing and formatting syntax - GitHub Docs](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)
