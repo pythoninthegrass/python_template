@@ -98,7 +98,7 @@ playwright codegen wikipedia.org
 * ~~Dockerfile~~
 * ~~Playwright~~
 * Terraform
-* CI/CD (e.g., Github Actions)
+* CI/CD (e.g., [Github Actions](https://docs.github.com/en/actions), [MegaLinter](https://megalinter.github.io/latest/))
 
 ## Further Reading
 [Basic writing and formatting syntax - GitHub Docs](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)
