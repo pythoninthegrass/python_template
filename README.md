@@ -97,6 +97,9 @@ playwright codegen wikipedia.org
 * ~~Poetry~~
 * ~~Dockerfile~~
 * ~~Playwright~~
+* Django
+   * Merge with [docker_python](https://github.com/pythoninthegrass/docker_python) and put the latter on an ice float  
+* Flask
 * Terraform
 * CI/CD (e.g., [Github Actions](https://docs.github.com/en/actions), [MegaLinter](https://megalinter.github.io/latest/))
 
