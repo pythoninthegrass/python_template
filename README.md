@@ -3,6 +3,11 @@
 !["It's dangerous to go alone! Take this."](zelda.jpg)
 <!-- <img src="https://user-images.githubusercontent.com/4097471/144654508-823c6e31-5e10-404c-9f9f-0d6b9d6ce617.jpg" width="300"> -->
 
+## Summary
+Oftentimes the initial setup of a Python repo can take a few minutes to a couple hours.
+By laying the foundation to rapidly implement an idea, can focus on the good bits instead of
+devops drudgery.
+
 ## Setup
 * Install [editorconfig](https://editorconfig.org/)
 * Install [poetry](https://python-poetry.org/docs/)
@@ -92,6 +97,7 @@ playwright codegen wikipedia.org
 * ~~Dockerfile~~
 * ~~Playwright~~
 * Terraform
+* CI/CD (e.g., Github Actions)
 
 ## Further Reading
 [Basic writing and formatting syntax - GitHub Docs](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)
