@@ -1,13 +1,19 @@
 #!/usr/bin/env python3
 
+# import argparse
+# import numpy as np
 # import os
 import pandas as pd
 import re
 import requests
 from bs4 import BeautifulSoup, Comment
 from datetime import timedelta
+# from decouple import config
 # from icecream import ic
 from pathlib import Path
+# from playwright.async_api import async_playwright
+# from playwright.sync_api import sync_playwright
+# from prettytable import PrettyTable
 from requests_cache import CachedSession
 
 """
