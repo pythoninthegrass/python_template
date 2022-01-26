@@ -9,10 +9,11 @@ By laying the foundation to rapidly implement an idea, can focus on the good bit
 devops drudgery.
 
 ## Setup
-* Install [editorconfig](https://editorconfig.org/)
-* Install [poetry](https://python-poetry.org/docs/)
-* Install [docker-compose](https://docs.docker.com/compose/install/)
-* Install [playwright](https://playwright.dev/python/docs/intro#installation)
+* Install 
+    * [editorconfig](https://editorconfig.org/)
+    * [poetry](https://python-poetry.org/docs/)
+    * [docker-compose](https://docs.docker.com/compose/install/)
+    * [playwright](https://playwright.dev/python/docs/intro#installation)
 
 ## Usage
 ### Poetry
