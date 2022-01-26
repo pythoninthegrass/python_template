@@ -81,5 +81,5 @@ ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
 # EXPOSE 8000
 
-# ENTRYPOINT ["/bin/bash"]
+# ENTRYPOINT ["python", "hello.py"]
 CMD ["/bin/bash"]

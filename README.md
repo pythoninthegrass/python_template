@@ -102,4 +102,6 @@ playwright codegen wikipedia.org
 
 [Overview of Docker Compose | Docker Documentation](https://docs.docker.com/compose/)
 
+[Compose file version 3 reference | Docker Documentation](https://docs.docker.com/compose/compose-file/compose-file-v3/)
+
 [Getting started | Playwright Python | codegen macro](https://playwright.dev/python/docs/intro)
