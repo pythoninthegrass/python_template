@@ -72,7 +72,7 @@ docker-compose down
 ```
 
 #### Docker Troubleshooting
-* Watch logs in real-time: `docker-compose logs -tf --tail="50" unhackable`
+* Watch logs in real-time: `docker-compose logs -tf --tail="50" hello`
 * Check exit code
     ```bash
     $ docker-compose ps
