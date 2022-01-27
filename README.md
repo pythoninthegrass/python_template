@@ -88,6 +88,9 @@ pip install --upgrade pip
 pip install playwright
 playwright install
 
+# download new browsers (chromedriver, gecko)
+npx playwright install
+
 # generate code via macro
 playwright codegen wikipedia.org
 ```
