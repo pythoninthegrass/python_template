@@ -6,6 +6,7 @@
 import pandas as pd
 import re
 import requests
+import requests_cache
 from bs4 import BeautifulSoup, Comment
 from datetime import timedelta
 # from decouple import config
@@ -14,7 +15,7 @@ from pathlib import Path
 # from playwright.async_api import async_playwright
 # from playwright.sync_api import sync_playwright
 # from prettytable import PrettyTable
-from requests_cache import CachedSession
+# from requests_cache import CachedSession
 
 """
 The commented out section is boilerplate for common operations.
