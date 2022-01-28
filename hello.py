@@ -25,7 +25,10 @@ Feel free to uncomment and/or delete after first commit.
 # home = os.path.expandvars("$HOME")
 # now = datetime.datetime.now()
 # out = f"{home}/Downloads/result_{now:%Y%m%d_%H%M%S}.csv"
-# env = Path('/.env')
+# env = Path('.env')
+
+## verbose icecream
+# ic.configureOutput(includeContext=True)
 
 ## pwd
 # cwd = os.path.dirname(os.path.abspath("__file__"))
