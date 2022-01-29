@@ -95,16 +95,75 @@ npx playwright install
 playwright codegen wikipedia.org
 ```
 
+### Django
+* Follow the official [Django Docker Compose article](https://docs.docker.com/samples/django/)
+    * Django dependencies
+        ```bash
+        # edit requirements.txt
+        Django>=3.0,<4.0
+        psycopg2>=2.8
+        ```
+    * Replace the `compose.yml` and `Dockerfile`
+        ```bash
+        # compose.yml
+        version: "3.9"
+   
+        services:
+        db:
+            image: postgres
+            volumes:
+            - ./data/db:/var/lib/postgresql/data
+            environment:
+            - POSTGRES_NAME=postgres
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=postgres
+        web:
+            build: .
+            command: python manage.py runserver 0.0.0.0:8000
+            volumes:
+            - .:/code
+            ports:
+            - "8000:8000"
+            environment:
+            - POSTGRES_NAME=postgres
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=postgres
+            depends_on:
+            - db
+
+        # Dockerfile
+        # syntax=docker/dockerfile:1
+        FROM python:3
+        ENV PYTHONDONTWRITEBYTECODE=1
+        ENV PYTHONUNBUFFERED=1
+        WORKDIR /code
+        COPY requirements.txt /code/
+        RUN pip install -r requirements.txt
+        COPY . /code/
+        ```
+    * Generate the server boilerplate code
+        ```bash
+        docker-compose run web django-admin startproject composeexample .
+        ```
+    * Fix upstream import bug and whitelist all hosts/localhost
+        ```bash
+        $ vim composeexample/settings.py
+        import os
+        ...
+        ALLOWED_HOSTS = ["*"]
+        ```
+    * Profit
+        ```bash
+        docker-compose up
+        ```
+
 ## TODO
 * ~~Add boilerplate to hello.py~~
 * ~~Poetry~~
 * ~~Dockerfile~~
 * ~~Playwright~~
-* Django
+* ~~Django~~
    * Merge with [docker_python](https://github.com/pythoninthegrass/docker_python) and put the latter on an ice float  
-* Flask
-* Terraform
-* CI/CD (e.g., [Github Actions](https://docs.github.com/en/actions), [MegaLinter](https://megalinter.github.io/latest/))
 
 ## Further Reading
 [Basic writing and formatting syntax - GitHub Docs](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)
