@@ -120,50 +120,7 @@ playwright codegen wikipedia.org
 
 ### Django
 * Follow the official [Django Docker Compose article](https://docs.docker.com/samples/django/)
-    * Django dependencies
-        ```bash
-        # edit requirements.txt
-        Django>=3.0,<4.0
-        psycopg2>=2.8
-        ```
-    * Replace the `compose.yml` and `Dockerfile`
-        ```bash
-        # compose.yml
-        version: "3.9"
-   
-        services:
-        db:
-            image: postgres
-            volumes:
-            - ./data/db:/var/lib/postgresql/data
-            environment:
-            - POSTGRES_NAME=postgres
-            - POSTGRES_USER=postgres
-            - POSTGRES_PASSWORD=postgres
-        web:
-            build: .
-            command: python manage.py runserver 0.0.0.0:8000
-            volumes:
-            - .:/code
-            ports:
-            - "8000:8000"
-            environment:
-            - POSTGRES_NAME=postgres
-            - POSTGRES_USER=postgres
-            - POSTGRES_PASSWORD=postgres
-            depends_on:
-            - db
-
-        # Dockerfile
-        # syntax=docker/dockerfile:1
-        FROM python:3
-        ENV PYTHONDONTWRITEBYTECODE=1
-        ENV PYTHONUNBUFFERED=1
-        WORKDIR /code
-        COPY requirements.txt /code/
-        RUN pip install -r requirements.txt
-        COPY . /code/
-        ```
+    * `cd django`
     * Generate the server boilerplate code
         ```bash
         docker-compose run web django-admin startproject composeexample .
@@ -179,6 +136,15 @@ playwright codegen wikipedia.org
         ```bash
         docker-compose up
         ```
+    * **Optional**: Comment out Django exclusions for future commits
+        * Assumed if extracting Django boilerplate from template and creating a new repo
+        ```bash
+        # .gitignore
+        # ETC
+        # django/composeexample/
+        # django/data/
+        # django/manage.py
+        ```
 
 ## TODO
 * ~~Add boilerplate to hello.py~~
@@ -187,7 +153,7 @@ playwright codegen wikipedia.org
 * ~~Playwright~~
 * ~~Django~~
     * Merge with [docker_python](https://github.com/pythoninthegrass/docker_python) and put the latter on an ice float
-    * Break out into separate folder
+    * ~~Break out into separate folder~~
 * Flask
     * Bonus points for [Svelte](https://svelte.dev/blog/the-easiest-way-to-get-started) front-end ❤️
     * Break out into separate folder
