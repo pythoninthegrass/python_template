@@ -163,7 +163,8 @@ playwright codegen wikipedia.org
 * ~~Dockerfile~~
 * ~~Playwright~~
 * ~~Django~~
-   * Merge with [docker_python](https://github.com/pythoninthegrass/docker_python) and put the latter on an ice float  
+   * Merge with [docker_python](https://github.com/pythoninthegrass/docker_python) and put the latter on an ice float
+* asdf
 
 ## Further Reading
 [Basic writing and formatting syntax - GitHub Docs](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)
