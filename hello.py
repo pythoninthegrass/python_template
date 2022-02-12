@@ -33,7 +33,7 @@ Feel free to uncomment and/or delete after first commit.
 # ic.configureOutput(includeContext=True)
 
 ## pwd
-# cwd = os.path.dirname(os.path.abspath("__file__"))
+# cwd = Path.cwd()
 # # print(f"Current working directory: {cwd}")
 
 # # clone substrapunks repo
