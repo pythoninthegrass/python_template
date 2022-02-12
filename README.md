@@ -205,3 +205,7 @@ playwright codegen wikipedia.org
 [Compose file version 3 reference | Docker Documentation](https://docs.docker.com/compose/compose-file/compose-file-v3/)
 
 [Getting started | Playwright Python | codegen macro](https://playwright.dev/python/docs/intro)
+
+[Set up a WSL development environment | Microsoft Docs](https://docs.microsoft.com/en-us/windows/wsl/setup/environment)
+
+[Advanced settings configuration in WSL | Microsoft Docs](https://docs.microsoft.com/en-us/windows/wsl/wsl-config)
