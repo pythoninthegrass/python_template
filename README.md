@@ -8,6 +8,11 @@ Oftentimes the initial setup of a Python repo can take a few minutes to a couple
 By laying the foundation to rapidly implement an idea, can focus on the good bits instead of
 devops drudgery.
 
+### Caveat Emptor
+Very little of this gets tested on Windows hosts. Windows Subsystem for Linux (WSL) is used where necessary with the default Ubuntu LTS install.
+
+Be the change et al if Windows is your main and you wanna raise a PR with broad instructions on getting tooling working under Windows (e.g., docker, poetry, playwright.)
+
 ## Setup
 * Install 
     * [editorconfig](https://editorconfig.org/)
@@ -162,6 +167,9 @@ playwright codegen wikipedia.org
     * enable
     * `.wslconfig` options
     * install `ppa:deadsnakes/ppa`
+* VSCode
+    * Remote WSL install and usage
+        * Or at least further reading nods
 * debug path / dependencies
 
 ## Further Reading
