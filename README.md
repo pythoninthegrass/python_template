@@ -186,12 +186,16 @@ playwright codegen wikipedia.org
 * ~~Dockerfile~~
 * ~~Playwright~~
 * ~~Django~~
-   * Merge with [docker_python](https://github.com/pythoninthegrass/docker_python) and put the latter on an ice float
+    * Merge with [docker_python](https://github.com/pythoninthegrass/docker_python) and put the latter on an ice float
+    * Break out into separate folder
+* Flask
+    * Bonus points for [Svelte](https://svelte.dev/blog/the-easiest-way-to-get-started) front-end ❤️
+    * Break out into separate folder
 * ~~asdf~~
 * wsl
-  * enable
-  * `.wslconfig` options
-  * install `ppa:deadsnakes/ppa`
+    * enable
+    * `.wslconfig` options
+    * install `ppa:deadsnakes/ppa`
 * debug path / dependencies
 
 ## Further Reading
