@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 # import argparse
+# import git
 # import numpy as np
 # import os
 import pandas as pd
@@ -11,6 +12,7 @@ from bs4 import BeautifulSoup, Comment
 from datetime import timedelta
 # from decouple import config
 # from icecream import ic
+# from <local.py_module> import *
 from pathlib import Path
 # from playwright.async_api import async_playwright
 # from playwright.sync_api import sync_playwright
@@ -33,6 +35,30 @@ Feel free to uncomment and/or delete after first commit.
 ## pwd
 # cwd = os.path.dirname(os.path.abspath("__file__"))
 # # print(f"Current working directory: {cwd}")
+
+# # clone substrapunks repo
+# if not Path(cwd/'substrapunks').exists():
+#     print("Cloning substrapunks repo...")
+#     git.Repo.clone_from('https://github.com/UniqueNetwork/substrapunks.git', cwd/'substrapunks')
+# else:
+#     print("Pulling latest changes from substrapunks repo")
+#     git.Repo(cwd/'substrapunks').git.pull()
+
+# # face directory
+# for p in cwd.rglob('**/substra*/scripts/*'):
+#     if p.is_dir() and p.name == 'face_parts':
+#         print(f"found {p}")
+#         face_parts = p
+#         break
+
+# # check if images directory is empty, if not, user input to continue
+# if len(list(cwd.rglob('**/images/*'))) > 0:
+#     print("Images directory is not empty, overwrite? (y/n)")
+#     if input() == 'y':
+#         print("Continuing...")
+#     else:
+#         print("Exiting...")
+#         exit()
 
 # dir_path = os.path.dirname(os.path.realpath(__file__))
 # # print(f"File directory: {dir_path}")
