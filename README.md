@@ -11,11 +11,34 @@ devops drudgery.
 ## Setup
 * Install 
     * [editorconfig](https://editorconfig.org/)
+    * [asdf](https://asdf-vm.com/manage/core.html#installation-setup)
     * [poetry](https://python-poetry.org/docs/)
     * [docker-compose](https://docs.docker.com/compose/install/)
     * [playwright](https://playwright.dev/python/docs/intro#installation)
 
 ## Usage
+### asdf
+```bash
+# add python plugin
+asdf plugin-add python
+
+# install stable python
+asdf install python latest
+
+# refresh symlinks for installed python runtimes
+asdf reshim python
+
+# set stable to system python
+asdf global python latest
+
+# optional: local python (e.g., python 3.11)
+cd $work_dir
+asdf local python latest
+
+# check installed python
+asdf list python
+```
+
 ### Poetry
 ```bash
 # Install
@@ -164,7 +187,11 @@ playwright codegen wikipedia.org
 * ~~Playwright~~
 * ~~Django~~
    * Merge with [docker_python](https://github.com/pythoninthegrass/docker_python) and put the latter on an ice float
-* asdf
+* ~~asdf~~
+* wsl
+  * enable
+  * `.wslconfig` options
+* debug path / dependencies
 
 ## Further Reading
 [Basic writing and formatting syntax - GitHub Docs](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)
