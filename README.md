@@ -167,9 +167,9 @@ playwright codegen wikipedia.org
     * enable
     * `.wslconfig` options
     * install `ppa:deadsnakes/ppa`
-* VSCode
-    * Remote WSL install and usage
-        * Or at least further reading nods
+    * VSCode
+        * Remote WSL install and usage
+            * Or at least further reading nods
 * debug path / dependencies
 
 ## Further Reading
