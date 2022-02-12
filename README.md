@@ -191,6 +191,7 @@ playwright codegen wikipedia.org
 * wsl
   * enable
   * `.wslconfig` options
+  * install `ppa:deadsnakes/ppa`
 * debug path / dependencies
 
 ## Further Reading
