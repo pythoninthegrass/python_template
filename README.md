@@ -172,7 +172,7 @@ playwright codegen wikipedia.org
             * Or at least further reading nods
 * Debugging
    * `$PATH`
-   * ependencies
+   * Dependencies
    * script itself via [icecream](https://github.com/gruns/icecream)
 
 ## Further Reading
