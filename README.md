@@ -170,7 +170,10 @@ playwright codegen wikipedia.org
     * VSCode
         * Remote WSL install and usage
             * Or at least further reading nods
-* debug path / dependencies
+* Debugging
+   * `$PATH`
+   * ependencies
+   * script itself via [icecream](https://github.com/gruns/icecream)
 
 ## Further Reading
 [Basic writing and formatting syntax - GitHub Docs](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)
