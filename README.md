@@ -44,6 +44,25 @@ asdf local python latest
 asdf list python
 ```
 
+### Python and pip
+If a basic virtual environment (`venv`) and `requirements.txt` are all that's needed, can use built-in tools.
+```bash
+# create a virtual environment via python
+python3 -m venv .venv
+
+# activate virtual environment
+source .venv/bin/activate
+
+# install dependencies
+python3 -m pip install requests inquirer
+
+# generate requirements.txt
+python3 -m pip freeze > requirements.txt
+
+# exit virtual environment
+deactivate
+```
+
 ### Poetry
 ```bash
 # Install
@@ -177,6 +196,10 @@ playwright codegen wikipedia.org
 
 ## Further Reading
 [Basic writing and formatting syntax - GitHub Docs](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)
+
+[venv — Creation of virtual environments — Python 3.7.2 documentation](https://docs.python.org/3/library/venv.html)
+
+[pip freeze - pip documentation v22.0.3](https://pip.pypa.io/en/stable/cli/pip_freeze/)
 
 [Introduction | Documentation | Poetry - Python dependency management and packaging made easy](https://python-poetry.org/docs/)
 
