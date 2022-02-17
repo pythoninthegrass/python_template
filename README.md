@@ -100,6 +100,26 @@ poetry remove google-auth
 poetry export -f requirements.txt --output requirements.txt --without-hashes
 ```
 
+### Alternative to Poetry
+It's possible to create a `venv` and `requirements.txt` file with built-in Python and pip.
+
+```bash
+# create a virtual environment via python
+python3 -m venv .venv
+
+# activate virtual environment
+source .venv/bin/activate
+
+# install dependencies
+python3 -m pip install requests inquirer
+
+# generate requirements.txt
+python3 -m pip freeze > requirements.txt
+
+# exit virtual environment
+deactivate
+```
+
 ### Docker
 ```bash
 # clean build (remove `--no-cache` for speed)
