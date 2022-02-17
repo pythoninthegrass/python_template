@@ -182,6 +182,8 @@ playwright codegen wikipedia.org
     * Bonus points for [Svelte](https://svelte.dev/blog/the-easiest-way-to-get-started) front-end ❤️
     * Break out into separate folder
 * ~~asdf~~
+* terraform
+* k8s
 * wsl
     * enable
     * `.wslconfig` options
