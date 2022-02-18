@@ -65,8 +65,8 @@ deactivate
 
 ### Poetry
 ```bash
-# Install
-curl -sSL https://install.python-poetry.org | $(which python3) -
+# Install (modifies $PATH)
+curl -sSL https://install.python-poetry.org | $(which python3) - # append `--no-modify-path` to EOL if you know what you're doing 
 
 # Change config
 poetry config virtualenvs.in-project true           # .venv in `pwd`
