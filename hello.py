@@ -24,7 +24,7 @@ The commented out section is boilerplate for common operations.
 Feel free to uncomment and/or delete after first commit.
 """
 ## env
-home = os.path.expandvars("$HOME")
+home = Path.home()
 # now = datetime.datetime.now()
 # out = f"{home}/Downloads/result_{now:%Y%m%d_%H%M%S}.csv"
 env = Path('.env')
