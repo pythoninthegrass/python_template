@@ -4,12 +4,12 @@
 # import git
 # import numpy as np
 # import os
-import pandas as pd
-import re
-import requests
-import requests_cache
-from bs4 import BeautifulSoup, Comment
-from datetime import timedelta
+# import pandas as pd
+# import re
+# import requests
+# import requests_cache
+# from bs4 import BeautifulSoup, Comment
+# from datetime import timedelta
 # from decouple import config
 # from icecream import ic
 # from <local.py_module> import *
@@ -24,17 +24,17 @@ The commented out section is boilerplate for common operations.
 Feel free to uncomment and/or delete after first commit.
 """
 ## env
-# home = os.path.expandvars("$HOME")
+home = os.path.expandvars("$HOME")
 # now = datetime.datetime.now()
 # out = f"{home}/Downloads/result_{now:%Y%m%d_%H%M%S}.csv"
-# env = Path('.env')
+env = Path('.env')
 
 ## verbose icecream
 # ic.configureOutput(includeContext=True)
 
 ## pwd
-# cwd = Path.cwd()
-# # print(f"Current working directory: {cwd}")
+cwd = Path.cwd()
+# print(f"Current working directory: {cwd}")
 
 ## create file and parent directories
 # meta_file = f"{cwd}/metadata/metadata.json"
@@ -97,29 +97,29 @@ Feel free to uncomment and/or delete after first commit.
 #         os.chdir('./csv')
 #         print("Changed to the folder: " + os.getcwd())
 
-base_url = 'https://app.cloud-logon.com/dev/'
-calc_url = base_url + "calculator"
-hint_url = base_url + "easy_mode"
+# base_url = 'https://app.cloud-logon.com/dev/'
+# calc_url = base_url + "calculator"
+# hint_url = base_url + "easy_mode"
 
-requests_cache.install_cache("api_cache")
+# requests_cache.install_cache("api_cache")
 
-main_page = requests.get(calc_url)
+# main_page = requests.get(calc_url)
 
-page_soup = BeautifulSoup(main_page.text, 'html.parser')
-print(f"MAIN PAGE\n{page_soup}")
+# page_soup = BeautifulSoup(main_page.text, 'html.parser')
+# print(f"MAIN PAGE\n{page_soup}")
 
-comments = page_soup.find_all(string=lambda text: isinstance(text, Comment))
-print("COMMENTS")
-for comment in comments:
-    print(comment.strip())
+# comments = page_soup.find_all(string=lambda text: isinstance(text, Comment))
+# print("COMMENTS")
+# for comment in comments:
+#     print(comment.strip())
 
-comment_regex = re.compile(r'\d{12}')
-raw = comment_regex.search(str(comments))
-aws_account_number = raw.group(0)
-print(f"AWS ACCOUNT NUMBER: {aws_account_number}")
+# comment_regex = re.compile(r'\d{12}')
+# raw = comment_regex.search(str(comments))
+# aws_account_number = raw.group(0)
+# print(f"AWS ACCOUNT NUMBER: {aws_account_number}")
 
-# TODO: missing auth token
-hint_page = requests.get(hint_url)
-hint_page_soup = BeautifulSoup(hint_page.text, 'html.parser')
-print(f"\nHINT PAGE\n{hint_page_soup}")
-print(hint_page.text)
+# # TODO: missing auth token
+# hint_page = requests.get(hint_url)
+# hint_page_soup = BeautifulSoup(hint_page.text, 'html.parser')
+# print(f"\nHINT PAGE\n{hint_page_soup}")
+# print(hint_page.text)
