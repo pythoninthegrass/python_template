@@ -60,8 +60,9 @@ Feel free to uncomment and/or delete after first commit.
 #         print("Exiting...")
 #         exit()
 
-# dir_path = os.path.dirname(os.path.realpath(__file__))
-# # print(f"File directory: {dir_path}")
+## create file and parent directories
+# meta_file = f"{cwd}/metadata/metadata.json"
+# Path(meta_file).parents[0].mkdir(parents=True, exist_ok=True)
 
 # if cwd != dir_path:
 #     os.chdir(dir_path)
