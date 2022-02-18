@@ -36,9 +36,11 @@ asdf reshim python
 # set stable to system python
 asdf global python latest
 
-# optional: local python (e.g., python 3.11)
+# optional: local python (e.g., python 3.9.10)
 cd $work_dir
-asdf local python latest
+asdf list-all python 3.9
+asdf install python 3.9.10
+asdf local python 3.9.10
 
 # check installed python
 asdf list python
