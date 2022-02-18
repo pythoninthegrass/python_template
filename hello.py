@@ -36,6 +36,10 @@ Feel free to uncomment and/or delete after first commit.
 # cwd = Path.cwd()
 # # print(f"Current working directory: {cwd}")
 
+## create file and parent directories
+# meta_file = f"{cwd}/metadata/metadata.json"
+# Path(meta_file).parents[0].mkdir(parents=True, exist_ok=True)
+
 # # clone substrapunks repo
 # if not Path(cwd/'substrapunks').exists():
 #     print("Cloning substrapunks repo...")
@@ -59,10 +63,6 @@ Feel free to uncomment and/or delete after first commit.
 #     else:
 #         print("Exiting...")
 #         exit()
-
-## create file and parent directories
-# meta_file = f"{cwd}/metadata/metadata.json"
-# Path(meta_file).parents[0].mkdir(parents=True, exist_ok=True)
 
 # if cwd != dir_path:
 #     os.chdir(dir_path)
