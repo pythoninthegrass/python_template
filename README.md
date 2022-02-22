@@ -192,7 +192,7 @@ playwright codegen wikipedia.org
     * Choose a workflow > set up a workflow yourself
     ```bash
     # main.yml
-    # # SOURCE: https://stackoverflow.com/a/68213855
+    # SOURCE: https://stackoverflow.com/a/68213855
     name: Send submodule updates to parent repo
 
     on:
