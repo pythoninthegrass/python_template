@@ -12,27 +12,6 @@ devops drudgery.
 Very little of this gets tested on Windows hosts. Windows Subsystem for Linux (WSL) is used where necessary with the default Ubuntu LTS install.
 
 Be the change et al if Windows is your main and you wanna raise a PR with broad instructions on getting tooling working under Windows (e.g., docker, poetry, playwright.)
-* [python_template](#python_template)
-  * [Summary](#summary)
-    * [Caveat Emptor](#caveat-emptor)
-  * [Setup](#setup)
-  * [Usage](#usage)
-    * [Mac and Linux users](#mac-and-linux-users)
-    * [Windows Subsytem for Linux (wsl)](#windows-subsytem-for-linux-wsl)
-    * [asdf](#asdf)
-    * [Python pip](#python-pip)
-    * [Poetry](#poetry)
-    * [Docker](#docker)
-      * [Docker Troubleshooting](#docker-troubleshooting)
-    * [Playwright](#playwright)
-    * [Django](#django)
-  * [GitHub Actions](#github-actions)
-    * [Update submodules recursively](#update-submodules-recursively)
-  * [Debugging](#debugging)
-    * [asdf](#asdf-1)
-    * [PATH](#path)
-  * [TODO](#todo)
-  * [Further Reading](#further-reading)
 
 **Table of Contents**
 * [python_template](#python_template)
