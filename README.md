@@ -381,7 +381,8 @@ playwright codegen wikipedia.org
 * wsl
     * ~~enable~~
     * ~~`.wslconfig` options~~
-    * install `ppa:deadsnakes/ppa`
+    * ~~install `ppa:deadsnakes/ppa`~~
+      * precluded by `asdf` (née `pyenv`)
     * VSCode
         * Remote WSL install and usage
             * Or at least further reading nods
