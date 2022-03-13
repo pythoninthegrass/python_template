@@ -51,6 +51,7 @@ Development environments and tooling are first-class citizens on macOS and *nix.
 
 ### Windows Subsytem for Linux (wsl)
 WSL allows Windows users to run Linux (Unix) [locally at a system-level](https://docs.microsoft.com/en-us/windows/wsl/compare-versions). All of the standard tooling is used and community guides can be followed without standard Windows caveats (e.g., escaping file paths, GNU utilities missing, etc.) 
+* Install from the [Setup](#setup) section
 * Enable
   * Start Menu > search for "Turn Windows Features On" > open > toggle "Windows Subsystem for Linux"
   * Restart
@@ -118,6 +119,7 @@ WSL allows Windows users to run Linux (Unix) [locally at a system-level](https:/
     ```
 
 ### asdf
+* Install from the [Setup](#setup) section
 * WSL/Ubuntu Linux dependencies
     ```bash
     sudo apt install \
@@ -180,6 +182,7 @@ deactivate
     ```bash
     poetry env use .venv/bin/python
     ```
+* Install from the [Setup](#setup) section
 * Normal usage
     ```bash
     # Install (modifies $PATH)
@@ -221,22 +224,24 @@ deactivate
     ```
 
 ### Docker
-```bash
-# clean build (remove `--no-cache` for speed)
-docker-compose build --no-cache --parallel
+* Install from the [Setup](#setup) section
+* Usage
+    ```bash
+    # clean build (remove `--no-cache` for speed)
+    docker-compose build --no-cache --parallel
 
-# start container
-docker-compose up --remove-orphans -d
+    # start container
+    docker-compose up --remove-orphans -d
 
-# exec into container
-docker attach hello
+    # exec into container
+    docker attach hello
 
-# run command inside container
-python hello.py
+    # run command inside container
+    python hello.py
 
-# destroy container
-docker-compose down
-```
+    # destroy container
+    docker-compose down
+    ```
 
 #### Docker Troubleshooting
 * Watch logs in real-time: `docker-compose logs -tf --tail="50" hello`
@@ -249,18 +254,20 @@ docker-compose down
     ```
 
 ### Playwright
-```bash
-# install
-pip install --upgrade pip
-pip install playwright
-playwright install
+* Install from the [Setup](#setup) section
+* Usage
+    ```bash
+    # install
+    pip install --upgrade pip
+    pip install playwright
+    playwright install
 
-# download new browsers (chromedriver, gecko)
-npx playwright install
+    # download new browsers (chromedriver, gecko)
+    npx playwright install
 
-# generate code via macro
-playwright codegen wikipedia.org
-```
+    # generate code via macro
+    playwright codegen wikipedia.org
+    ```
 
 ### Django
 * Follow the official [Django Docker Compose article](https://docs.docker.com/samples/django/)
