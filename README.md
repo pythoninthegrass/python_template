@@ -25,7 +25,6 @@ Be the change et al if Windows is your main and you wanna raise a PR with broad 
     * [Python pip](#python-pip)
     * [Poetry](#poetry)
     * [Docker](#docker)
-      * [Docker Troubleshooting](#docker-troubleshooting)
     * [Playwright](#playwright)
     * [Django](#django)
     * [Flask](#flask)
@@ -36,6 +35,7 @@ Be the change et al if Windows is your main and you wanna raise a PR with broad 
     * [Update submodules recursively](#update-submodules-recursively)
   * [Debugging](#debugging)
     * [asdf](#asdf-1)
+    * [Docker](#docker-1)
     * [PATH](#path)
     * [Terraform](#terraform-1)
   * [TODO](#todo)
@@ -249,16 +249,6 @@ deactivate
     docker-compose down
     ```
 
-#### Docker Troubleshooting
-* Watch logs in real-time: `docker-compose logs -tf --tail="50" hello`
-* Check exit code
-    ```bash
-    $ docker-compose ps
-    Name                          Command               State    Ports
-    ------------------------------------------------------------------------------
-    docker_python      python manage.py runserver ...   Exit 0
-    ```
-
 ### Playwright
 * Install from the [Setup](#setup) section
 * Usage
@@ -437,6 +427,16 @@ deactivate
 * Make sure `python` or `python3` isn't aliased in `~/.bashrc` or `~/.zshrc`
 
 [bash - Is it possible to check where an alias was defined? - Unix & Linux Stack Exchange](https://unix.stackexchange.com/questions/322459/is-it-possible-to-check-where-an-alias-was-defined/544970#544970)
+
+### Docker
+* Watch logs in real-time: `docker-compose logs -tf --tail="50" hello`
+* Check exit code
+    ```bash
+    $ docker-compose ps
+    Name                          Command               State    Ports
+    ------------------------------------------------------------------------------
+    docker_python      python manage.py runserver ...   Exit 0
+    ```
 
 ### PATH
 * `asdf`, `poetry`, and `python` all need to be sourced in your shell `$PATH` in a specific order
