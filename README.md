@@ -457,6 +457,12 @@ deactivate
     export TF_LOG="trace"                       # unset via "off"
     export TF_LOG_PATH="$HOME/Downloads/tf.log" # `~` doesn't expand
     ```
+    * [Log levels](https://www.terraform.io/internals/debugging)
+      * TRACE
+      * DEBUG
+      * INFO
+      * WARN
+      * ERROR
 * `Error: cannot re-use a name that is still in use`
     > I think I resolved the issue. This is what I did: 1) mv the terraform.tfstate to another name, 2) mv the terraform.tfstate.backup to terraform.tfstate, and 3) run 'terraform refresh' command to confirm the state is synchronized, and 4) run 'terraform apply' to delete/create the resource. I will mark your reply as the answer, as it gives me the clue for solving the issue. Thanks! – ozmhsh Dec 9, 2021 at 4:57
 
