@@ -2,8 +2,10 @@
 **/.classpath
 **/.dockerignore
 **/.DS_Store
+**/.editorconfig
 **/.env
 **/.git
+**/.github
 **/.gitignore
 **/.project
 **/.settings
@@ -21,12 +23,14 @@
 **/charts
 **/compose*
 **/csv
+**/django
 **/docker-compose*
 **/Dockerfile*
+**/img
 **/node_modules
 **/npm-debug.log
 **/obj
+**/README.md
 **/secrets.dev.yaml
 **/terraform
 **/values.dev.yaml
-README.md
