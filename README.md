@@ -333,7 +333,10 @@ deactivate
     ![Describe a pod](img/k9s_describe.png)
 
 ### Terraform
-* **NOTE**: this section depends on Kubernetes and a `~/.kubeconfig` from above
+* **NOTES**: 
+  * This section depends on Kubernetes and a `~/.kubeconfig` from above
+  * `NodePort` was used instead of `LoadBalancer` for `service.type`
+    * [MetalLB is a stretch goal](https://stackoverflow.com/a/71047314) for future deployments
 * Install `terraform` via `asdf
     ```bash
     # terraform
