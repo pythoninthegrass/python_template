@@ -80,9 +80,6 @@ WSL allows Windows users to run Linux (Unix) [locally at a system-level](https:/
     # upgrade packages (as root: `sudo -s`)
     apt update && apt upgrade -y
 
-    # install the community python repo (PPA)
-
-
     # create standard user
     adduser <username>
     visudo
@@ -470,32 +467,19 @@ deactivate
     [nginx - Stuck in the partial helm release on Terraform to Kubernetes - Stack Overflow](https://stackoverflow.com/questions/70281363/stuck-in-the-partial-helm-release-on-terraform-to-kubernetes#comment124244564_70281451)
 
 ## TODO
-* ~~Add boilerplate to hello.py~~
-* ~~Poetry~~
-* ~~Dockerfile~~
-* ~~Playwright~~
-* ~~Django~~
+* Django
     * Merge with [docker_python](https://github.com/pythoninthegrass/docker_python) and put the latter on an ice float
-    * ~~Break out into separate folder~~
 * Flask
     * Bonus points for [Svelte](https://svelte.dev/blog/the-easiest-way-to-get-started) front-end ❤️
 * FastAPI
-* ~~asdf~~
 * k8s
-  * ~~Install local cluster~~
   * `~/.kubeconfig`
-* ~~terraform~~
 * ansible
 * wsl
-    * ~~enable~~
-    * ~~`.wslconfig` options~~
-    * ~~install `ppa:deadsnakes/ppa`~~
-      * precluded by `asdf` (née `pyenv`)
-    * VSCode
-        * Remote WSL install and usage
-            * Or at least further reading nods
+  * VSCode
+      * Remote WSL install and usage
+        * Or at least further reading nods
 * Debugging
-   * ~~`$PATH`~~
    * Dependencies
    * script itself via [icecream](https://github.com/gruns/icecream)
 
