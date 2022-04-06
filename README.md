@@ -481,9 +481,9 @@ deactivate
 * FastAPI
 * ~~asdf~~
 * k8s
-  * Install local cluster
+  * ~~Install local cluster~~
   * `~/.kubeconfig`
-* terraform
+* ~~terraform~~
 * ansible
 * wsl
     * ~~enable~~
