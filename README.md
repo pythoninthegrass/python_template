@@ -242,7 +242,10 @@ deactivate
     # run command inside container
     python hello.py
 
-    # destroy container
+    # stop container
+    docker-compose stop
+
+    # destroy container and network
     docker-compose down
     ```
 
