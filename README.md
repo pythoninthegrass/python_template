@@ -1,6 +1,6 @@
 # python_template
 
-!["It's dangerous to go alone! Take this."](zelda.jpg)
+!["It's dangerous to go alone! Take this."](img/zelda.jpg)
 <!-- <img src="https://user-images.githubusercontent.com/4097471/144654508-823c6e31-5e10-404c-9f9f-0d6b9d6ce617.jpg" width="300"> -->
 
 ## Summary
@@ -28,6 +28,10 @@ Be the change et al if Windows is your main and you wanna raise a PR with broad 
       * [Docker Troubleshooting](#docker-troubleshooting)
     * [Playwright](#playwright)
     * [Django](#django)
+    * [Flask](#flask)
+    * [FastAPI](#fastapi)
+    * [Kubernetes (k8s)](#kubernetes-k8s)
+    * [Terraform](#terraform)
   * [GitHub Actions](#github-actions)
     * [Update submodules recursively](#update-submodules-recursively)
   * [Debugging](#debugging)
@@ -297,6 +301,78 @@ deactivate
         # django/manage.py
         ```
 
+### Flask
+
+### FastAPI
+
+### Kubernetes (k8s)
+* Easiest way to set up a local single node cluster is via one of the following:
+    * [Rancher Desktop](https://docs.rancherdesktop.io/getting-started/installation)
+    * [minikube](https://minikube.sigs.k8s.io/docs/start/)
+      * Incidentally, `minikube` ships with the Kubernetes Dashboard
+        ```bash
+        minikube dashboard
+        ```
+      * The boilerplate [Terraform plan](#terraform) below hasn't been tested against `minikube`
+    * [multipass](https://multipass.run/) with [microk8s](https://ubuntu.com/tutorials/getting-started-with-kubernetes-ha#1-overview)
+* Add aliases to `~/.bashrc` or `~/.zshrc`
+    ```bash
+    # k8s
+    alias k="kubectl"
+    alias kc="kubectl config use-context"
+    alias kns='kubectl config set-context --current --namespace'
+    alias kgns="kubectl config view --minify --output 'jsonpath={..namespace}' | xargs printf '%s\n'"
+    KUBECONFIG="$HOME/.kube/kubeconfig:$HOME/.kube/k3s.yaml"
+    ```
+* CLI/TUI (terminal user interface) management of k8s
+  * [k9s](https://github.com/derailed/k9s#installation)
+    * Built-in help: type `?`
+    * Main Screen
+    ![Main screen](img/k9s_main.png)
+    * Describe a pod
+    ![Describe a pod](img/k9s_describe.png)
+
+### Terraform
+* **NOTE**: this section depends on Kubernetes and a `~/.kubeconfig` from above
+* Install `terraform` via `asdf
+    ```bash
+    # terraform
+    asdf plugin-add terraform
+    asdf install terraform latest
+    ```
+* Add aliases to `~/.bashrc` or `~/.zshrc`
+    ```bash
+    # ~/.bashrc
+    alias tf='terraform'
+    alias tfi='terraform init -backend-config=./state.conf'
+    alias tfa='terraform apply'
+    alias tfp='terraform plan'
+    alias tfpn='terraform plan -refresh=false'
+    ```
+* Navigate to `./terraform/` and [initialize](https://www.terraform.io/cli/commands/init) the `terraform` working directory
+    ```bash
+    cd terraform/
+    tfi
+    ```
+* Create an [execution plan](https://www.terraform.io/cli/commands/plan)
+    ```bash
+    tfp
+    ```
+* [Apply/execute the actions](https://www.terraform.io/cli/commands/apply) from Terraform plan
+    ```bash
+    tfa
+    ```
+* Navigate to `http://localhost:<port>`
+  * Port can be found via `kubectl`
+    ```bash
+    k get svc   # 80:31942/TCP
+    ```
+* [Tear down deployment](https://www.terraform.io/cli/commands/destroy)
+    ```bash
+    tf destroy
+    ```
+    ![Real-time view of pod removal](img/k9s_termination.png)
+
 ## GitHub Actions
 ### Update submodules recursively
 * Add the submodule to the downstream repo
@@ -381,10 +457,13 @@ deactivate
     * ~~Break out into separate folder~~
 * Flask
     * Bonus points for [Svelte](https://svelte.dev/blog/the-easiest-way-to-get-started) front-end ❤️
-    * Break out into separate folder
+* FastAPI
 * ~~asdf~~
-* terraform
 * k8s
+  * Install local cluster
+  * `~/.kubeconfig`
+* terraform
+* ansible
 * wsl
     * ~~enable~~
     * ~~`.wslconfig` options~~
