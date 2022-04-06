@@ -37,6 +37,7 @@ Be the change et al if Windows is your main and you wanna raise a PR with broad 
   * [Debugging](#debugging)
     * [asdf](#asdf-1)
     * [PATH](#path)
+    * [Terraform](#terraform-1)
   * [TODO](#todo)
   * [Further Reading](#further-reading)
 
@@ -450,6 +451,16 @@ deactivate
     . "$ASDF_DIR/completions/asdf.bash"
     . /usr/local/etc/profile.d/poetry.bash-completion
     ```
+### Terraform
+* [Verbose logging](https://www.terraform.io/cli/config/environment-variables) and redirection to a file
+    ```bash
+    export TF_LOG="trace"                       # unset via "off"
+    export TF_LOG_PATH="$HOME/Downloads/tf.log" # `~` doesn't expand
+    ```
+* `Error: cannot re-use a name that is still in use`
+    > I think I resolved the issue. This is what I did: 1) mv the terraform.tfstate to another name, 2) mv the terraform.tfstate.backup to terraform.tfstate, and 3) run 'terraform refresh' command to confirm the state is synchronized, and 4) run 'terraform apply' to delete/create the resource. I will mark your reply as the answer, as it gives me the clue for solving the issue. Thanks! – ozmhsh Dec 9, 2021 at 4:57
+
+    [nginx - Stuck in the partial helm release on Terraform to Kubernetes - Stack Overflow](https://stackoverflow.com/questions/70281363/stuck-in-the-partial-helm-release-on-terraform-to-kubernetes#comment124244564_70281451)
 
 ## TODO
 * ~~Add boilerplate to hello.py~~
