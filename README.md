@@ -49,6 +49,7 @@ Be the change et al if Windows is your main and you wanna raise a PR with broad 
     * [poetry](https://python-poetry.org/docs/)
     * [docker-compose](https://docs.docker.com/compose/install/)
     * [playwright](https://playwright.dev/python/docs/intro#installation)
+    * [Kubernetes (k8s)](#kubernetes-k8s)
 
 ## Usage
 ### Mac and Linux users
