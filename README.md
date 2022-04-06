@@ -336,7 +336,7 @@ deactivate
 
 ### Terraform
 * **NOTES**: 
-  * This section depends on Kubernetes and a `~/.kubeconfig` from above
+  * This section depends on Kubernetes and a `~/.kubeconfig` from [above](#kubernetes-k8s)
   * `NodePort` was used instead of `LoadBalancer` for `service.type`
     * [MetalLB is a stretch goal](https://stackoverflow.com/a/71047314) for future deployments
 * Install `terraform` via `asdf
