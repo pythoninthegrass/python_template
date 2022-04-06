@@ -324,7 +324,7 @@ deactivate
     alias kc="kubectl config use-context"
     alias kns='kubectl config set-context --current --namespace'
     alias kgns="kubectl config view --minify --output 'jsonpath={..namespace}' | xargs printf '%s\n'"
-    KUBECONFIG="$HOME/.kube/kubeconfig:$HOME/.kube/k3s.yaml"
+    KUBECONFIG="$HOME/.kube/config:$HOME/.kube/kubeconfig:$HOME/.kube/k3s.yaml"
     ```
 * CLI/TUI (terminal user interface) management of k8s
   * [k9s](https://github.com/derailed/k9s#installation)
