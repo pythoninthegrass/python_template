@@ -374,6 +374,7 @@ deactivate
     ```bash
     tf destroy
     ```
+  * Real-time view of pod removal
     ![Real-time view of pod removal](img/k9s_termination.png)
 
 ## GitHub Actions
