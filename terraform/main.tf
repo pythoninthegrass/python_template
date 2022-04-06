@@ -14,7 +14,7 @@ resource "helm_release" "my-kubernetes-dashboard" {
 
   set {
     name  = "service.type"
-    value = "LoadBalancer"
+    value = "NodePort"
   }
 
   set {
