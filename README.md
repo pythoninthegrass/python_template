@@ -22,7 +22,7 @@ Be the change et al if Windows is your main and you wanna raise a PR with broad 
     * [Mac and Linux users](#mac-and-linux-users)
     * [Windows Subsytem for Linux (wsl)](#windows-subsytem-for-linux-wsl)
     * [asdf](#asdf)
-    * [Python pip](#python-pip)
+    * [pip](#pip)
     * [Poetry](#poetry)
     * [Docker](#docker)
     * [Playwright](#playwright)
@@ -161,7 +161,7 @@ WSL allows Windows users to run Linux (Unix) [locally at a system-level](https:/
     asdf list python
     ```
 
-### Python pip
+### pip
 If a basic virtual environment (`venv`) and `requirements.txt` are all that's needed, can use built-in tools.
 ```bash
 # create a virtual environment via python
