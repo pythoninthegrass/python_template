@@ -165,7 +165,12 @@ WSL allows Windows users to run Linux (Unix) [locally at a system-level](https:/
 If a basic virtual environment (`venv`) and `requirements.txt` are all that's needed, can use built-in tools.
 ```bash
 # create a virtual environment via python
+## built-in
 python3 -m venv .venv
+
+## faster
+python3 -m pip install virtualenv # _or_ pipx install virtualenv
+virtualenv .venv
 
 # activate virtual environment
 source .venv/bin/activate
