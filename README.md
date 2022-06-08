@@ -326,7 +326,7 @@ deactivate
     * Built-in help: type `?`
     * Main Screen: `:pod`
     ![Main screen](img/k9s_main.png)
-    * Describe a pod
+    * Describe a pod: `d`
     ![Describe a pod](img/k9s_describe.png)
     * Delete a pod: 
       * `ctrl-d`
