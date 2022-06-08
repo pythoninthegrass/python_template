@@ -328,6 +328,16 @@ deactivate
     ![Main screen](img/k9s_main.png)
     * Describe a pod
     ![Describe a pod](img/k9s_describe.png)
+* [POC](https://itnext.io/simplest-minimal-k8s-app-tutorial-with-rancher-desktop-in-5-min-5481edb9a4a5)
+  ```bash
+  git clone https://github.com/jwsy/simplest-k8s.git
+  k config get-contexts  # should have `rancher-desktop` selected
+  kc rancher-desktop     # switch to rancher context if not
+  k apply -f simplest-k8s
+  ```
+  * Navigate to https://jade-shooter.rancher.localhost/ in Chrome
+  * Allow self-signed cert
+  * Profit 💸 
 
 ### Terraform
 * **NOTES**: 
