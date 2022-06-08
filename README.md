@@ -324,16 +324,25 @@ deactivate
 * CLI/TUI (terminal user interface) management of k8s
   * [k9s](https://github.com/derailed/k9s#installation)
     * Built-in help: type `?`
-    * Main Screen
+    * Main Screen: `:pod`
     ![Main screen](img/k9s_main.png)
     * Describe a pod
     ![Describe a pod](img/k9s_describe.png)
+    * Delete a pod: 
+      * `ctrl-d`
+      * Replicas rebuild
+    ![Delete a pod](img/k9s_delete_pod.png)
+    * Remove resource (permanent)
+      * `:deploy`
+      * `ctrl-d`
+    ![Remove resource](img/k9s_remove_res.png)
 * [POC](https://itnext.io/simplest-minimal-k8s-app-tutorial-with-rancher-desktop-in-5-min-5481edb9a4a5)
   ```bash
   git clone https://github.com/jwsy/simplest-k8s.git
-  k config get-contexts  # should have `rancher-desktop` selected
-  kc rancher-desktop     # switch to rancher context if not
+  k config get-contexts     # should have `rancher-desktop` selected
+  kc rancher-desktop        # switch to rancher context if not
   k apply -f simplest-k8s
+  k delete -f simplest-k8s
   ```
   * Navigate to https://jade-shooter.rancher.localhost/ in Chrome
   * Allow self-signed cert
@@ -515,6 +524,10 @@ deactivate
 [Overview of Docker Compose | Docker Documentation](https://docs.docker.com/compose/)
 
 [Compose file version 3 reference | Docker Documentation](https://docs.docker.com/compose/compose-file/compose-file-v3/)
+
+[Commands](https://k9scli.io/topics/commands/)
+
+[Speed up administration of Kubernetes clusters with k9s | Opensource.com](https://opensource.com/article/20/5/kubernetes-administration)
 
 [Getting started | Playwright Python | codegen macro](https://playwright.dev/python/docs/intro)
 
