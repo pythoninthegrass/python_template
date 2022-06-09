@@ -343,11 +343,11 @@ deactivate
 * [POC](https://itnext.io/simplest-minimal-k8s-app-tutorial-with-rancher-desktop-in-5-min-5481edb9a4a5)
   ```bash
   git clone https://github.com/jwsy/simplest-k8s.git
-  k config get-contexts           # should have `rancher-desktop` selected
-  kc rancher-desktop              # switch to rancher context if not
+  k config get-contexts                    # should have `rancher-desktop` selected
+  kc rancher-desktop                       # switch to rancher context if not
   k create namespace simplest-k8s
-  k apply -f simplest-k8s
-  k delete -f simplest-k8s
+  k apply -n simplest-k8s -f simplest-k8s
+  k delete -n simplest-k8s -f simplest-k8s
   k delete namespace simplest-k8s
   ```
   * Navigate to https://jade-shooter.rancher.localhost/ in Chrome
