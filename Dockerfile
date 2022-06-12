@@ -18,6 +18,7 @@ FROM ubuntu:20.04 AS builder-image
 
 # avoid stuck build due to user prompt
 ARG DEBIAN_FRONTEND=noninteractive
+ENV TZ=America/Chicago
 
 RUN apt-get update \
     && apt-get install \
@@ -44,6 +45,10 @@ COPY requirements.txt .
 RUN pip3 install --no-cache-dir wheel && pip3 install --no-cache-dir -r requirements.txt
 
 FROM ubuntu:20.04 AS runner-image
+
+# avoid stuck build due to user prompt
+ARG DEBIAN_FRONTEND=noninteractive
+ENV TZ=America/Chicago
 
 RUN apt-get update \
     && apt-get install \
