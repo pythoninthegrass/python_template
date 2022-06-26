@@ -273,7 +273,11 @@ deactivate
     # generate code via macro
     playwright codegen wikipedia.org
     ```
-
+* If `asdf` gives you lip
+  ```bash
+  # No preset version installed for command playwright
+  asdf reshim python
+  ```
 ### Django
 * Follow the official [Django Docker Compose article](https://docs.docker.com/samples/django/)
     * `cd django`
