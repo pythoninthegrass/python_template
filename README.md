@@ -200,6 +200,15 @@ deactivate
     # Install (modifies $PATH)
     curl -sSL https://install.python-poetry.org | $(which python3) - # append `--no-modify-path` to EOL if you know what you're doing 
 
+    # Install via asdf w/version
+    asdf plugin-add poetry https://github.com/asdf-community/asdf-poetry.git
+    ASDF_POETRY_INSTALL_URL=https://install.python-poetry.org asdf install poetry 1.2.0b1
+    asdf local poetry 1.2.0b1
+
+    # Uninstall
+    export POETRY_UNINSTALL=1
+    curl -sSL https://install.python-poetry.org | $(which python3) -
+
     # Change config
     poetry config virtualenvs.in-project true           # .venv in `pwd`
     poetry config experimental.new-installer false      # fixes JSONDecodeError on Python3.10
