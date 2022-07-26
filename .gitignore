@@ -2,6 +2,13 @@
 django/composeexample/
 django/data/
 django/manage.py
+*.sqlite
+redis*
+!redis.conf.example
+*.pem
+*.key
+raw/
+gitleaks_report*.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
