@@ -60,7 +60,6 @@ RUN python3.10 -m venv /opt/venv
 # Install pip requirements
 RUN . /opt/venv/bin/activate && poetry install
 
-# TODO: dive + docker-slim
 FROM ubuntu:20.04 AS runner-image
 
 ARG USERNAME=appuser
@@ -99,5 +98,5 @@ USER appuser
 
 WORKDIR $HOME/app
 
-# ENTRYPOINT ["python", "app.py"]
-CMD ["/bin/bash"]
+ENTRYPOINT ["python", "hello.py"]
+# CMD ["/bin/bash"]
