@@ -29,6 +29,8 @@ Be the change et al if Windows is your main and you wanna raise a PR with broad 
     * [Django](#django)
     * [Flask](#flask)
     * [FastAPI](#fastapi)
+    * [NoSQL](#nosql)
+      * [MongoDB](#mongodb)
     * [Kubernetes (k8s)](#kubernetes-k8s)
     * [Terraform](#terraform)
   * [GitHub Actions](#github-actions)
@@ -319,6 +321,44 @@ deactivate
 
 ### FastAPI
 
+### NoSQL
+#### MongoDB
+* See [Docker](#docker) section above
+* Setup empty DB as a detached container with port 27017 mapped
+    ```bash
+    # start mongodb docker container
+    docker run --name mongodb -d -p 27017:27017 mongo
+
+    # stop container
+    docker stop mongodb
+    ```
+* Access DB
+  * GUI: Install [MongoDB Compass](https://www.mongodb.com/try/download/compass)
+    ![compass](img/compass.png)
+  * Shell
+    ```bash
+    # install mongo client
+    asdf install mongodb latest
+
+    # open client with defaults (mongodb://localhost:27017)
+    mongo
+
+    # list databases
+    show dbs
+    ```
+  * Python (ayyyy)
+    ```python
+    # ./nosql/mongo/mongo_mvp.py
+    import pymongo
+
+    client = pymongo.MongoClient('mongodb://localhost:27017/')
+    db = client["music"]
+    collection = db["albums"]
+    data = { "artist": "Grimes", "album": "Miss Anthropocene" }
+    collection.insert_one(data)
+    client.close()
+    ```
+
 ### Kubernetes (k8s)
 * Easiest way to set up a local single node cluster is via one of the following:
     * [Rancher Desktop](https://docs.rancherdesktop.io/getting-started/installation)
@@ -527,6 +567,9 @@ deactivate
 * Flask
     * Bonus points for [Svelte](https://svelte.dev/blog/the-easiest-way-to-get-started) front-end ❤️
 * FastAPI
+* MongoDB
+  * Switch to `docker-compose`
+  * Fix unique index deleting too many keys
 * k8s
   * `~/.kubeconfig`
 * ansible
@@ -566,3 +609,9 @@ deactivate
 [Advanced settings configuration in WSL | Microsoft Docs](https://docs.microsoft.com/en-us/windows/wsl/wsl-config)
 
 [Understanding The Python Path Environment Variable in Python](https://www.simplilearn.com/tutorials/python-tutorial/python-path)
+
+[Docker & MongoDB | Containers & Compatibility | MongoDB](https://www.mongodb.com/compatibility/docker)
+
+[MongoDB Python Connection | MongoDB](https://www.mongodb.com/languages/python)
+
+[Python MongoDB](https://www.w3schools.com/python/python_mongodb_getstarted.asp)
