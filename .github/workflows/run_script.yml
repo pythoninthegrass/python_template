@@ -1,7 +1,6 @@
 name: run_script
 
-on:
-  workflow_dispatch:
+on: [workflow_dispatch]     # pull_request, push, workflow_dispatch
 
 jobs:
   ci:
@@ -44,7 +43,7 @@ jobs:
       shell: bash
       env:
         # github token needed for gh cli
-        # GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         username: ${{ secrets.USERNAME }}
       run: |
         python -m pip install --upgrade pip
