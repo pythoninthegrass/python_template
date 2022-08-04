@@ -333,9 +333,9 @@ deactivate
     docker stop mongodb
     ```
 * Access DB
-  * GUI: Install [MongoDB Compass](https://www.mongodb.com/try/download/compass)
+  * **GUI**: Install [MongoDB Compass](https://www.mongodb.com/try/download/compass)
     ![compass](img/compass.png)
-  * Shell
+  * **Shell**
     ```bash
     # install mongo client
     asdf install mongodb latest
@@ -346,7 +346,7 @@ deactivate
     # list databases
     show dbs
     ```
-  * Python (ayyyy)
+  * **Python** (ayyyy)
     ```python
     # ./nosql/mongo/mongo_mvp.py
     import pymongo
