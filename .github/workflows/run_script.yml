@@ -1,3 +1,5 @@
+# https://github.com/actions/setup-python/blob/main/docs/advanced-usage.md#caching-packages
+
 name: run_script
 
 on: [workflow_dispatch]     # pull_request, push, workflow_dispatch
@@ -18,34 +20,38 @@ jobs:
     steps:
     - name: checkout repo content
       uses: actions/checkout@v3
-    # dynamic versions
-    - name: Read .tool-versions
+    - name: Read .tool-versions                             # dynamic versions
       uses: marocchino/tool-versions-action@v1
       id: versions
     - name: setup python
       uses: actions/setup-python@v4
+      id: cp310
       with:
         python-version: ${{ steps.versions.outputs.python }}
         architecture: ${{ matrix.arch }}
-    - name: run poetry image
-      uses: abatilo/actions-poetry@v2.0.0
-      with:
-        poetry-version: ${{ steps.versions.outputs.poetry }}
-    # - name: install gh cli
-    #   shell: bash
-    #   run: |
-    #     curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
-    #     sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg
-    #     echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
-    #     sudo apt update
-    #     sudo apt install --no-install-recommends -y gh
+        cache: 'poetry'                                     # cache dependencies
+    - run: echo '${{ steps.cp310.outputs.cache-hit }}'      # true if cache-hit occured on the primary key
+    - name: Install poetry & dependencies
+      run: |
+        python -m pip install --upgrade pip
+        python -m pip install poetry
+        poetry install
     - name: run script
       shell: bash
       env:
-        # github token needed for gh cli
-        # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}       # gh cli
         username: ${{ secrets.USERNAME }}
       run: |
-        python -m pip install --upgrade pip
-        poetry install
         poetry run python hello.py
+
+
+steps:
+- uses: actions/checkout@v3
+- name: Install poetry
+  run: pipx install poetry
+- uses: actions/setup-python@v4
+  with:
+    python-version: '3.9'
+    cache: 'poetry'
+- run: poetry install
+- run: poetry run pytest

@@ -1,0 +1,79 @@
+# https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
+# https://github.com/actions/setup-python/blob/main/docs/advanced-usage.md#caching-packages
+# https://www.peterbe.com/plog/install-python-poetry-github-actions-faster
+
+name: python_test
+
+on: [push, workflow_dispatch]                               # pull_request, push, workflow_dispatch
+
+jobs:
+  ci:
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.11"]
+        os: ["ubuntu-latest"]
+        arch: ['x64']
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - name: checkout repo content
+      uses: actions/checkout@v3
+    # TODO: debug 'cache not found for input keys dotlocal-Linux-8e1cebf...'
+    - name: load cached $HOME/.local
+      uses: actions/cache@v2.1.6
+      id: cash-money
+      with:
+        path: ~/.local
+        key: dotlocal-${{ runner.os }}-${{ hashFiles('.github/workflows/python_test.yml') }}
+    # - run: echo '${{ steps.cash-money.outputs.cache-hit }}'     # true if cache-hit occured on the primary key
+    - name: set variables
+      run: |
+        BASE_DIR=$(cat BASE_DIR)
+        echo "BASE_DIR=$BASE_DIR" >> $GITHUB_ENV
+    - name: Read .tool-versions                                 # dynamic versions
+      uses: marocchino/tool-versions-action@v1
+      id: versions
+      with:
+        path: ${{ env.BASE_DIR }}/.tool-versions
+    - name: shuffle files
+      run: |
+        cat ${{ env.BASE_DIR }}/.tool-versions | awk '/python/ {print $NF}' >> ${{ env.BASE_DIR }}/.python-version
+        [[ -e "$(pwd)/pyproject.toml" ]] && mv "$(pwd)/pyproject.toml" "$(pwd)/pyproject.toml.bak"
+        cp "${{ env.BASE_DIR }}/pyproject.toml" $(pwd)/
+    - name: setup python
+      uses: actions/setup-python@v4
+      with:
+        python-version-file: ${{ env.BASE_DIR }}/.python-version
+        cache: 'pip'
+    - name: setup poetry
+      uses: snok/install-poetry@v1
+      id: cp310
+      with:
+        version: ${{ steps.versions.outputs.poetry }}
+        virtualenvs-create: true
+        virtualenvs-in-project: true
+        virtualenvs-path: ${{ env.BASE_DIR }}
+        installer-parallel: true
+    - name: load cached venv
+      id: cached-poetry-dependencies
+      uses: actions/cache@v2.1.6
+      with:
+        path: ${{ env.BASE_DIR }}/.venv
+        key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}-${{ hashFiles('.github/workflows/python_test.yml') }}
+    - name: install virtualenv
+      run: |
+        cd ${{ env.BASE_DIR }}
+        poetry install
+      if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+    - name: Lint with flake8
+      run: |
+        # stop the build if there are Python syntax errors or undefined names
+        poetry run flake8 ${{ env.BASE_DIR }} --count --select=E9,F63,F7,F82 --show-source --statistics
+        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+        poetry run flake8 ${{ env.BASE_DIR }} --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+    # TODO: write tests
+    - name: Test with pytest
+      run: |
+        # exit code 5 == 'collected 0 items'
+        poetry run pytest ${{ env.BASE_DIR }}
