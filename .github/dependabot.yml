@@ -10,4 +10,8 @@ updates:
   - package-ecosystem: "pip"      # package manager
     directory: "/"                # Files stored in repository root
     schedule:
-      interval: "monthly"
+      interval: "weekly"
+      day: "saturday"
+      time: "10:00"
+      timezone: "America/Chicago"
+    open-pull-requests-limit: 5
