@@ -17,6 +17,8 @@ websockets = "^10.3"
 Django = "^4.0.6"
 pymongo = "^4.2.0"
 dnspython = "^2.2.1"
+flake8 = "^5.0.4"
+pytest = "^7.1.2"
 
 [tool.poetry.dev-dependencies]
 icecream = "^2.1.1"
