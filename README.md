@@ -33,6 +33,7 @@ Be the change et al if Windows is your main and you wanna raise a PR with broad 
       * [MongoDB](#mongodb)
     * [Kubernetes (k8s)](#kubernetes-k8s)
     * [Terraform](#terraform)
+  * [git pre-commit hooks](#git-pre-commit-hooks)
   * [GitHub Actions](#github-actions)
     * [Update submodules recursively](#update-submodules-recursively)
   * [Debugging](#debugging)
@@ -44,7 +45,7 @@ Be the change et al if Windows is your main and you wanna raise a PR with broad 
   * [Further Reading](#further-reading)
 
 ## Setup
-* Install 
+* Install
     * [editorconfig](https://editorconfig.org/)
     * [wsl](https://docs.microsoft.com/en-us/windows/wsl/setup/environment)
     * [asdf](https://asdf-vm.com/guide/getting-started.html#_2-download-asdf)
@@ -58,7 +59,7 @@ Be the change et al if Windows is your main and you wanna raise a PR with broad 
 Development environments and tooling are first-class citizens on macOS and *nix. For Windows faithfuls, please setup WSL below.
 
 ### Windows Subsytem for Linux (wsl)
-WSL allows Windows users to run Linux (Unix) [locally at a system-level](https://docs.microsoft.com/en-us/windows/wsl/compare-versions). All of the standard tooling is used and community guides can be followed without standard Windows caveats (e.g., escaping file paths, GNU utilities missing, etc.) 
+WSL allows Windows users to run Linux (Unix) [locally at a system-level](https://docs.microsoft.com/en-us/windows/wsl/compare-versions). All of the standard tooling is used and community guides can be followed without standard Windows caveats (e.g., escaping file paths, GNU utilities missing, etc.)
 * Install from the [Setup](#setup) section
 * Enable
   * Start Menu > search for "Turn Windows Features On" > open > toggle "Windows Subsystem for Linux"
@@ -200,7 +201,7 @@ deactivate
 * Normal usage
     ```bash
     # Install (modifies $PATH)
-    curl -sSL https://install.python-poetry.org | $(which python3) - # append `--no-modify-path` to EOL if you know what you're doing 
+    curl -sSL https://install.python-poetry.org | $(which python3) - # append `--no-modify-path` to EOL if you know what you're doing
 
     # Install via asdf w/version
     asdf plugin-add poetry https://github.com/asdf-community/asdf-poetry.git
@@ -385,7 +386,7 @@ deactivate
     ![Main screen](img/k9s_main.png)
     * Describe a pod: `d`
     ![Describe a pod](img/k9s_describe.png)
-    * Delete a pod: 
+    * Delete a pod:
       * `ctrl-d`
       * Replicas rebuild
     ![Delete a pod](img/k9s_delete_pod.png)
@@ -405,10 +406,10 @@ deactivate
   ```
   * Navigate to https://jade-shooter.rancher.localhost/ in Chrome
   * Allow self-signed cert
-  * Profit 💸 
+  * Profit 💸
 
 ### Terraform
-* **NOTES**: 
+* **NOTES**:
   * This section depends on Kubernetes and a `~/.kubeconfig` from [above](#kubernetes-k8s)
   * `NodePort` was used instead of `LoadBalancer` for `service.type`
     * [MetalLB is a stretch goal](https://stackoverflow.com/a/71047314) for future deployments
@@ -452,6 +453,56 @@ deactivate
   * Real-time view of pod removal
     ![Real-time view of pod removal](img/k9s_termination.png)
 
+## git pre-commit hooks
+* Install
+    ```bash
+    # pip
+    pip install pre-commit
+
+    # brew
+    brew install pre-commit
+
+    # install .pre-commit-config.yaml
+    pre-commit install                  # install/uninstall
+    ```
+* Usage
+    ```bash
+    # skip pre-commit by ID
+    SKIP=flake8 git commit -m "foo"
+
+    # skip all pre-commit hooks (e.g., bypass false positives like comment preceding docstring)
+    λ git commit -m "Formatting (WIP)" -m "Debugging  formatters" --no-verify
+    [master d260d56] Formatting (WIP)
+    1 file changed, 108 insertions(+), 34 deletions(-)
+
+    # black dry-run
+    black --check --diff file_name.py
+
+    # skip code block
+    # fmt: off
+
+    import argparse
+    # from icecream import ic
+    from pathlib import Path
+
+    # fmt: on
+
+    # skip individual line (buggy)
+    # from icecream import ic # fmt: skip
+
+    # manually run commit hook against one file
+    pre-commit run black --files email_it/email_it.py --verbose
+
+    # manually run against repo (vs. during commit)
+    λ pre-commit run --all-files
+    [INFO] Initializing environment for https://github.com/zricethezav/gitleaks.
+    <SNIP>
+    Detect hardcoded secrets.................................................Passed
+
+    # update hooks
+    pre-commit autoupdate
+    ```
+
 ## GitHub Actions
 ### Update submodules recursively
 * Add the submodule to the downstream repo
@@ -477,7 +528,7 @@ deactivate
 
     on:
     push:
-        branches: 
+        branches:
         - main
         - master
 
@@ -487,7 +538,7 @@ deactivate
 
         steps:
         - uses: actions/checkout@v2
-            with: 
+            with:
             repository: username/repo_name
             token: ${{ secrets.PRIVATE_TOKEN_GITHUB }}
 
@@ -615,6 +666,18 @@ deactivate
 [MongoDB Python Connection | MongoDB](https://www.mongodb.com/languages/python)
 
 [Python MongoDB](https://www.w3schools.com/python/python_mongodb_getstarted.asp)
+
+[The 10 tools I wish I knew when I started working with Python | Python in Plain English](https://python.plainenglish.io/10-tools-to-help-claw-your-way-back-to-sanity-while-coding-python-df0af160c33e)
+
+[pre-commit](https://pre-commit.com)
+
+[How to use git pre-commit hooks, the hard way and the easy way | Verdant Fox](https://verdantfox.com/blog/view/how-to-use-git-pre-commit-hooks-the-hard-way-and-the-easy-way)
+
+[The Black Code Style](https://black.readthedocs.io/en/stable/the_black_code_style/)
+
+[How to Auto-Format Your Python Code with Black](https://www.freecodecamp.org/news/auto-format-your-python-code-with-black/)
+
+[Options - isort](https://pycqa.github.io/isort/docs/configuration/options.html)
 
 [Learn GitHub Actions - GitHub Docs](https://docs.github.com/en/actions/learn-github-actions)
 

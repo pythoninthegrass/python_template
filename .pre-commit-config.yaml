@@ -40,4 +40,4 @@ repos:
     - id: pretty-format-json
       args: ['--autofix', '--indent=2', '--no-sort-keys']
     - id: requirements-txt-fixer
-    - id: trailing-whitespace
+    # - id: trailing-whitespace
