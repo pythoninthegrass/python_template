@@ -8,6 +8,10 @@ Over-engineered python solution to local directory for GitHub Actions.
 
 cf. bash:
     w=$(basename $(echo $PWD)); echo "./${w}" > ../BASE_DIR
+
+USAGE
+    cd <dir>
+    python ../ci_dir.py
 """
 
 # get path of working directory
