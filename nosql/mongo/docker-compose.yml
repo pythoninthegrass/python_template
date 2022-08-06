@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  app:
+    container_name: mongo-cont
+    image: docker_python
+    tty: true               # false for `entrypoint` in Dockerfile
+    stdin_open: true        # false for `entrypoint` in Dockerfile
+    env_file:
+      - .env
+    environment:
+      - MONGODB_CONNSTRING=mongodb://${USER}:${PASS}@mongodb
+    volumes:
+      - .:/home/appuser/app
+    ports:
+      - 3000:3000
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+
+  mongodb:
+    image: mongo:5.0
+    # TODO: debug `error: missing 'MONGO_INITDB_ROOT_...'`
+    # `docker-compose config` shows both creds
+    env_file:
+      # - MONGO_INITDB_ROOT_USERNAME=${USER}
+      # - MONGO_INITDB_ROOT_PASSWORD=${PASS}
+      - .env

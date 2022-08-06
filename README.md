@@ -615,3 +615,11 @@ deactivate
 [MongoDB Python Connection | MongoDB](https://www.mongodb.com/languages/python)
 
 [Python MongoDB](https://www.w3schools.com/python/python_mongodb_getstarted.asp)
+
+[Learn GitHub Actions - GitHub Docs](https://docs.github.com/en/actions/learn-github-actions)
+
+[Using scripts to test your code on a runner - GitHub Docs](https://docs.github.com/en/actions/examples/using-scripts-to-test-your-code-on-a-runner)
+
+[Caching dependencies to speed up workflows - GitHub Docs](https://docs.github.com/en/actions/using-workflows/caching-dependencies-to-speed-up-workflows)
+
+[Skipping workflow runs - GitHub Docs](https://docs.github.com/en/actions/managing-workflow-runs/skipping-workflow-runs)

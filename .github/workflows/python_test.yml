@@ -25,18 +25,23 @@ jobs:
     - name: checkout repo content
       uses: actions/checkout@v3
     # TODO: debug 'cache not found for input keys dotlocal-Linux-8e1cebf...'
-    - name: load cached $HOME/.local
-      uses: actions/cache@v2.1.6
-      id: cash-money
-      with:
-        path: ~/.local
-        key: dotlocal-${{ runner.os }}-${{ hashFiles('.github/workflows/python_test.yml') }}
+    # - name: load cached $HOME/.local
+    #   uses: actions/cache@v2.1.6
+    #   id: cash-money
+    #   with:
+    #     path: ~/.local
+    #     key: dotlocal-${{ runner.os }}-${{ hashFiles('.github/workflows/python_test.yml') }}
     # - run: echo '${{ steps.cash-money.outputs.cache-hit }}'     # true if cache-hit occured on the primary key
+    # TODO: use `git config --global --add safe.directory` to find working dir (may need to set under checkout step)
     - name: set cwd and change to directory
       run: |
+        CWD=$(basename $(git rev-parse --show-toplevel))
         BASE_DIR=$(cat BASE_DIR)
         echo "BASE_DIR=$BASE_DIR" >> $GITHUB_ENV
-        cd ${{ env.BASE_DIR }} || unset BASE_DIR; BASE_DIR=$(pwd) && echo "BASE_DIR=$BASE_DIR" >> $GITHUB_ENV
+        cd ${{ env.BASE_DIR }} || unset BASE_DIR; \
+        BASE_DIR="$(pwd)/work/${CWD}/${CWD}" && echo "BASE_DIR=$BASE_DIR" >> $GITHUB_ENV; \
+        cd ${{ env.BASE_DIR }}
+    # - run: ls -la ${{ env.BASE_DIR }}
     - name: Read .tool-versions                                 # dynamic versions
       uses: marocchino/tool-versions-action@v1
       id: versions
@@ -45,8 +50,8 @@ jobs:
     - name: shuffle files
       run: |
         cat ${{ env.BASE_DIR }}/.tool-versions | awk '/python/ {print $NF}' >> ${{ env.BASE_DIR }}/.python-version
-        [[ -e "$(pwd)/pyproject.toml" ]] && mv "$(pwd)/pyproject.toml" "$(pwd)/pyproject.toml.bak"
-        cp "${{ env.BASE_DIR }}/pyproject.toml" $(pwd)/
+        # [[ -e "$(pwd)/pyproject.toml" ]] && mv "$(pwd)/pyproject.toml" "$(pwd)/pyproject.toml.bak"
+        # cp "${{ env.BASE_DIR }}/pyproject.toml" $(pwd)/
     - name: setup python
       uses: actions/setup-python@v4
       with:
