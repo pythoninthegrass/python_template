@@ -40,7 +40,7 @@ soupsieve==2.3.2.post1; python_version >= "3.6" and python_full_version >= "3.6.
 sqlparse==0.4.2; python_version >= "3.8"
 tomli==2.0.1; python_version >= "3.7"
 typing-extensions==4.3.0; python_version >= "3.7"
-tzdata==2022.1; sys_platform == "win32" and python_version >= "3.8"
+tzdata==2022.2; sys_platform == "win32" and python_version >= "3.8"
 url-normalize==1.4.3; python_version >= "3.7" and python_full_version < "3.0.0" and python_version < "4.0" or python_version >= "3.7" and python_version < "4.0" and python_full_version >= "3.6.0"
 urllib3==1.26.11; python_version >= "3.7" and python_full_version < "3.0.0" and python_version < "4" or python_full_version >= "3.6.0" and python_version < "4" and python_version >= "3.7"
 websockets==10.3; python_version >= "3.7"
