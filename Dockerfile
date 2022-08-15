@@ -1,11 +1,11 @@
 # using ubuntu LTS version
-FROM ubuntu:20.04 AS builder-image
+FROM ubuntu:22.04 AS builder-image
 
 # avoid stuck build due to user prompt
 ARG DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update \
-    && apt-get install \
+RUN apt-get -qq update \
+    && apt-get -qq install \
     --no-install-recommends -y \
     aptitude \
     autoconf \
@@ -15,6 +15,7 @@ RUN apt-get update \
     curl \
     git \
     locales \
+    libbz2-dev \
     libffi-dev \
     libncurses-dev \
     libreadline-dev \
@@ -46,8 +47,8 @@ RUN bash -c "git clone --depth 1 https://github.com/asdf-vm/asdf.git $HOME/.asdf
     && echo '. $HOME/.asdf/asdf.sh' >> $HOME/.bashrc  \
     && echo '. $HOME/.asdf/asdf.sh' >> $HOME/.profile"
 RUN asdf plugin-add python \
-    && asdf install python 3.10.5 \
-    && asdf global python 3.10.5
+    && asdf install python 3.10.6 \
+    && asdf global python 3.10.6
 
 ENV POETRY_HOME="$HOME/.poetry"
 RUN curl -sSL https://install.python-poetry.org | python3.10 -
@@ -60,15 +61,18 @@ RUN python3.10 -m venv /opt/venv
 # Install pip requirements
 RUN . /opt/venv/bin/activate && poetry install
 
-FROM ubuntu:20.04 AS runner-image
+# TODO: dive + docker-slim
+FROM ubuntu:22.04 AS runner-image
 
 ARG USERNAME=appuser
 ENV HOME="/home/${USERNAME}"
 ENV VIRTUAL_ENV="/opt/venv"
-ENV PATH="${VIRTUAL_ENV}/bin:$HOME/.asdf/bin:$HOME/.asdf/shims:$PATH"
+ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
+ENV PATH="${VIRTUAL_ENV}/bin:$HOME/.asdf/bin:$HOME/.asdf/shims:/ms-playwright:$PATH"
 
 RUN useradd --create-home $USERNAME \
-    && mkdir -p /home/${USERNAME}/app
+    && mkdir -p /home/${USERNAME}/app \
+    && mkdir -p $PLAYWRIGHT_BROWSERS_PATH
 
 COPY --chown=${USERNAME}:${USERNAME} . $HOME/app
 COPY --from=builder-image --chown=${USERNAME}:${USERNAME} /opt/venv /opt/venv
@@ -77,8 +81,8 @@ COPY --from=builder-image --chown=${USERNAME}:${USERNAME} $HOME/.asdf $HOME/.asd
 # avoid stuck build due to user prompt
 ARG DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update \
-    && apt-get install \
+RUN apt-get -qq update \
+    && apt-get -qq install \
     --no-install-recommends -y \
     ca-certificates \
     curl \
@@ -99,4 +103,5 @@ USER appuser
 WORKDIR $HOME/app
 
 ENTRYPOINT ["python", "hello.py"]
+# CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "3000"]
 # CMD ["/bin/bash"]

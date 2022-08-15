@@ -5,7 +5,7 @@ description = ""
 authors = ["pythoninthegrass <4097471+pythoninthegrass@users.noreply.github.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = "^3.10.6"
 requests = "^2.27.1"
 bs4 = "^0.0.1"
 pandas = "^1.4.0"
