@@ -1,3 +1,6 @@
+fail_fast: true
+verbose: true
+
 repos:
   # checks for secrets via rules (gitleaks.toml)
   - repo: https://github.com/zricethezav/gitleaks
@@ -12,10 +15,10 @@ repos:
     rev: 3.9.2
     hooks:
     - id: flake8
-  - repo: https://github.com/timothycrosley/isort
-    rev: 5.10.1
-    hooks:
-    - id: isort
+  # - repo: https://github.com/timothycrosley/isort
+  #   rev: 5.10.1
+  #   hooks:
+  #   - id: isort
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.3.0
     hooks:
@@ -38,6 +41,9 @@ repos:
     - id: mixed-line-ending
     - id: name-tests-test
     - id: pretty-format-json
+      # https://pre-commit.com/#regular-expressions
+      exclude: |
+        ^settings.json$
       args: ['--autofix', '--indent=2', '--no-sort-keys']
     - id: requirements-txt-fixer
     # - id: trailing-whitespace
