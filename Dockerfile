@@ -70,12 +70,10 @@ FROM ubuntu:22.04 AS runner-image
 ARG USERNAME=appuser
 ENV HOME="/home/${USERNAME}"
 ENV VIRTUAL_ENV="/opt/venv"
-ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
-ENV PATH="${VIRTUAL_ENV}/bin:$HOME/.asdf/bin:$HOME/.asdf/shims:/ms-playwright:$PATH"
+ENV PATH="${VIRTUAL_ENV}/bin:$HOME/.asdf/bin:$HOME/.asdf/shims:$PATH"
 
 RUN useradd --create-home $USERNAME \
-    && mkdir -p /home/${USERNAME}/app \
-    && mkdir -p $PLAYWRIGHT_BROWSERS_PATH
+    && mkdir -p ${HOME}/app
 
 COPY --chown=${USERNAME}:${USERNAME} . $HOME/app
 COPY --from=builder-image --chown=${USERNAME}:${USERNAME} /opt/venv /opt/venv
