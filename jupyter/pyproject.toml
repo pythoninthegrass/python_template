@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "wine-quality"
+version = "0.1.0"
+description = ""
+authors = ["pythoninthegrass <4097471+pythoninthegrass@users.noreply.github.com>"]
+readme = "README.md"
+packages = [{include = "wine_quality"}]
+
+[tool.poetry.dependencies]
+python = "3.10.7"
+ipykernel = "^6.15.3"
+pandas = "^1.5.0"
+
+
+[tool.poetry.group.dev.dependencies]
+notebook = "^6.4.12"
+jupyterlab = "^3.4.7"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
