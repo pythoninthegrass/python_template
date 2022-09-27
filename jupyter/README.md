@@ -61,16 +61,22 @@ Udacity course on data science.
     # help
     just
 
+    # build image locally (no-cache)
+    just build-clean
+
     # build image locally
     just build
 
     # start container
     just start
 
+    # ssh
+    just exec
+
     # stop container
     just stop
 
-    # remove container and network
+    # stop container, remove container and network
     just down
     ```
 
@@ -82,7 +88,8 @@ Udacity course on data science.
 * Run cells by selecting them and pressing `shift-enter`
 
 ## TODO
-* Get Jupyter working in [VSCode](https://github.com/microsoft/vscode-jupyter)
+* ~~Get Jupyter working in [VSCode](https://github.com/microsoft/vscode-jupyter)~~
+  * Multiple `localhost` entries in `/etc/hosts` 😭
 
 ## Further Reading
 [Original Repo](https://github.com/pythoninthegrass/wine_quality)

@@ -1,7 +1,8 @@
 version: "3.9"
 
 services:
-  jupyter:
+  app:
+    container_name: winequality
     image: jupyter/minimal-notebook:latest
     tty: true               # false for `entrypoint` in Dockerfile
     stdin_open: true        # false for `entrypoint` in Dockerfile
