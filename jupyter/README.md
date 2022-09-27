@@ -66,7 +66,7 @@ Udacity course on data science.
 
 ## TODO
 * Get Jupyter working in [VSCode](https://github.com/microsoft/vscode-jupyter)
-* `Makefile`
+* ~~`Makefile`~~ [justfile](https://github.com/casey/just)
 
 ## Further Reading
 [Original Repo](https://github.com/pythoninthegrass/wine_quality)
