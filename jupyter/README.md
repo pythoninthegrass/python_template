@@ -56,6 +56,23 @@ Udacity course on data science.
     # remove container and network
     docker-compose down
     ```
+* `justfile` syntax (recommended)
+    ```bash
+    # help
+    just
+
+    # build image locally
+    just build
+
+    # start container
+    just start
+
+    # stop container
+    just stop
+
+    # remove container and network
+    just down
+    ```
 
 ### Both
 * Open a browser and navigate to `http://127.0.0.1:8888`
@@ -66,7 +83,6 @@ Udacity course on data science.
 
 ## TODO
 * Get Jupyter working in [VSCode](https://github.com/microsoft/vscode-jupyter)
-* ~~`Makefile`~~ [justfile](https://github.com/casey/just)
 
 ## Further Reading
 [Original Repo](https://github.com/pythoninthegrass/wine_quality)

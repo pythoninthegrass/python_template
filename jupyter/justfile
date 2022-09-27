@@ -1,0 +1,19 @@
+# See https://just.systems/man/en
+
+dotenv-load := "true"
+host := `uname -a`
+
+default:
+    just --list
+
+build:
+    docker-compose build --pull --no-cache
+
+start:
+    docker-compose up -d
+
+stop:
+    docker-compose stop
+
+down:
+    docker-compose down
