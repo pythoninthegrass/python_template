@@ -92,4 +92,4 @@ available at [http://contributor-covenant.org/version/1/4][version]
 
 ### License
 
-Please see the [Unlicense](../LICENSE.md) document for the repo's stance on intellectual property concerns.
+Please see the [Unlicense](LICENSE.md) document for the repo's stance on intellectual property concerns.
