@@ -45,6 +45,10 @@ Development environments and tooling are first-class citizens on macOS and *nix.
   * Flask
       * Bonus points for [Svelte](https://svelte.dev/blog/the-easiest-way-to-get-started) front-end ❤️
   * FastAPI
+* [SQL](https://realpython.com/python-sql-libraries/)
+  * MySQL
+  * PostgreSQL
+  * SQLite
 * NoSQL
   * MongoDB
     * Switch to `docker-compose`
