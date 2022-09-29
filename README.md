@@ -6,12 +6,12 @@
 ## Summary
 Oftentimes the initial setup of a Python repo can take a few minutes to a couple hours.
 By laying the foundation to rapidly implement an idea, can focus on the good bits instead of
-devops drudgery.
+DevOps drudgery.
 
 ### Caveat Emptor
 Very little of this gets tested on Windows hosts. Windows Subsystem for Linux (WSL) is used where necessary with the default Ubuntu LTS install. Moved bulk of document to the [markdown](markdown/) directory to opt-in vs. opt-out of documentation.
 
-Be the change et al if Windows is your main and you wanna raise a PR with broad instructions on getting tooling working under Windows (e.g., docker, poetry, playwright.)
+Be the change et al if Windows is your main and you wanna [raise a PR](CONTRIBUTING.md) with broad instructions on getting tooling working under Windows (e.g., docker, poetry, playwright.)
 
 **Table of Contents**
 * [python_template](#python_template)
@@ -37,21 +37,32 @@ Be the change et al if Windows is your main and you wanna raise a PR with broad 
 Development environments and tooling are first-class citizens on macOS and *nix. For Windows faithfuls, please setup [WSL](markdown/wsl.md).
 
 ## TODO
-* Django
-    * Merge with [docker_python](https://github.com/pythoninthegrass/docker_python) and put the latter on an ice float
-* Flask
-    * Bonus points for [Svelte](https://svelte.dev/blog/the-easiest-way-to-get-started) front-end ❤️
-* FastAPI
-* MongoDB
-  * Switch to `docker-compose`
-  * Fix unique index deleting too many keys
-* k8s
-  * `~/.kubeconfig`
-* ansible
-* wsl
-  * VSCode
-      * Remote WSL install and usage
-        * Or at least further reading nods
+* [Open Issues](https://github.com/pythoninthegrass/python_template/issues)
+* Webdev
+  * Django
+      * Merge with [docker_python](https://github.com/pythoninthegrass/docker_python) and put the latter on an ice float
+      * [Django Ninja](https://realpython.com/courses/rest-apis-with-django-ninja/)
+  * Flask
+      * Bonus points for [Svelte](https://svelte.dev/blog/the-easiest-way-to-get-started) front-end ❤️
+  * FastAPI
+* NoSQL
+  * MongoDB
+    * Switch to `docker-compose`
+    * Fix unique index deleting too many keys
+  * [Redis](https://realpython.com/python-redis/)
+* DevOps
+  * k8s
+    * `~/.kubeconfig`
+    * [Argo](https://argoproj.github.io/)
+    * [Flux](https://fluxcd.io/)
+    * [DevSpace](https://www.devspace.sh/)
+  * [Ansible](https://realpython.com/automating-django-deployments-with-fabric-and-ansible/)
+  * [Heroku](https://realpython.com/courses/deploying-a-flask-application-using-heroku/)
+  * [justfile](https://just.systems/man/en/)
+  * [Windows Subsystem for Linux (WSL)](markdown/wsl.md)
+    * VSCode
+        * Remote WSL install and usage
+          * Or at least further reading nods
 * Debugging
    * Dependencies
    * script itself via [icecream](https://github.com/gruns/icecream)
