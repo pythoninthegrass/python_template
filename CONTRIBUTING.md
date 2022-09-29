@@ -9,12 +9,18 @@ Please note we have a code of conduct, please follow it in all your interactions
 
 1. Ensure any install or build dependencies are removed before the end of the layer when doing a 
    build.
-2. Update the README.md with details of changes to the interface, this includes new environment 
-   variables, exposed ports, useful file locations and container parameters.
-3. Increase the version numbers in any examples files and the README.md to the new version that this
-   Pull Request would represent. The versioning scheme we use is [SemVer](http://semver.org/).
-4. You may merge the Pull Request in once you have the sign-off of two other developers, or if you 
-   do not have permission to do that, you may request the second reviewer to merge it for you.
+2. Install the [pre-commit hooks](markdown/precommit.md) and `.editorconfig` 
+   [extension](https://editorconfig.org/#download) to keep formatting and linting consistent across 
+   the repo's code base.
+3. Create a new `<name_of_topic>.md` under the `markdown` directory in place of a traditional
+   `README.md`. Note the lowercase [snake_case](https://betterprogramming.pub/string-case-styles-camel-pascal-snake-and-kebab-case-981407998841) style formatting.
+4. Update the `<name_of_topic>.md` with details of changes to the interface, this includes new 
+   environment variables, exposed ports, useful file locations and container parameters.
+5. Any relevant images should be stored in the top-level `img` directory and embedded within
+   the `<name_of_topic>.md` document.
+6. You may merge the Pull Request in once you have the sign-off of the repo maintainer.
+   If you do not have permission to do that, you may request the reviewer to merge 
+   it for you.
 
 ## Code of Conduct
 
