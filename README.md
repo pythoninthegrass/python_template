@@ -31,6 +31,7 @@ Be the change et al if Windows is your main and you wanna [raise a PR](CONTRIBUT
     * [docker-compose](https://docs.docker.com/compose/install/)
     * [playwright](https://playwright.dev/python/docs/intro#installation)
     * [Kubernetes (k8s)](markdown/kubernetes.md)
+    * [justfile](https://just.systems/man/en/)
 
 ## Usage
 ### Mac and Linux users
@@ -38,6 +39,8 @@ Development environments and tooling are first-class citizens on macOS and *nix.
 
 ## TODO
 * [Open Issues](https://github.com/pythoninthegrass/python_template/issues)
+* Markdown automation
+  * Look for an extension similar to [Markdown All in One](https://marketplace.visualstudio.com/items?itemName=yzhang.markdown-all-in-one) that updates file/directory links when they move
 * Webdev
   * Django
       * Merge with [docker_python](https://github.com/pythoninthegrass/docker_python) and put the latter on an ice float
