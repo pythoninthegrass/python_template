@@ -58,8 +58,16 @@ Development environments and tooling are first-class citizens on macOS and *nix.
     * Fix unique index deleting too many keys
   * [Redis](https://realpython.com/python-redis/)
 * DevOps
-  * k8s
-    * `~/.kubeconfig`
+  * [Cloud Native](https://www.cncf.io/about/faq/#what-is-cloud-native)
+    * AWS
+    * Azure
+    * GCP
+    * [k8s](markdown/kubernetes.md)
+      * `~/.kubeconfig`
+      * Kompose
+      * Helm
+      * minikube
+        * Expand usage and syntax
     * [Argo](https://argoproj.github.io/)
     * [Flux](https://fluxcd.io/)
     * [DevSpace](https://www.devspace.sh/)
