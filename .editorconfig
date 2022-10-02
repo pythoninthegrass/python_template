@@ -29,6 +29,6 @@ indent_style = space
 indent_size = 4
 
 # webdev + terraform
-[*.{html,xml,js,css,gql,tf,tfvars}]
+[*.{html,xml,js,css,gql,tf,tfvars,yml,yaml}]
 indent_style = space
 indent_size = 2
