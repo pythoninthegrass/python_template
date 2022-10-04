@@ -1,6 +1,6 @@
 ### MongoDB
 
-* See [Docker](#docker) section above
+* See [Docker](markdown/../docker.md) document
 * Setup empty DB as a detached container with port 27017 mapped
     ```bash
     # start mongodb docker container
