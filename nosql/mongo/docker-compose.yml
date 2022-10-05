@@ -1,28 +1,36 @@
-version: '3'
+version: "3.9"
 
 services:
   app:
-    container_name: mongo-cont
-    image: docker_python
-    tty: true               # false for `entrypoint` in Dockerfile
-    stdin_open: true        # false for `entrypoint` in Dockerfile
+    container_name: app_name-cont
+    image: app_name
+    tty: false                                                                    # false for `entrypoint` in Dockerfile
+    stdin_open: false                                                             # false for `entrypoint` in Dockerfile
     env_file:
       - .env
     environment:
-      - MONGODB_CONNSTRING=mongodb://${USER}:${PASS}@mongodb
+      # - MONGODB_CONNSTRING=mongodb://${MONGO_USER}:${MONGO_PASS}@${MONGO_URL}   # local mongodb
+      - MONGODB_CONNSTRING=mongodb+srv://${MONGO_URL}/${DB_NAME}                  # mongodb atlas
     volumes:
-      - .:/home/appuser/app
+      - .:/app
+      # - ./logs:/root/.npm/                                                      # troubleshooting logs
     ports:
-      - 3000:3000
+      - ${PORT:-8000}:8000
     build:
       context: ./
-      dockerfile: ./Dockerfile
+      dockerfile: ./Dockerfile.web
 
-  mongodb:
-    image: mongo:5.0
-    # TODO: debug `error: missing 'MONGO_INITDB_ROOT_...'`
-    # `docker-compose config` shows both creds
-    env_file:
-      # - MONGO_INITDB_ROOT_USERNAME=${USER}
-      # - MONGO_INITDB_ROOT_PASSWORD=${PASS}
-      - .env
+  # LOCAL MONGODB
+  # mongodb:
+  #   image: mongo:latest
+  #   env_file:
+  #     - .env
+  #   environment:
+  #     - MONGO_INITDB_ROOT_USERNAME=${MONGO_USER}
+  #     - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASS}
+  #   ports:
+  #     - 27017:27017
+
+networks:
+  default:
+    driver: bridge
