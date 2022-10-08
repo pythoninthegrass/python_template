@@ -1,7 +1,12 @@
-# SOURCE: https://github.com/alexdmoss/distroless-python
+# SOURCES
+# https://github.com/alexdmoss/distroless-python
+# https://gitlab.com/n.ragav/python-images/-/tree/master/distroless
+
+# full semver just for python base image
+ARG PYTHON_VERSION=3.10.7
 
 # several optimisations in python-slim images already, benefit from these
-FROM python:3.10.7-slim-bullseye AS builder-image
+FROM python:${PYTHON_VERSION}-slim-bullseye AS builder-image
 
 # avoid stuck build due to user prompt
 ARG DEBIAN_FRONTEND=noninteractive
@@ -9,18 +14,15 @@ ARG DEBIAN_FRONTEND=noninteractive
 # setup standard non-root user for use downstream
 ARG USERNAME="appuser"
 ARG USER_GROUP=${USERNAME}
+ARG HOME="/home/${USERNAME}"
 
 RUN groupadd ${USER_GROUP}
 RUN useradd -m ${USERNAME} -g ${USER_GROUP}
 
-USER ${USERNAME}
-ENV HOME="/home/${USERNAME}"
-
-ENV PATH="$HOME/.local/bin:$PATH"
-
 # setup user environment with good python practices
 USER ${USERNAME}
-WORKDIR /home/${USERNAME}
+WORKDIR ${HOME}
+ENV PATH="$HOME/.local/bin:$PATH"
 
 # Set locale
 ENV LANG=en_US.UTF-8
@@ -41,48 +43,33 @@ FROM gcr.io/distroless/cc AS distroless
 # # arch: x86_64-linux-gnu / aarch64-linux-gnu
 # ARG CHIPSET_ARCH=aarch64-linux-gnu
 
-# # this carries more risk than installing it fully, but makes the image a lot smaller
-# COPY --from=builder-image /usr/local/lib/ /usr/local/lib/
-# COPY --from=builder-image /usr/local/bin/python /usr/local/bin/python
-# COPY --from=builder-image /etc/ld.so.cache /etc/ld.so.cache
-
 # # required by lots of packages - e.g. six, numpy, wsgi
 # COPY --from=builder-image /lib/${CHIPSET_ARCH}/libz.so.1 /lib/${CHIPSET_ARCH}/
 
 # non-root user setup
 ARG USERNAME="appuser"
-ARG ${PYTHON_VERSION:-3.10}
+ARG PYTHON_VERSION=3.10
 ENV HOME="/home/${USERNAME}"
 
-COPY --from=builder-image /bin/echo /bin/echo
-COPY --from=builder-image /bin/rm /bin/rm
-COPY --from=builder-image /bin/sh /bin/sh
+# import useful bins from busybox image
+COPY --from=busybox:uclibc /bin/ls /bin/ls
+COPY --from=busybox:uclibc /bin/rm /bin/rm
+COPY --from=busybox:uclibc /bin/sh /bin/sh
+COPY --from=busybox:uclibc /bin/find /bin/find
+COPY --from=busybox:uclibc /bin/which /bin/which
+
+ENV VENV="/opt/venv"
+COPY --chown=${USERNAME} . /app
+COPY --from=builder-image --chown=${USERNAME} "${HOME}/.venv" "$VENV"
+COPY --from=builder-image /usr/local/lib/ /usr/local/lib/
+COPY --from=builder-image /usr/local/bin/python /usr/local/bin/python
+COPY --from=builder-image /etc/ld.so.cache /etc/ld.so.cache
+
+ENV PATH="/usr/local/bin:${HOME}/.local/bin:/bin:/usr/bin:${VENV}/bin:${VENV}/lib/python${PYTHON_VERSION}/site-packages:$PATH"
 
 RUN echo "${USERNAME}:x:1000:${USERNAME}" >> /etc/group
 RUN echo "${USERNAME}:x:1001:" >> /etc/group
 RUN echo "${USERNAME}:x:1000:1001::/home/${USERNAME}:" >> /etc/passwd
-
-ENV VENV="/opt/venv"
-COPY . /app
-COPY --from=builder-image "${HOME}/.venv" "$VENV"
-
-ENV PATH="/app/.venv/bin:/app/.venv/lib/python${PYTHON_VERSION}/site-packages:$PATH"
-
-# TODO: QA runner-image before removing shell
-# RUN rm /bin/sh /bin/echo /bin/rm
-
-# default to running as non-root, uid=1000
-ARG USERNAME="appuser"
-USER ${USERNAME}
-
-ARG PYTHON_VERSION=3.10
-ENV HOME="/home/${USERNAME}"
-ENV VENV="/opt/venv"
-ENV PATH="$HOME/.local/bin:${VENV}/bin:${VENV}/lib/python${PYTHON_VERSION}/site-packages"
-
-# TODO: not finding python
-# quick validation that python still works whilst we have a shell
-RUN python --version
 
 # standardise on locale, don't generate .pyc, enable tracebacks on seg faults
 ENV LANG C.UTF-8
@@ -90,18 +77,17 @@ ENV LC_ALL C.UTF-8
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONFAULTHANDLER 1
 
-# ENTRYPOINT ["/usr/local/bin/python"]
+# remove dev bins (need sh to run `startup.sh`)
+RUN rm /bin/find /bin/ls /bin/rm /bin/which
 
 FROM distroless AS runner-image
 
-ARG ${PYTHON_VERSION:-3.10}
+ARG PYTHON_VERSION=3.10
 ARG USERNAME=appuser
 ENV HOME="/home/${USERNAME}"
+ENV VENV="/opt/venv"
 
-COPY . /app
-COPY --from=distroless "${HOME}/.venv" "${HOME}/.venv"
-
-ENV PATH="$HOME/.local/bin:${HOME}/.venv/lib/python${PYTHON_VERSION}/site-packages"
+ENV PATH="/usr/local/bin:${HOME}/.local/bin:/bin:/usr/bin:${VENV}/bin:${VENV}/lib/python${PYTHON_VERSION}/site-packages:$PATH"
 
 # keeps Python from generating .pyc files in the container
 ENV PYTHONDONTWRITEBYTECODE=1
@@ -113,6 +99,8 @@ ENV PYTHONUNBUFFERED=1
 ENV WEB_CONCURRENCY=1
 
 WORKDIR /app
+
+USER ${USERNAME}
 
 # ENTRYPOINT ["python", "main.py"]
 # CMD ["gunicorn", "-c", "config/gunicorn.conf.py", "main:app"]
