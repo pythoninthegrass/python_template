@@ -70,7 +70,8 @@ RUN poetry config virtualenvs.in-project true \
     && poetry config virtualenvs.options.always-copy true \
     && poetry install
 
-# # CMD ["/bin/bash"]
+# # QA
+# CMD ["/bin/bash"]
 
 # build from distroless C or cc:debug, because lots of Python depends on C
 FROM gcr.io/distroless/cc AS distroless
@@ -130,6 +131,7 @@ ENV PATH="/usr/local/bin:${HOME}/.local/bin:/bin:/usr/bin:${VENV}/bin:${VENV}/li
 # remove dev bins (need sh to run `startup.sh`)
 RUN rm /bin/cat /bin/find /bin/ls /bin/rm /bin/vi /bin/which
 
+# # QA
 # CMD ["/bin/sh"]
 
 FROM distroless AS runner-image
