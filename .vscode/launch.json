@@ -1,0 +1,17 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    // pytest: https://stackoverflow.com/questions/70259564/how-to-debug-the-current-python-test-file-with-pytest-in-vs-code
+    "version": "0.2.0",
+    "configurations": [{
+        "name": "Python: Debug Tests",
+        "type": "python",
+        "request": "launch",
+        "module": "pytest",
+        "args": [
+            "${file}"
+        ],
+        "console": "integratedTerminal"
+    }]
+}
