@@ -43,6 +43,7 @@ repos:
     - id: pretty-format-json
       # https://pre-commit.com/#regular-expressions
       exclude: |
+        ^launch.json$
         ^settings.json$
       args: ['--autofix', '--indent=2', '--no-sort-keys']
     - id: requirements-txt-fixer
