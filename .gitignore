@@ -3,7 +3,7 @@ django/composeexample/
 django/data/
 django/manage.py
 *.sqlite
-!redis.conf.example
+!*.example
 *.pem
 *.key
 raw/
