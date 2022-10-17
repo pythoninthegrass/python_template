@@ -1,11 +1,19 @@
 # See https://just.systems/man/en
 
+# positional args
+# * NOTE: unable to reuse recipe name (e.g., start/stop); prefix recipes with `@`
+# set positional-arguments := true
+
 # load .env
 set dotenv-load := true
 
 # set env var
 export APP   := "compose_image_name"
-export SHELL := "/bin/sh"
+export CPU   := "2"
+export MEM   := "2048"
+export NS    := "default"
+export PROF  := "minikube"
+export SHELL := "/bin/bash"
 export TAG   := "latest"
 
 # x86_64/arm64
@@ -14,45 +22,61 @@ arch := `uname -m`
 # hostname
 host := `uname -n`
 
-# halp
+# [halp] list available commands
 default:
     just --list
 
-# build locally or on intel box
+# [devspace] start minikube + devspace
+start-devspace:
+    #!/usr/bin/env bash
+    set -euxo pipefail
+
+    if [[ $(minikube status -f \{\{\.Host\}\}) = 'Stopped' ]]; then
+        minikube start --memory={{MEM}} --cpus={{CPU}} -p {{PROF}}
+    fi
+
+    devspace use namespace {{NS}}
+    devspace dev
+
+# [devspace] stop minikube
+stop-devspace:
+    minikube stop -p {{PROF}}
+
+# [docker] build locally or on intel box
 build:
     #!/usr/bin/env bash
     set -euxo pipefail
-    # accepts justfile env/vars
+
     if [[ {{arch}} == "arm64" ]]; then
-        docker build -f Dockerfile.web -t {{APP}}:{{TAG}} --build-arg CHIPSET_ARCH=aarch64-linux-gnu .
+        docker build -f Dockerfile -t {{APP}}:{{TAG}} --build-arg CHIPSET_ARCH=aarch64-linux-gnu .
     else
-        docker buildx build -f Dockerfile.web --progress=plain -t {{APP}}:{{TAG}} --build-arg CHIPSET_ARCH=x86_64-linux-gnu --load .
+        docker buildx build -f Dockerfile --progress=plain -t {{APP}}:{{TAG}} --build-arg CHIPSET_ARCH=x86_64-linux-gnu --load .
     fi
 
-# intel build
+# [docker] intel build
 buildx:
-    docker buildx build -f Dockerfile.web --progress=plain -t $TAG --build-arg CHIPSET_ARCH=x86_64-linux-gnu --load .
+    docker buildx build -f Dockerfile --progress=plain -t $TAG --build-arg CHIPSET_ARCH=x86_64-linux-gnu --load .
 
-# arm build w/docker-compose defaults
+# [docker] arm build w/docker-compose defaults
 build-clean:
     docker-compose build --pull --no-cache --build-arg CHIPSET_ARCH=aarch64-linux-gnu
 
-# pull latest image
+# [docker] pull latest heroku image
 pull:
-    docker pull "{{APP}}:{{TAG}}"
+    docker pull python:3.10-slim-buster
 
-# start docker-compose container
-start:
+# [docker] start docker-compose container
+up:
     docker-compose up -d
 
-# ssh into container
+# [docker] ssh into container
 exec:
     docker-compose exec {{APP}} {{SHELL}}
 
-# stop docker-compose container
+# [docker] stop docker-compose container
 stop:
     docker-compose stop
 
-# remove docker-compose container(s) and networks
+# [docker] remove docker-compose container(s) and networks
 down:
     docker-compose stop && docker-compose down --remove-orphans
