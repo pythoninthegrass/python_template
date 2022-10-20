@@ -57,11 +57,18 @@ build:
 buildx:
     docker buildx build -f Dockerfile --progress=plain -t $TAG --build-arg CHIPSET_ARCH=x86_64-linux-gnu --load .
 
-# [docker] arm build w/docker-compose defaults
+# [docker] build w/docker-compose defaults
 build-clean:
-    docker-compose build --pull --no-cache --build-arg CHIPSET_ARCH=aarch64-linux-gnu
+    #!/usr/bin/env bash
+    set -euxo pipefail
 
-# [docker] pull latest heroku image
+    if [[ {{arch}} == "arm64" ]]; then
+        docker-compose build --pull --no-cache --build-arg CHIPSET_ARCH=aarch64-linux-gnu
+    else
+        docker-compose build --pull --no-cache --build-arg CHIPSET_ARCH=x86_64-linux-gnu
+    fi
+
+# [docker] pull latest image
 pull:
     docker pull python:3.10-slim-buster
 
