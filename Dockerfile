@@ -3,7 +3,7 @@
 # https://gitlab.com/n.ragav/python-images/-/tree/master/distroless
 
 # full semver just for python base image
-ARG PYTHON_VERSION=3.10.7
+ARG PYTHON_VERSION=3.10.8
 
 # several optimisations in python-slim images already, benefit from these
 FROM python:${PYTHON_VERSION}-slim-bullseye AS builder-image
