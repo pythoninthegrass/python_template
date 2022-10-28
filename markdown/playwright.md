@@ -2,6 +2,7 @@
 
 * Install from the [Setup](../README.md#setup) section
 * Usage
+  * `pip` 
     ```bash
     # install
     pip install --upgrade pip
@@ -11,6 +12,19 @@
     # download new browsers (chromedriver, gecko)
     npx playwright install
 
+  * `pipx`
+    ```bash
+    # install
+    pipx install playwright  # install/upgrade
+    cd ~/.local/pipx/venvs/playwright
+    
+    # inject dependencies manually
+    source bin/activate
+    playwright install
+    deactivate
+    ```
+  * Both
+    ```bash
     # generate code via macro
     playwright codegen wikipedia.org
     ```
