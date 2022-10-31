@@ -55,7 +55,7 @@ build:
 
 # [docker] intel build
 buildx:
-    docker buildx build -f Dockerfile --progress=plain -t $TAG --build-arg CHIPSET_ARCH=x86_64-linux-gnu --load .
+    docker buildx build -f Dockerfile --progress=plain -t {{TAG}} --build-arg CHIPSET_ARCH=x86_64-linux-gnu --load .
 
 # [docker] build w/docker-compose defaults
 build-clean:

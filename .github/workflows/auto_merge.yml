@@ -1,7 +1,12 @@
 # https://docs.github.com/en/code-security/dependabot/working-with-dependabot/automating-dependabot-with-github-actions#approve-a-pull-request
 
 name: auto_merge
-on: [pull_request, workflow_dispatch]     # pull_request, push, workflow_dispatch
+on: # pull_request, push, workflow_dispatch
+  pull_request:
+  workflow_dispatch:
+  push:
+  release:
+    types: [published]
 
 permissions:
   pull-requests: write
@@ -19,9 +24,19 @@ jobs:
       - name: Approve a PR
         run: gh pr review --approve "$PR_URL"
         env:
-          PR_URL: ${{github.event.pull_request.html_url}}
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Merge a PR
         run: gh pr merge "$PR_URL" --auto --squash
         env:
-          PR_URL: ${{github.event.pull_request.html_url}}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+  auto-rebase:
+    name: rebase dependabot PRs
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' || github.event == 'release'
+    timeout-minutes: 5
+    steps:
+      - name: rebase
+        uses: "bbeesley/gha-auto-dependabot-rebase@main"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
