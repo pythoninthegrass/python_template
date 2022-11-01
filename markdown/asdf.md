@@ -4,10 +4,14 @@
 * macOS Dependencies
     ```bash
     xcode-select --install
-    brew install openssl readline sqlite3 xz zlib tcl-tk
+    brew install gettext openssl readline sqlite3 xz zlib tcl-tk
     
-    # if `--disable-ipv6` error is raised during compilation
+    # `--disable-ipv6` error
     # export PYTHON_CONFIGURE_OPTS="--disable-ipv6"
+    
+    # set compile flags for c++ and ld
+    # pyenv doctor
+    # CPPFLAGS="-I$(brew --prefix openssl)/include -I$(xcrun --show-sdk-path)/usr/include" LDFLAGS="-L$(brew --prefix openssl)/lib"
     ```
 * WSL/Ubuntu Linux dependencies
     ```bash
