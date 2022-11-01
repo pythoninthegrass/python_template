@@ -1,6 +1,11 @@
 ### asdf
 
 * Install from the [Setup](../README.md#setup) section
+* macOS Dependencies
+    ```bash
+    xcode-select --install
+    brew install openssl readline sqlite3 xz zlib tcl-tk
+    ```
 * WSL/Ubuntu Linux dependencies
     ```bash
     sudo apt update && sudo apt install \
