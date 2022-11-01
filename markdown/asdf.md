@@ -5,6 +5,9 @@
     ```bash
     xcode-select --install
     brew install openssl readline sqlite3 xz zlib tcl-tk
+    
+    # if `--disable-ipv6` error is raised during compilation
+    # export PYTHON_CONFIGURE_OPTS="--disable-ipv6"
     ```
 * WSL/Ubuntu Linux dependencies
     ```bash
