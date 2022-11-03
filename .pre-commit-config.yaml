@@ -25,6 +25,10 @@ repos:
     - id: check-added-large-files
       args: ['--maxkb=1024']
     - id: check-docstring-first
+      exclude: |
+          (?x)^(
+              hello.py
+          )$
     - id: check-executables-have-shebangs
     - id: check-merge-conflict
     - id: check-shebang-scripts-are-executable
