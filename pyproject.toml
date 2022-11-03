@@ -24,6 +24,8 @@ pytest = "^7.1.2"
 requests = "^2.27.1"
 requests-cache = "^0.9.1"
 websockets = "^10.3"
+arrow = "^1.2.3"
+python-decouple = "^3.6"
 
 [tool.poetry.dev-dependencies]
 icecream = "^2.1.3"
