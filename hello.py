@@ -1,16 +1,21 @@
 #!/usr/bin/env python3
 
+# fmt: off
 # import argparse
+import arrow
 # import git
 # import numpy as np
 # import os
-# import pandas as pd
+import pandas as pd
 # import re
 # import requests
 # import requests_cache
+# import subprocess
+# import time
 # from bs4 import BeautifulSoup, Comment
-# from datetime import timedelta
-# from decouple import config
+from datetime import timedelta
+from decouple import config
+# from functools import wraps
 # from icecream import ic
 # from <local.py_module> import *
 from pathlib import Path
@@ -18,27 +23,50 @@ from pathlib import Path
 # from playwright.sync_api import sync_playwright
 # from prettytable import PrettyTable
 # from requests_cache import CachedSession
+# fmt: on
 
 """
 The commented out section is boilerplate for common operations.
 Feel free to uncomment and/or delete after first commit.
 """
-## env
+# env
 home = Path.home()
-# now = datetime.datetime.now()
-# out = f"{home}/Downloads/result_{now:%Y%m%d_%H%M%S}.csv"
-env = Path('.env')
+cwd = Path.cwd()
+now = arrow.now().format('YYYYMMDD_HHmmss')
+out = f"{cwd}/formatted/results_{now}.csv"
+
+# env vars (hierachy: args, env, .env)
+HOST = config('HOST', default='localhost')
+USER = config('USER')
+PASS = config('PASS')
 
 ## verbose icecream
 # ic.configureOutput(includeContext=True)
 
-## pwd
-cwd = Path.cwd()
-# print(f"Current working directory: {cwd}")
 
-## create file and parent directories
-# meta_file = f"{cwd}/metadata/metadata.json"
-# Path(meta_file).parents[0].mkdir(parents=True, exist_ok=True)
+# def timeit(func):
+#     @wraps(func)
+#     def timeit_wrapper(*args, **kwargs):
+#         start_time = time.perf_counter()
+#         result = func(*args, **kwargs)
+#         end_time = time.perf_counter()
+#         total_time = end_time - start_time
+#         print(f"Function {func.__name__}{args} {kwargs} Took {total_time:.4f} seconds")
+#         return result
+
+#     return timeit_wrapper
+
+
+# @timeit
+# def sub_get_url(id):
+#     cmd = f"mas info {id} | awk '/https/ {{print $NF}}'"
+
+#     return subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True)
+
+
+# # 0.1730, 1.7148 seconds
+# sub_get_url(490179405)
+
 
 # # clone substrapunks repo
 # if not Path(cwd/'substrapunks').exists():
@@ -64,25 +92,11 @@ cwd = Path.cwd()
 #         print("Exiting...")
 #         exit()
 
-# if cwd != dir_path:
-#     os.chdir(dir_path)
-#     print(os.getcwd())
-
 # folders = ['logs', 'user_data']
 
 # for folder in folders:
 #     if not Path(folder).exists():
 #         os.mkdir(os.path.join(cwd, folder))
-
-# # creds
-# if env.exists():
-#     HOST = config('HOST', default='localhost')
-#     USER = config('USER')
-#     PASS = config('PASS')
-# else:
-#     HOST = os.getenv('HOST', default='localhost')
-#     USER = os.getenv('USER')
-#     PASS = os.getenv('PASS')
 
 ## mkdir -p ./csv && cd $_
 # if Path('csv').exists():
