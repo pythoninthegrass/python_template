@@ -1,5 +1,4 @@
 fail_fast: true
-verbose: true
 
 repos:
   # checks for secrets via rules (gitleaks.toml)
@@ -43,8 +42,10 @@ repos:
     - id: pretty-format-json
       # https://pre-commit.com/#regular-expressions
       exclude: |
-        ^launch.json$
-        ^settings.json$
+          (?x)^(
+              .vscode/launch.json|
+              .vscode/settings.json
+          )$
       args: ['--autofix', '--indent=2', '--no-sort-keys']
     - id: requirements-txt-fixer
     # - id: trailing-whitespace
