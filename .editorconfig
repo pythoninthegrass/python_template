@@ -15,7 +15,7 @@ insert_final_newline = true
 trim_trailing_whitespace = false
 
 # general formatting
-[*.{bash,go,sh,zsh,Makefile}]
+[*.{bash,go,sh,zsh,justfile,Makefile}]
 indent_style = tab
 indent_size = 4
 
