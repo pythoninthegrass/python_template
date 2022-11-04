@@ -1,20 +1,17 @@
-# See https://just.systems/man/en
-
-# positional args
-# * NOTE: unable to reuse recipe name (e.g., start/stop); prefix recipes with `@`
-# set positional-arguments := true
+# https://just.systems/man/en
 
 # load .env
-set dotenv-load := true
+set dotenv-load
 
 # set env var
-export APP   := "compose_image_name"
-export CPU   := "2"
-export MEM   := "2048"
-export NS    := "default"
-export PROF  := "minikube"
-export SHELL := "/bin/bash"
-export TAG   := "latest"
+export APP      := "compose_image_name"
+export CPU      := "2"
+export IMAGE    := `echo ${REGISTRY_URL}/it
+export MEM      := "2048"
+export NS       := "default"
+export PROF     := "minikube"
+export SHELL    := "/bin/bash"
+VERSION 		:= `cat VERSION`
 
 # x86_64/arm64
 arch := `uname -m`
@@ -42,38 +39,55 @@ start-devspace:
 stop-devspace:
     minikube stop -p {{PROF}}
 
-# [docker] build locally or on intel box
+# [docker] build locally
 build:
-    #!/usr/bin/env bash
-    set -euxo pipefail
+	#!/usr/bin/env bash
+	# set -euxo pipefail
 
-    if [[ {{arch}} == "arm64" ]]; then
-        docker build -f Dockerfile -t {{APP}}:{{TAG}} --build-arg CHIPSET_ARCH=aarch64-linux-gnu .
-    else
-        docker buildx build -f Dockerfile --progress=plain -t {{APP}}:{{TAG}} --build-arg CHIPSET_ARCH=x86_64-linux-gnu --load .
-    fi
+	echo "building ${APP_NAME}:${TAG}"
 
+	if [[ {{arch}} == "arm64" ]]; then
+		docker build -f Dockerfile -t it/${APP_NAME}:${TAG} --build-arg CHIPSET_ARCH=aarch64-linux-gnu .
+	else
+		docker build -f Dockerfile -t it/${APP_NAME}:${TAG} --build-arg CHIPSET_ARCH=x86_64-linux-gnu .
+	fi
+
+	echo "created tag it/${APP_NAME}:${TAG} {{IMAGE}}/${APP_NAME}:${TAG}"
+
+# TODO: QA
 # [docker] intel build
 buildx:
-    docker buildx build -f Dockerfile --progress=plain -t {{TAG}} --build-arg CHIPSET_ARCH=x86_64-linux-gnu --load .
+	docker buildx build -f Dockerfile --progress=plain -t ${TAG} --build-arg CHIPSET_ARCH=x86_64-linux-gnu --load .
 
 # [docker] build w/docker-compose defaults
-build-clean:
-    #!/usr/bin/env bash
-    set -euxo pipefail
+build-nc:
+	#!/usr/bin/env bash
+	# set -euxo pipefail
 
-    if [[ {{arch}} == "arm64" ]]; then
-        docker-compose build --pull --no-cache --build-arg CHIPSET_ARCH=aarch64-linux-gnu
-    else
-        docker-compose build --pull --no-cache --build-arg CHIPSET_ARCH=x86_64-linux-gnu
-    fi
+	if [[ {{arch}} == "arm64" ]]; then
+		docker-compose build --pull --no-cache --build-arg CHIPSET_ARCH=aarch64-linux-gnu
+	else
+		docker-compose build --pull --no-cache --build-arg CHIPSET_ARCH=x86_64-linux-gnu
+	fi
 
 # [docker] pull latest image
 pull:
-    docker pull python:3.10-slim-buster
+	docker pull {{IMAGE}}/${APP_NAME}:${TAG}
+
+# [docker] run local image
+run: pull
+	docker run -it --rm -v $(pwd):/app {{IMAGE}}/${APP_NAME}:${TAG} {{SHELL}}
+
+# [docker] push latest image to ecr
+release:
+	#!/usr/bin/env bash
+	# set -euxo pipefail
+
+	AWS_DEFAULT_PROFILE=bastion.use1 aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${REGISTRY_URL}
+	docker push {{IMAGE}}/${APP_NAME}:${TAG}
 
 # [docker] start docker-compose container
-up:
+start:
     docker-compose up -d
 
 # [docker] ssh into container
@@ -85,5 +99,16 @@ stop:
     docker-compose stop
 
 # [docker] remove docker-compose container(s) and networks
-down:
-    docker-compose stop && docker-compose down --remove-orphans
+down: stop
+	docker-compose down --remove-orphans
+
+# [docker] tag image as latest
+tag-latest:
+	@echo "create tag it/${APP_NAME}:${TAG} {{IMAGE}}/${APP_NAME}:${TAG}"
+	docker tag it/${APP_NAME}:${TAG} {{IMAGE}}/${APP_NAME}:${TAG}
+
+# TODO: QA
+# [docker] tag image from VERSION file
+tag-version:
+	@echo "create tag it/${APP_NAME}:{{VERSION}} {{IMAGE}}/${APP_NAME}:${TAG}"
+	docker tag it/${APP_NAME}:{{VERSION}} {{IMAGE}}/${APP_NAME}:${TAG}

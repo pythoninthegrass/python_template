@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+
+# SOURCES:
+# https://gist.github.com/mpneuried/0594963ad38e68917ef189b4e6a269db
+
+# INSTALL
+# - copy the files .env, VERSION and justfile to your repo
+# - replace the vars in .env
+# - define the version script
+
+# case statement to choose input arguments
+case "$1" in
+  	build-nc)
+		# Build the container
+		just build-nc
+		;;
+  	release)
+		# Build and publish the container
+		just release
+		;;
+  	run)
+		# Run the docker container; remove upon exit
+		just run
+		;;
+  	start)
+		# Build and run the docker-compose container
+		just start
+		;;
+  	stop)
+		# Stop the running docker-compose container
+		just stop
+		;;
+  	*)
+		echo $"Usage: $0 {build-nc|release|run|start|stop}"
+		exit 1
+esac
