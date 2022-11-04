@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+# flake8: noqa
+
 # fmt: off
 # import argparse
 import arrow
@@ -29,16 +31,17 @@ from pathlib import Path
 The commented out section is boilerplate for common operations.
 Feel free to uncomment and/or delete after first commit.
 """
+
 # env
 home = Path.home()
 cwd = Path.cwd()
-now = arrow.now().format('YYYYMMDD_HHmmss')
+now = arrow.now().format("YYYYMMDD_HHmmss")
 out = f"{cwd}/formatted/results_{now}.csv"
 
-# env vars (hierachy: args, env, .env)
-HOST = config('HOST', default='localhost')
-USER = config('USER')
-PASS = config('PASS')
+# env vars (hierarchy: args, env, .env)
+HOST = config("HOST", default="localhost")
+USER = config("USER")
+PASS = config("PASS")
 
 ## verbose icecream
 # ic.configureOutput(includeContext=True)
