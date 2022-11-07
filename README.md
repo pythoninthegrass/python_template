@@ -21,6 +21,7 @@ Be the change et al if Windows is your main and you wanna [raise a PR](CONTRIBUT
   * [Usage](#usage)
     * [Mac and Linux users](#mac-and-linux-users)
   * [Pushing to Docker Hub with CI](#pushing-to-docker-hub-with-ci)
+    * [What you need to modify in this file](#what-you-need-to-modify-in-this-file)
   * [TODO](#todo)
 
 ## Setup
