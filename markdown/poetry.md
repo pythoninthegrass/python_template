@@ -7,13 +7,8 @@
 * Install from the [Setup](../README.md#setup) section
 * Normal usage
     ```bash
-    # Install (modifies $PATH)
-    curl -sSL https://install.python-poetry.org | $(which python3) - # append `--no-modify-path` to EOL if you know what you're doing
-
-    # Install via asdf w/version
-    asdf plugin-add poetry https://github.com/asdf-community/asdf-poetry.git
-    ASDF_POETRY_INSTALL_URL=https://install.python-poetry.org asdf install poetry 1.2.0b1
-    asdf local poetry 1.2.0b1
+    # Install
+    curl -sSL https://install.python-poetry.org | $(which python3) -
 
     # Uninstall
     export POETRY_UNINSTALL=1
@@ -21,7 +16,6 @@
 
     # Change config
     poetry config virtualenvs.in-project true           # .venv in `pwd`
-    poetry config experimental.new-installer false      # fixes JSONDecodeError on Python3.10
 
     # Activate virtual environment (venv)
     poetry shell
@@ -49,7 +43,19 @@
 
     # Generate requirements.txt
     poetry export -f requirements.txt --output requirements.txt --without-hashes
+    ```
+* Poetry with `asdf`
+    ```bash
+     # Add poetry asdf plugin
+    asdf plugin-add poetry https://github.com/asdf-community/asdf-poetry.git
 
-    # Uninstall Poetry (e.g., troubleshooting)
-    POETRY_UNINSTALL=1 bash -c 'curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py' | $(which python3) -
+    # Install latest version via asdf
+    asdf install poetry latest
+
+    # Set latest version as default
+    asdf global poetry latest
+
+    # Install via asdf w/version
+    ASDF_POETRY_INSTALL_URL=https://install.python-poetry.org asdf install poetry 1.2.2
+    asdf local poetry 1.2.2
     ```
