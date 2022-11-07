@@ -1,4 +1,4 @@
-FROM node:12.18.1
+FROM node:14
 
 # development/production environment
 # * NOTE: `nodemon` needs to be installed under `devDependencies` in package.json
