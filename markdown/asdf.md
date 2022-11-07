@@ -31,13 +31,16 @@
     asdf plugin-add python
 
     # install stable python
-    asdf install python latest
+    asdf install python <latest>  # 3.10.8
 
     # uninstall version
-    asdf uninstall python 3.9.6
+    asdf uninstall python latest
 
     # refresh symlinks for installed python runtimes
     asdf reshim python
+
+    # set working directory version (i.e., repo)
+    asdf local python latest
 
     # set stable to system python
     asdf global python latest
