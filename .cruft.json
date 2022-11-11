@@ -1,0 +1,25 @@
+{
+  "template": "https://github.com/pythoninthegrass/python_template",
+  "commit": "e38acd06e49e1acf755cf4d84c607344c7d31c0d",
+  "context": {
+    "cookiecutter": {
+      "full_name": "Lance Stephens",
+      "email": "4097471+pythoninthegrass@users.noreply.github.com",
+      "github_username": "pythoninthegrass",
+      "project_name": "python_template",
+      "project_slug": "python_template",
+      "project_short_description": "python_template contains all the boilerplate you need to create a Python project.",
+      "pypi_username": "pythoninthegrass",
+      "version": "0.1.0",
+      "use_pytest": "n",
+      "use_black": "n",
+      "use_pypi_deployment_with_travis": "n",
+      "add_pyup_badge": "n",
+      "command_line_interface": "No command-line interface",
+      "create_author_file": "n",
+      "open_source_license": "Unlicense",
+      "_template": "https://github.com/pythoninthegrass/python_template"
+    }
+  },
+  "directory": null
+}
