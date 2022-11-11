@@ -1,0 +1,35 @@
+# http://editorconfig.org
+
+root = true
+
+[*]
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+[LICENSE]
+insert_final_newline = false
+
+# Protect whitespace in markdown files
+[*.md]
+trim_trailing_whitespace = false
+
+# general formatting
+[*.{bash,go,sh,zsh,justfile,Makefile}]
+indent_style = tab
+indent_size = 4
+
+# Set default charset
+[*.{html,xml,js,css,py}]
+charset = utf-8
+
+# python
+[*.py]
+indent_style = space
+indent_size = 4
+
+# webdev + terraform
+[*.{html,xml,js,css,gql,tf,tfvars,yml,yaml}]
+indent_style = space
+indent_size = 2
