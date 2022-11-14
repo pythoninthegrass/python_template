@@ -8,6 +8,31 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Python: Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "cwd": "${fileDirname}",
+            // "args": ["-i", "response.xml", "-o", "response.csv"],
+            // "args": ["-d", "/Volumes/Data"],
+            // "args": ["-f", "menubar.dmg"],
+            // "args": ["-h"],
+            // "env": {
+            //     "CREDS": "",
+            // }
+        },
+        {
+            "name": "Python: Django",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/manage.py",
+            "console": "integratedTerminal",
+            "args": ["runserver"],
+            "django": true,
+            "justMyCode": true
+        },
+        {
             "name": "Python: Debug Tests",
             "type": "python",
             "request": "launch",
