@@ -23,6 +23,19 @@
             // }
         },
         {
+            "name": "Python: Flet",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/.venv/bin/flet",
+            "console": "integratedTerminal",
+            "args": [
+                "run",
+                "main.py",
+                "-d"
+            ],
+            "justMyCode": true
+        },
+        {
             "name": "Python: Django",
             "type": "python",
             "request": "launch",
