@@ -39,7 +39,11 @@
             "program": "${workspaceFolder}/.venv/bin/flask",
             "console": "integratedTerminal",
             "args": [
-                "run"
+                "run",
+                "--host",
+                "0.0.0.0",
+                "--port",
+                "8000"
             ],
             "justMyCode": true
         },
