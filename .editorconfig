@@ -15,7 +15,7 @@ insert_final_newline = true
 trim_trailing_whitespace = false
 
 # general formatting
-[*.{bash,go,sh,zsh,Makefile}]
+[*.{bash,go,sh,zsh,justfile,Makefile}]
 indent_style = tab
 indent_size = 4
 
@@ -28,7 +28,7 @@ charset = utf-8
 indent_style = space
 indent_size = 4
 
-# webdev et al
-[*.{html,xml,js,css,gql,lua,tf,tfvars,yml,yaml}]
+# webdev + terraform
+[*.{html,xml,js,css,gql,tf,tfvars,yml,yaml}]
 indent_style = space
 indent_size = 2
