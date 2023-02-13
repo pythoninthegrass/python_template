@@ -23,17 +23,23 @@
     # Deactivate venv
     exit  # ctrl-d
 
-    # Install multiple libraries
-    poetry add google-auth google-api-python-client
-
     # Initialize existing project
     poetry init
 
-    # Run script and exit environment
-    poetry run python your_script.py
-
     # Install from requirements.txt
     poetry add `cat requirements.txt`
+
+    # Install multiple libraries
+    poetry add google-auth google-api-python-client
+
+    # dev dependencies
+    poetry add --group dev rich
+
+    # Install virtual environment w/o dev deps (creates venv if not present)
+    poetry install --no-ansi --without dev
+
+    # Run script and exit environment
+    poetry run python your_script.py
 
     # Update dependencies
     poetry update
@@ -56,6 +62,6 @@
     asdf global poetry latest
 
     # Install via asdf w/version
-    ASDF_POETRY_INSTALL_URL=https://install.python-poetry.org asdf install poetry 1.2.2
-    asdf local poetry 1.2.2
+    ASDF_POETRY_INSTALL_URL=https://install.python-poetry.org asdf install poetry 1.3.2
+    asdf local poetry latest    # 1.3.2
     ```
