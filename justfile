@@ -6,7 +6,7 @@ set dotenv-load
 # set env var
 export APP      := "compose_image_name"
 export CPU      := "2"
-export IMAGE    := `echo ${REGISTRY_URL}/it
+export IMAGE    := `echo ${REGISTRY_URL}`
 export MEM      := "2048"
 export NS       := "default"
 export PROF     := "minikube"
@@ -47,14 +47,13 @@ build:
 	echo "building ${APP_NAME}:${TAG}"
 
 	if [[ {{arch}} == "arm64" ]]; then
-		docker build -f Dockerfile -t it/${APP_NAME}:${TAG} --build-arg CHIPSET_ARCH=aarch64-linux-gnu .
+		docker build -f Dockerfile -t ${APP_NAME}:${TAG} --build-arg CHIPSET_ARCH=aarch64-linux-gnu .
 	else
-		docker build -f Dockerfile -t it/${APP_NAME}:${TAG} --build-arg CHIPSET_ARCH=x86_64-linux-gnu .
+		docker build -f Dockerfile -t ${APP_NAME}:${TAG} --build-arg CHIPSET_ARCH=x86_64-linux-gnu .
 	fi
 
-	echo "created tag it/${APP_NAME}:${TAG} {{IMAGE}}/${APP_NAME}:${TAG}"
+	echo "created tag ${APP_NAME}:${TAG} {{IMAGE}}/${APP_NAME}:${TAG}"
 
-# TODO: QA
 # [docker] intel build
 buildx:
 	docker buildx build -f Dockerfile --progress=plain -t ${TAG} --build-arg CHIPSET_ARCH=x86_64-linux-gnu --load .
@@ -87,7 +86,7 @@ release:
 	docker push {{IMAGE}}/${APP_NAME}:${TAG}
 
 # [docker] start docker-compose container
-start:
+up:
     docker-compose up -d
 
 # [docker] ssh into container
@@ -104,11 +103,10 @@ down: stop
 
 # [docker] tag image as latest
 tag-latest:
-	@echo "create tag it/${APP_NAME}:${TAG} {{IMAGE}}/${APP_NAME}:${TAG}"
-	docker tag it/${APP_NAME}:${TAG} {{IMAGE}}/${APP_NAME}:${TAG}
+	@echo "create tag ${APP_NAME}:${TAG} {{IMAGE}}/${APP_NAME}:${TAG}"
+	docker tag ${APP_NAME}:${TAG} {{IMAGE}}/${APP_NAME}:${TAG}
 
-# TODO: QA
 # [docker] tag image from VERSION file
 tag-version:
-	@echo "create tag it/${APP_NAME}:{{VERSION}} {{IMAGE}}/${APP_NAME}:${TAG}"
-	docker tag it/${APP_NAME}:{{VERSION}} {{IMAGE}}/${APP_NAME}:${TAG}
+	@echo "create tag ${APP_NAME}:{{VERSION}} {{IMAGE}}/${APP_NAME}:${TAG}"
+	docker tag ${APP_NAME}:{{VERSION}} {{IMAGE}}/${APP_NAME}:${TAG}
