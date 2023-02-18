@@ -4,13 +4,16 @@
 set dotenv-load
 
 # set env var
-export APP      := "compose_image_name"
+export APP      := `echo ${APP_NAME}`
 export CPU      := "2"
-export IMAGE    := `echo ${REGISTRY_URL}`
+export IMAGE	:= `echo ${IMAGE}`
 export MEM      := "2048"
 export NS       := "default"
 export PROF     := "minikube"
 export SHELL    := "/bin/bash"
+export SCRIPT   := "harden"
+export SHELL	:= "/bin/bash"
+export TAG		:= `echo ${TAG}`
 VERSION 		:= `cat VERSION`
 
 # x86_64/arm64
@@ -23,6 +26,7 @@ host := `uname -n`
 default:
     just --list
 
+# TODO: setup tilt
 # [devspace] start minikube + devspace
 start-devspace:
     #!/usr/bin/env bash
@@ -39,74 +43,110 @@ start-devspace:
 stop-devspace:
     minikube stop -p {{PROF}}
 
-# [docker] build locally
-build:
+# docker-compose / docker compose
+# * https://docs.docker.com/compose/install/linux/#install-using-the-repository
+docker-compose := if `command -v docker-compose; echo $?` == "0" {
+	"docker-compose"
+} else {
+	"docker compose"
+}
+
+# [halp]   list available commands
+default:
+	just --list
+
+# [check]  lint sh script
+checkbash:
 	#!/usr/bin/env bash
-	# set -euxo pipefail
-
-	echo "building ${APP_NAME}:${TAG}"
-
-	if [[ {{arch}} == "arm64" ]]; then
-		docker build -f Dockerfile -t ${APP_NAME}:${TAG} --build-arg CHIPSET_ARCH=aarch64-linux-gnu .
+	checkbashisms {{SCRIPT}}
+	if [[ $? -eq 1 ]]; then
+		echo "bashisms found. Exiting..."
+		exit 1
 	else
-		docker build -f Dockerfile -t ${APP_NAME}:${TAG} --build-arg CHIPSET_ARCH=x86_64-linux-gnu .
+		echo "No bashisms found"
 	fi
 
-	echo "created tag ${APP_NAME}:${TAG} {{IMAGE}}/${APP_NAME}:${TAG}"
-
-# [docker] intel build
-buildx:
-	docker buildx build -f Dockerfile --progress=plain -t ${TAG} --build-arg CHIPSET_ARCH=x86_64-linux-gnu --load .
-
-# [docker] build w/docker-compose defaults
-build-nc:
+# [docker] build locally or on intel box
+build: checkbash
 	#!/usr/bin/env bash
-	# set -euxo pipefail
-
+	set -euxo pipefail
 	if [[ {{arch}} == "arm64" ]]; then
-		docker-compose build --pull --no-cache --build-arg CHIPSET_ARCH=aarch64-linux-gnu
+		docker build -f Dockerfile -t {{APP}} --build-arg CHIPSET_ARCH=aarch64-linux-gnu .
 	else
-		docker-compose build --pull --no-cache --build-arg CHIPSET_ARCH=x86_64-linux-gnu
+		docker build -f Dockerfile --progress=plain -t {{APP}} .
 	fi
 
-# [docker] pull latest image
-pull:
-	docker pull {{IMAGE}}/${APP_NAME}:${TAG}
+# [docker] arm build w/docker-compose defaults
+build-clean: checkbash
+	#!/usr/bin/env bash
+	set -euxo pipefail
+	if [[ {{arch}} == "arm64" ]]; then
+		{{docker-compose}} build --pull --no-cache --build-arg CHIPSET_ARCH=aarch64-linux-gnu --parallel
+	else
+		{{docker-compose}} build --pull --no-cache --parallel
+	fi
 
-# [docker] run local image
-run: pull
-	docker run -it --rm -v $(pwd):/app {{IMAGE}}/${APP_NAME}:${TAG} {{SHELL}}
-
-# [docker] push latest image to ecr
-release:
+# [docker] login to registry (exit code 127 == 0)
+login:
 	#!/usr/bin/env bash
 	# set -euxo pipefail
-
-	AWS_DEFAULT_PROFILE=bastion.use1 aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${REGISTRY_URL}
-	docker push {{IMAGE}}/${APP_NAME}:${TAG}
-
-# [docker] start docker-compose container
-up:
-    docker-compose up -d
-
-# [docker] ssh into container
-exec:
-    docker-compose exec {{APP}} {{SHELL}}
-
-# [docker] stop docker-compose container
-stop:
-    docker-compose stop
-
-# [docker] remove docker-compose container(s) and networks
-down: stop
-	docker-compose down --remove-orphans
+	echo "Log into ${REGISTRY_URL} as ${USER_NAME}. Please enter your password: "
+	cmd=$(docker login --username ${USER_NAME} ${REGISTRY_URL})
+	if [[ $("$cmd" >/dev/null 2>&1; echo $?) -ne 127 ]]; then
+		echo 'Not logged into Docker. Exiting...'
+		exit 1
+	fi
 
 # [docker] tag image as latest
 tag-latest:
-	@echo "create tag ${APP_NAME}:${TAG} {{IMAGE}}/${APP_NAME}:${TAG}"
-	docker tag ${APP_NAME}:${TAG} {{IMAGE}}/${APP_NAME}:${TAG}
+	docker tag {{APP}}:latest {{IMAGE}}/{{APP}}:latest
 
-# [docker] tag image from VERSION file
+# [docker] tag latest image from VERSION file
 tag-version:
-	@echo "create tag ${APP_NAME}:{{VERSION}} {{IMAGE}}/${APP_NAME}:${TAG}"
-	docker tag ${APP_NAME}:{{VERSION}} {{IMAGE}}/${APP_NAME}:${TAG}
+	@echo "create tag {{APP}}:{{VERSION}} {{IMAGE}}/{{APP}}:{{VERSION}}"
+	docker tag {{APP}} {{IMAGE}}/{{APP}}:{{VERSION}}
+
+# [docker] push latest image
+push: login
+	docker push {{IMAGE}}/{{APP}}:{{TAG}}
+
+# [docker] pull latest image
+pull: login
+	docker pull {{IMAGE}}/{{APP}}
+
+# [docker] run container
+run: build
+	#!/usr/bin/env bash
+	# set -euxo pipefail
+	docker run --rm -it \
+		--name {{APP}} \
+		--env-file .env \
+		--entrypoint={{SHELL}} \
+		-h ${HOST:-localhost} \
+		-v $(pwd)/conf:/etc/duoauthproxy \
+		-p ${PORT:-1812}:${PORT:-1812/udp} \
+		-p ${PORT2:-18120}:${PORT2:-18120/udp} \
+		--cap-drop=all \
+		--cap-add=setgid \
+		--cap-add=setuid \
+		{{APP}}
+
+# [docker] start docker-compose container
+up: build
+	{{docker-compose}} up -d
+
+# [docker] get running container logs
+logs:
+	{{docker-compose}} logs -tf --tail="50" {{APP}}
+
+# [docker] ssh into container
+exec:
+	docker exec -it {{APP}} {{SHELL}}
+
+# [docker] stop docker-compose container
+stop:
+	{{docker-compose}} stop
+
+# [docker] remove docker-compose container(s) and networks
+down: stop
+	{{docker-compose}} down --remove-orphans
