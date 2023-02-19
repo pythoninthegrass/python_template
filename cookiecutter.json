@@ -1,0 +1,29 @@
+{
+  "full_name": "Lance Stephens",
+  "email": "4097471+pythoninthegrass@users.noreply.github.com",
+  "github_username": "pythoninthegrass",
+  "project_name": "python_template",
+  "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '_').replace('-', '_') }}",
+  "project_short_description": "python_template contains all the boilerplate you need to create a Python project.",
+  "pypi_username": "{{ cookiecutter.github_username }}",
+  "version": "0.1.0",
+  "use_pytest": "n",
+  "use_black": "n",
+  "use_pypi_deployment_with_travis": "n",
+  "add_pyup_badge": "n",
+  "command_line_interface": [
+    "Click",
+    "Argparse",
+    "No command-line interface"
+  ],
+  "create_author_file": "y",
+  "open_source_license": [
+    "Unlicense",
+    "MIT license",
+    "BSD license",
+    "ISC license",
+    "Apache Software License 2.0",
+    "GNU General Public License v3",
+    "Not open source"
+  ]
+}

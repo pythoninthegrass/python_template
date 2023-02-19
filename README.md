@@ -14,7 +14,7 @@ Very little of this gets tested on Windows hosts. Windows Subsystem for Linux (W
 Be the change et al if Windows is your main and you wanna [raise a PR](CONTRIBUTING.md) with broad instructions on getting tooling working under Windows (e.g., docker, poetry, playwright.)
 
 **Table of Contents**
-* [python_template](#python_template)
+* [python\_template](#python_template)
   * [Summary](#summary)
     * [Caveat Emptor](#caveat-emptor)
   * [Setup](#setup)
@@ -40,17 +40,20 @@ Be the change et al if Windows is your main and you wanna [raise a PR](CONTRIBUT
 Development environments and tooling are first-class citizens on macOS and *nix. For Windows faithfuls, please setup [WSL](markdown/wsl.md).
 
 ## Pushing to Docker Hub with CI
-Docker Hub is a cloud-based repository in which Docker users and partners create, test, store and distribute container images. Docker images are pushed to Docker Hub through the docker push command. A single Docker Hub repository can hold many Docker images (stored as tags).
+Docker Hub is a cloud-based repository in which Docker users and partners create, test, store and distribute container images. Docker images are pushed to Docker Hub through the `docker push` command. A single Docker Hub repository can hold many Docker images (stored as tags).
 
-Automated CI is implemented via GitHub Actions to build and push this repository's image to Docker Hub in `/.github/workflows/push.yml`.
+Automated CI is implemented via GitHub Actions to build and push this repository's image to Docker Hub in `.github/workflows/ci.yml`.
 
 ### What you need to modify in this file
+* Add repository secrets (Docker Hub)
+  * `DOCKERHUB_TOKEN`
+  * `DOCKERHUB_USER`
+* Add environment variable (image name)
+  * `APP_NAME` 
 
-* Look for `images: your-username/your-image-name` and change to your respective Docker Hub username and image name.
-* Add repository secrets for `DOCKERHUB_TOKEN` and `DOCKERHUB_USERNAME` on this repository on GitHub.
-  * Here are the [instructions to create a token](https://docs.docker.com/docker-hub/access-tokens/#create-an-access-token).
+[Instructions to create a token](https://docs.docker.com/docker-hub/access-tokens/#create-an-access-token).
 
-Here are the [instructions to disable this action](https://docs.github.com/en/actions/managing-workflow-runs/disabling-and-enabling-a-workflow) if you don't want this feature.
+[Instructions to disable this action](https://docs.github.com/en/actions/managing-workflow-runs/disabling-and-enabling-a-workflow) if you don't want this feature.
 
 ## TODO
 * [Open Issues](https://github.com/pythoninthegrass/python_template/issues)
