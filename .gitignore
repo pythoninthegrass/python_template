@@ -1,7 +1,6 @@
 # ETC
 django/composeexample/
 django/data/
-django/manage.py
 *.sqlite
 !*.example
 *.pem
