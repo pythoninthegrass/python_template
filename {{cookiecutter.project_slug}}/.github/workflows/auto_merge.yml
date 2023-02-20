@@ -20,6 +20,18 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.event.pull_request.user.login == 'dependabot[bot]' }}
     steps:
+      - name: Check rate limit
+        id: rate-limit
+        shell: bash
+        run: |
+          RATE_LIMIT=$(gh api /rate_limit | jq -r '.resources.core.remaining')
+          echo "::set-output name=remaining::$RATE_LIMIT"
+          if [[ "$RATE_LIMIT" -lt 10 ]]; then
+            RESET_TIME=$(gh api /rate_limit | jq -r '.resources.core.reset')
+            echo "::set-output name=reset_time::$RESET_TIME"
+            echo "Rate limit is low ($RATE_LIMIT). Waiting until $RESET_TIME"
+            sleep $((RESET_TIME - $(date +%s)))
+          fi
       - name: Dependabot metadata
         id: dependabot-metadata
         uses: dependabot/fetch-metadata@v1.3.1
