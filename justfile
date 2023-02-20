@@ -37,7 +37,7 @@ docker-compose := if `command -v docker-compose; echo $?` == "0" {
 default:
     just --list
 
-# [deps]     Update dependencies
+# [deps]     update dependencies
 update-deps:
     #!/usr/bin/env bash
     # set -euxo pipefail
@@ -45,7 +45,7 @@ update-deps:
         echo "[{}]" \; -exec \
         poetry update --no-ansi --lock \;
 
-# [deps]     Export requirements.txt
+# [deps]     export requirements.txt
 export-reqs: update-deps
     #!/usr/bin/env bash
     # set -euxo pipefail
@@ -94,7 +94,7 @@ build: checkbash
 		docker build -f Dockerfile --progress=plain -t {{APP}} .
 	fi
 
-# [docker] intel build
+# [docker]   intel build
 buildx: checkbash
 	docker buildx build -f Dockerfile --progress=plain -t ${TAG} --build-arg CHIPSET_ARCH=x86_64-linux-gnu --load .
 
