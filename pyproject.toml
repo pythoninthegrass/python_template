@@ -26,6 +26,7 @@ requests-cache = "^0.9.1"
 websockets = "^10.3"
 arrow = "^1.2.3"
 python-decouple = "^3.6"
+psycopg2-binary = "^2.9.5"
 
 [tool.poetry.dev-dependencies]
 icecream = "^2.1.3"
