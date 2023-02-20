@@ -3,15 +3,15 @@ fail_fast: true
 repos:
   # checks for secrets via rules (gitleaks.toml)
   - repo: https://github.com/zricethezav/gitleaks
-    rev: v8.15.0
+    rev: v8.15.3
     hooks:
       - id: gitleaks
   - repo: https://github.com/ambv/black
-    rev: 22.10.0
+    rev: 23.1.0
     hooks:
     - id: black
-  - repo: https://gitlab.com/pycqa/flake8
-    rev: 3.9.2
+  - repo: https://github.com/PyCQA/flake8
+    rev: 6.0.0
     hooks:
     - id: flake8
   # - repo: https://github.com/timothycrosley/isort
@@ -19,7 +19,7 @@ repos:
   #   hooks:
   #   - id: isort
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.3.0
+    rev: v4.4.0
     hooks:
     - id: check-yaml
     - id: check-added-large-files
