@@ -8,7 +8,7 @@
 set dotenv-load
 
 # set env var
-export APP      := `echo ${APP}`
+export APP      := `echo ${APP_NAME}`
 export CPU      := `echo ${CPU}`
 export IMAGE    := `echo ${IMAGE}`
 export MEM      := `echo ${MEM}`
@@ -36,6 +36,22 @@ docker-compose := if `command -v docker-compose; echo $?` == "0" {
 # [halp]     list available commands
 default:
     just --list
+
+# [deps]     Update dependencies
+update-deps:
+    #!/usr/bin/env bash
+    # set -euxo pipefail
+    find . -maxdepth 3 -name "pyproject.toml" -exec \
+        echo "[{}]" \; -exec \
+        poetry update --no-ansi --lock \;
+
+# [deps]     Export requirements.txt
+export-reqs: update-deps
+    #!/usr/bin/env bash
+    # set -euxo pipefail
+    find . -maxdepth 3 -name "pyproject.toml" -exec \
+        printf "%s\n\n" "[{}]" \; -exec \
+        poetry export --no-ansi --without-hashes --output requirements.txt \;
 
 # [git]      update git submodules
 sub:
