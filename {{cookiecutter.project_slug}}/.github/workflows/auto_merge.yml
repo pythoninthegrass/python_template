@@ -4,12 +4,8 @@
 name: auto_merge
 
 on: # pull_request, pull_request_target, push, workflow_dispatch
-  pull_request:
   pull_request_target:
   workflow_dispatch:
-  push:
-  release:
-    types: [published]
 
 permissions:
   pull-requests: write
