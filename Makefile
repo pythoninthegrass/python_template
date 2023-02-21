@@ -1,7 +1,7 @@
 # TODO: debug why it immediately crashes current terminal on macOS
 
 .DEFAULT_GOAL	:= help
-SHELL 			:= /bin/bash
+SHELL 			:= $(shell which bash)
 UNAME 			:= $(shell uname -s)
 
 GREEN  := $(shell tput -Txterm setaf 2)
@@ -17,6 +17,7 @@ all: check help homebrew just install xcode
 check:  ## verify running on macOS
 	@echo "Verifying macOS..."
 	$(shell [[ "${UNAME}" != "Darwin" ]] && echo "Not running on macOS"; exit 1)
+	@echo "Success!"
 
 xcode:  check ## install xcode command line tools
 	@echo "Installing Xcode command line tools..."
