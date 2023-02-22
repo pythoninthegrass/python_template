@@ -112,7 +112,7 @@ update-deps:
     # set -euxo pipefail
     find . -maxdepth 3 -name "pyproject.toml" -exec \
         echo "[{}]" \; -exec \
-        echo "Clearring pypi cache..." \; -exec \
+        echo "Clearing pypi cache..." \; -exec \
         poetry cache clear --all pypi --no-ansi \; -exec \
         poetry update --lock --no-ansi \;
 
