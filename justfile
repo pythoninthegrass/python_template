@@ -25,6 +25,12 @@ arch := `uname -m`
 # hostname
 host := `uname -n`
 
+# operating system
+os := `uname -s`
+
+# home directory
+home_dir := env_var('HOME')
+
 # docker-compose / docker compose
 # * https://docs.docker.com/compose/install/linux/#install-using-the-repository
 docker-compose := if `command -v docker-compose; echo $?` == "0" {
@@ -35,7 +41,70 @@ docker-compose := if `command -v docker-compose; echo $?` == "0" {
 
 # [halp]     list available commands
 default:
-    just --list
+	just --list
+
+# [init]     install dependencies, tooling, and virtual environment
+install:
+    #!/usr/bin/env bash
+    set -euxo pipefail
+
+    # TODO: QA
+    # dependencies
+    if [[ {{os}} == "Linux" ]]; then
+        . "/etc/os-release"
+        case $ID in
+            ubuntu|debian)
+                sudo apt update && sudo apt install -y \
+                    build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl \
+                    llvm libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
+                ;;
+            arch|endeavouros)
+                sudo pacman -S --noconfirm \
+                    base-devel openssl zlib bzip2 xz readline sqlite tk
+                ;;
+            fedora)
+                sudo dnf install -y \
+                    make gcc zlib-devel bzip2 bzip2-devel readline-devel \
+                    sqlite sqlite-devel openssl-devel xz xz-devel libffi-devel
+                ;;
+            centos)
+                sudo yum install -y \
+                    make gcc zlib-devel bzip2 bzip2-devel readline-devel \
+                    sqlite sqlite-devel openssl-devel xz xz-devel libffi-devel
+                ;;
+            *)
+                echo "Unsupported OS"
+                exit 1
+                ;;
+        esac
+    elif [[ {{os}} == "Darwin" ]]; then
+        xcode-select --install
+        [[ $(command -v brew >/dev/null 2>&1; echo $?) == "0" ]] || /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+        brew install gettext openssl readline sqlite3 xz zlib tcl-tk
+    elif [[ os() == "Windows"]]; then
+        echo "Windows is not supported"
+        exit 1
+    else
+        echo "Unsupported OS"
+        exit 1
+    fi
+
+    # install asdf
+    git clone https://github.com/asdf-vm/asdf.git "{{home_dir}}/.asdf" --branch v0.11.1
+    . "{{home_dir}}/.asdf/asdf.sh"
+
+    # install python w/asdf
+    asdf plugin-add python
+    asdf install python {{PY_VER}}
+
+    # install poetry
+    asdf plugin-add poetry https://github.com/asdf-community/asdf-poetry.git
+    asdf install poetry {{POETRY}}
+
+    # create virtual environment
+    poetry config virtualenvs.in-project true
+    poetry env use python
+    poetry install --no-root
 
 # [deps]     update dependencies
 update-deps:
