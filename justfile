@@ -44,7 +44,6 @@ docker-compose := if `command -v docker-compose; echo $?` == "0" {
 # [halp]     list available commands
 default:
 	just --list
-	@echo {{IMAGE}}
 
 # [init]     install dependencies, tooling, and virtual environment
 install args=CWD:
@@ -113,20 +112,22 @@ install args=CWD:
 update-deps args=CWD:
 	#!/usr/bin/env bash
 	# set -euxo pipefail
-	find . -maxdepth 3 -name "pyproject.toml" -exec \
+	args=$(realpath {{args}})
+	find "${args}" -maxdepth 3 -name "pyproject.toml" -exec \
 		echo "[{}]" \; -exec \
 		echo "Clearing pypi cache..." \; -exec \
-		poetry --directory {{args}} cache clear --all pypi --no-ansi \; -exec \
-		poetry --directory {{args}} update --lock --no-ansi \;
+		poetry --directory "${args}" cache clear --all pypi --no-ansi \; -exec \
+		poetry --directory "${args}" update --lock --no-ansi \;
 
 # [deps]     export requirements.txt
 export-reqs args=CWD: update-deps
 	#!/usr/bin/env bash
 	# set -euxo pipefail
-	find {{CWD}} -maxdepth 3 -name "pyproject.toml" -exec \
+	args=$(realpath {{args}})
+	find "${args}" -maxdepth 3 -name "pyproject.toml" -exec \
 		echo "[{}]" \; -exec \
 		echo "Exporting requirements.txt..." \; -exec \
-		poetry --directory {{args}} export --no-ansi --without-hashes --output requirements.txt \;
+		poetry --directory "${args}" export --no-ansi --without-hashes --output requirements.txt \;
 
 # [git]      update git submodules
 sub:
