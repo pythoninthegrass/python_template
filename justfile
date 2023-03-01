@@ -1,23 +1,25 @@
 # See https://just.systems/man/en
 
-# positional args
-# * NOTE: unable to reuse recipe name (e.g., start/stop); prefix recipes with `@`
-# set positional-arguments := true
-
 # load .env
 set dotenv-load
 
+# positional params
+set positional-arguments
+
 # set env var
-export APP      := `echo ${APP_NAME}`
-export CPU      := `echo ${CPU}`
-export IMAGE    := `echo ${IMAGE}`
-export MEM      := `echo ${MEM}`
-export NS       := `echo ${NS}`
-export PROF     := `echo ${PROF}`
-export SCRIPT   := "harden"
-export SHELL    := `echo ${SHELL}`
-export TAG      := `echo ${TAG}`
-export VERSION  := "latest"
+export APP      := `echo ${APP_NAME:-"python_template"}`
+export CPU      := `echo ${CPU:-"2"}`
+export CWD      := `echo $(pwd)`
+export IMAGE    := `echo "python3.10.9-slim-bullseye:latest"`
+export MEM      := `echo ${MEM:-"2048"}`
+export NS       := `echo ${NS:-"default"}`
+export POETRY   := `echo ${POETRY:-"1.3.2"}`
+export PROF     := `echo ${PROF:-"minikube"}`
+export PY_VER   := `echo ${PY_VER:-"3.10.9"}`
+export SCRIPT   := `echo ${SCRIPT:-"startup.sh"}`
+export SHELL    := `echo ${SHELL:-"/bin/bash"}`
+export TAG      := `echo ${TAG:-"latest"}`
+export VERSION  := `echo ${VERSION:-"latest"}`
 
 # x86_64/arm64
 arch := `uname -m`
@@ -42,118 +44,119 @@ docker-compose := if `command -v docker-compose; echo $?` == "0" {
 # [halp]     list available commands
 default:
 	just --list
+	@echo {{IMAGE}}
 
 # [init]     install dependencies, tooling, and virtual environment
-install:
-    #!/usr/bin/env bash
-    set -euxo pipefail
+install args=CWD:
+	#!/usr/bin/env bash
+	set -euxo pipefail
 
-    # TODO: QA
-    # dependencies
-    if [[ {{os}} == "Linux" ]]; then
-        . "/etc/os-release"
-        case $ID in
-            ubuntu|debian)
-                sudo apt update && sudo apt install -y \
-                    build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl \
-                    llvm libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
-                ;;
-            arch|endeavouros)
-                sudo pacman -S --noconfirm \
-                    base-devel openssl zlib bzip2 xz readline sqlite tk
-                ;;
-            fedora)
-                sudo dnf install -y \
-                    make gcc zlib-devel bzip2 bzip2-devel readline-devel \
-                    sqlite sqlite-devel openssl-devel xz xz-devel libffi-devel
-                ;;
-            centos)
-                sudo yum install -y \
-                    make gcc zlib-devel bzip2 bzip2-devel readline-devel \
-                    sqlite sqlite-devel openssl-devel xz xz-devel libffi-devel
-                ;;
-            *)
-                echo "Unsupported OS"
-                exit 1
-                ;;
-        esac
-    elif [[ {{os}} == "Darwin" ]]; then
-        xcode-select --install
-        [[ $(command -v brew >/dev/null 2>&1; echo $?) == "0" ]] || /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-        brew install gettext openssl readline sqlite3 xz zlib tcl-tk
-    elif [[ os() == "Windows"]]; then
-        echo "Windows is not supported"
-        exit 1
-    else
-        echo "Unsupported OS"
-        exit 1
-    fi
+	# TODO: QA
+	# dependencies
+	if [[ {{os}} == "Linux" ]]; then
+		. "/etc/os-release"
+		case $ID in
+			ubuntu|debian)
+				sudo apt update && sudo apt install -y \
+					build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl \
+					llvm libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
+				;;
+			arch|endeavouros)
+				sudo pacman -S --noconfirm \
+					base-devel openssl zlib bzip2 xz readline sqlite tk
+				;;
+			fedora)
+				sudo dnf install -y \
+					make gcc zlib-devel bzip2 bzip2-devel readline-devel \
+					sqlite sqlite-devel openssl-devel xz xz-devel libffi-devel
+				;;
+			centos)
+				sudo yum install -y \
+					make gcc zlib-devel bzip2 bzip2-devel readline-devel \
+					sqlite sqlite-devel openssl-devel xz xz-devel libffi-devel
+				;;
+			*)
+				echo "Unsupported OS"
+				exit 1
+				;;
+		esac
+	elif [[ {{os}} == "Darwin" ]]; then
+		xcode-select --install
+		[[ $(command -v brew >/dev/null 2>&1; echo $?) == "0" ]] || /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+		brew install gettext openssl readline sqlite3 xz zlib tcl-tk
+	elif [[ os() == "Windows"]]; then
+		echo "Windows is not supported"
+		exit 1
+	else
+		echo "Unsupported OS"
+		exit 1
+	fi
 
-    # install asdf
-    git clone https://github.com/asdf-vm/asdf.git "{{home_dir}}/.asdf" --branch v0.11.1
-    . "{{home_dir}}/.asdf/asdf.sh"
+	# install asdf
+	git clone https://github.com/asdf-vm/asdf.git "{{home_dir}}/.asdf" --branch v0.11.1
+	. "{{home_dir}}/.asdf/asdf.sh"
 
-    # install python w/asdf
-    asdf plugin-add python
-    asdf install python {{PY_VER}}
+	# install python w/asdf
+	asdf plugin-add python
+	asdf install python {{PY_VER}}
 
-    # install poetry
-    asdf plugin-add poetry https://github.com/asdf-community/asdf-poetry.git
-    asdf install poetry {{POETRY}}
+	# install poetry
+	asdf plugin-add poetry https://github.com/asdf-community/asdf-poetry.git
+	asdf install poetry {{POETRY}}
 
-    # create virtual environment
-    poetry config virtualenvs.in-project true
-    poetry env use python
-    poetry install --no-root
+	# create virtual environment
+	poetry config virtualenvs.in-project true
+	poetry env use python
+	poetry --directory {{args}} install --no-root
 
 # [deps]     update dependencies
-update-deps:
-    #!/usr/bin/env bash
-    # set -euxo pipefail
-    find . -maxdepth 3 -name "pyproject.toml" -exec \
-        echo "[{}]" \; -exec \
-        echo "Clearing pypi cache..." \; -exec \
-        poetry cache clear --all pypi --no-ansi \; -exec \
-        poetry update --lock --no-ansi \;
+update-deps args=CWD:
+	#!/usr/bin/env bash
+	# set -euxo pipefail
+	find . -maxdepth 3 -name "pyproject.toml" -exec \
+		echo "[{}]" \; -exec \
+		echo "Clearing pypi cache..." \; -exec \
+		poetry --directory {{args}} cache clear --all pypi --no-ansi \; -exec \
+		poetry --directory {{args}} update --lock --no-ansi \;
 
 # [deps]     export requirements.txt
-export-reqs: update-deps
-    #!/usr/bin/env bash
-    # set -euxo pipefail
-    find . -maxdepth 3 -name "pyproject.toml" -exec \
-        echo "[{}]" \; -exec \
-        echo "Exporting requirements.txt..." \; -exec \
-        poetry export --no-ansi --without-hashes --output requirements.txt \;
+export-reqs args=CWD: update-deps
+	#!/usr/bin/env bash
+	# set -euxo pipefail
+	find {{CWD}} -maxdepth 3 -name "pyproject.toml" -exec \
+		echo "[{}]" \; -exec \
+		echo "Exporting requirements.txt..." \; -exec \
+		poetry --directory {{args}} export --no-ansi --without-hashes --output requirements.txt \;
 
 # [git]      update git submodules
 sub:
-    @echo "To add a submodule:"
-    @echo "git submodule add https://github.com/username/repo.git path/to/submodule"
-    @echo "Updating all submodules..."
-    git submodule update --init --recursive && git pull --recurse-submodules -j8
+	@echo "To add a submodule:"
+	@echo "git submodule add https://github.com/username/repo.git path/to/submodule"
+	@echo "Updating all submodules..."
+	git submodule update --init --recursive && git pull --recurse-submodules -j8
 
 # [git]      update pre-commit hooks
 pre-commit:
-    @echo "To install pre-commit hooks:"
-    @echo "pre-commit install -f"
-    @echo "Updating pre-commit hooks..."
-    pre-commit autoupdate
+	@echo "To install pre-commit hooks:"
+	@echo "pre-commit install -f"
+	@echo "Updating pre-commit hooks..."
+	pre-commit autoupdate
 
 # [minikube] start minikube + tilt
 start-minikube:
-    #!/usr/bin/env bash
-    set -euxo pipefail
-    if [[ $(minikube status -f \{\{\.Host\}\}) = 'Stopped' ]]; then
-        minikube start --memory={{MEM}} --cpus={{CPU}} -p {{PROF}}
-    fi
+	#!/usr/bin/env bash
+	set -euxo pipefail
+	if [[ $(minikube status -f \{\{\.Host\}\}) = 'Stopped' ]]; then
+		minikube start --memory={{MEM}} --cpus={{CPU}} -p {{PROF}}
+	fi
 
 # [tilt]     deploy docker image to local k8s cluster
 tilt-up: start-minikube
-    tilt up
+	tilt up
 
 # [minikube] stop minikube
 stop-minikube:
-    minikube stop -p {{PROF}}
+	minikube stop -p {{PROF}}
 
 # [check]    lint sh script
 checkbash:
@@ -178,7 +181,7 @@ build: checkbash
 
 # [scripts]  run script in working directory
 sh args=SCRIPT:
-    sh {{args}}
+	sh {{args}}
 
 # [docker]   intel build
 buildx: checkbash
