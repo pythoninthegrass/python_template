@@ -135,7 +135,7 @@ sub:
 # [git]      update pre-commit hooks
 pre-commit:
     @echo "To install pre-commit hooks:"
-    @echo "pre-commit install"
+    @echo "pre-commit install -f"
     @echo "Updating pre-commit hooks..."
     pre-commit autoupdate
 
