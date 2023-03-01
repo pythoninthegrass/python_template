@@ -176,6 +176,10 @@ build: checkbash
 		docker build -f Dockerfile --progress=plain -t {{APP}} .
 	fi
 
+# [scripts]  run script in working directory
+sh args=SCRIPT:
+    sh {{args}}
+
 # [docker]   intel build
 buildx: checkbash
 	docker buildx build -f Dockerfile --progress=plain -t ${TAG} --build-arg CHIPSET_ARCH=x86_64-linux-gnu --load .
