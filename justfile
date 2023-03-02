@@ -170,23 +170,48 @@ checkbash:
 		echo "No bashisms found"
 	fi
 
+# TODO: see below @buildx
 # [docker]   build locally
 build: checkbash
 	#!/usr/bin/env bash
 	set -euxo pipefail
+	# https://stackoverflow.com/a/74277737
+	BUILD_ARGS=$(for i in $(cat .env); do
+		if [[ $i = "APP_NAME="* ]]; then
+			continue
+		fi
+		out+="--build-arg $i "
+		done
+		echo $out; out=""
+	)
+
 	if [[ {{arch}} == "arm64" ]]; then
-		docker build -f Dockerfile -t {{APP}} --build-arg CHIPSET_ARCH=aarch64-linux-gnu .
+		docker build -f Dockerfile -t {{APP}} --build-arg CHIPSET_ARCH=aarch64-linux-gnu ${BUILD_ARGS} .
 	else
-		docker build -f Dockerfile --progress=plain -t {{APP}} .
+		docker build -f Dockerfile --progress=plain -t {{APP}} ${BUILD_ARGS} .
 	fi
 
 # [scripts]  run script in working directory
 sh args=SCRIPT:
 	sh {{args}}
 
+# TODO: QA and possibly exclude ${TAG} in conditional
+# ! may have undesirable behavior for non-build env vars; possibly create new one called build.env
 # [docker]   intel build
 buildx: checkbash
-	docker buildx build -f Dockerfile --progress=plain -t ${TAG} --build-arg CHIPSET_ARCH=x86_64-linux-gnu --load .
+	#!/usr/bin/env bash
+	set -euxo pipefail
+	# https://stackoverflow.com/a/74277737
+	BUILD_ARGS=$(for i in $(cat .env); do
+		if [[ $i = "APP_NAME="* ]]; then
+			continue
+		fi
+		out+="--build-arg $i "
+		done
+		echo $out; out=""
+	)
+
+	docker buildx build -f Dockerfile --progress=plain -t {{TAG}} --build-arg CHIPSET_ARCH=x86_64-linux-gnu ${BUILD_ARGS} --load .
 
 # [docker]   arm build w/docker-compose defaults
 build-clean: checkbash
