@@ -88,7 +88,7 @@ Automated CI is implemented via GitHub Actions to build and push this repository
         * Expand usage and syntax
     * [Argo](https://argoproj.github.io/)
     * [Flux](https://fluxcd.io/)
-    * [DevSpace](https://www.devspace.sh/)
+    * ~~[DevSpace](https://www.devspace.sh/)~~ Covered [tilt](devops/tilt/Tiltfile) instead
   * [Ansible](https://realpython.com/automating-django-deployments-with-fabric-and-ansible/)
   * [Heroku](https://realpython.com/courses/deploying-a-flask-application-using-heroku/)
   * [justfile](https://just.systems/man/en/)
