@@ -1,0 +1,28 @@
+# syntax = docker/dockerfile:1.4
+
+ARG PYTHON_VERSION=3.10.9
+
+FROM python:${PYTHON_VERSION}-slim-bullseye
+
+ENV USER_NAME=${USER_NAME:-appuser}
+
+# TODO: debug `<<-` heredoc operator
+RUN <<EOF
+#!/usr/bin/env python
+import os
+
+user_name = os.getenv("USER_NAME", "")
+
+try:
+    if user_name != "":
+        print(f"Hello {user_name}!")
+    else:
+        print("Hello world!")
+except NameError as e:
+    pass
+finally:
+    print("Nice to meet you!")
+
+EOF
+
+# ENTRYPOINT [ "/bin/bash" ]
