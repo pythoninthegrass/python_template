@@ -1,4 +1,4 @@
-# syntax = docker/dockerfile:1.4
+# syntax = docker/dockerfile:1.5
 
 ARG PYTHON_VERSION=3.10.9
 
@@ -22,7 +22,6 @@ except NameError as e:
     pass
 finally:
     print("Nice to meet you!")
-
 EOF
 
 # ENTRYPOINT [ "/bin/bash" ]
