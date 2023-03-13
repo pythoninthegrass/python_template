@@ -7,6 +7,7 @@ FROM python:${PYTHON_VERSION}-slim-bullseye
 ENV USER_NAME=${USER_NAME:-appuser}
 
 # TODO: debug `<<-` heredoc operator
+# ! technically works, but includes leading tabs O.o
 RUN <<EOF
 #!/usr/bin/env python
 import os
