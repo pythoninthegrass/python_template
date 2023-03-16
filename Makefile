@@ -1,5 +1,3 @@
-# TODO: debug why it immediately crashes current terminal on macOS
-
 .DEFAULT_GOAL	:= help
 SHELL 			:= $(shell which bash)
 UNAME 			:= $(shell uname -s)
