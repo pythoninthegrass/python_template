@@ -4,7 +4,7 @@ services:
   app:
     container_name: hello-cont
     platform: linux/amd64                   # linux/amd64 / linux/arm64/v8
-    image: python:3.10.9-slim-bullseye
+    image: python:3.10.10-slim-bullseye
     # tty: fals                             # false for `entrypoint` in Dockerfile
     # stdin_open: false                     # false for `entrypoint` in Dockerfile
     build:
