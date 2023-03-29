@@ -1,4 +1,4 @@
-FROM node:14
+FROM node:14.21.3-bullseye-slim
 
 # development/production environment
 # * NOTE: `nodemon` needs to be installed under `devDependencies` in package.json
