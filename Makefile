@@ -1,4 +1,5 @@
 .DEFAULT_GOAL	:= help
+# TODO: test oneshell target (https://www.gnu.org/software/make/manual/html_node/One-Shell.html)
 .ONESHELL:
 export SHELL 	:= $(shell which sh)
 # .SHELLFLAGS 	:= -eu -o pipefail -c
@@ -25,6 +26,14 @@ endif
 
 ifeq ($(shell command -v pip >/dev/null 2>&1; echo $$?), 0)
 	export PIP := $(shell which pip3)
+endif
+
+ifeq ($(shell command -v ansible >/dev/null 2>&1; echo $$?), 0)
+	export ANSIBLE := $(shell which ansible)
+endif
+
+ifeq ($(shell command -v ansible-lint >/dev/null 2>&1; echo $$?), 0)
+	export ANSIBLE_LINT := $(shell which ansible-lint)
 endif
 
 ifneq (,$(wildcard /etc/os-release))
@@ -107,7 +116,7 @@ pip: python ## install pip
 
 ansible: pip ## install ansible
 	@echo "Installing Ansible..."
-	if [ "${UNAME}" == "Darwin" ]; then \
+	if [ "${UNAME}" == "Darwin" ] && [ -z "${ANSIBLE}" ] || [ -z "${ANSIBLE_LINT}" ]; then \
 		brew install ansible ansible-lint; \
 	else \
 		python3 -m pip install ansible ansible-lint; \
