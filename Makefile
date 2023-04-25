@@ -28,8 +28,16 @@ ifeq ($(shell command -v pip >/dev/null 2>&1; echo $$?), 0)
 	export PIP := $(shell which pip3)
 endif
 
+ifeq ($(shell command -v asdf >/dev/null 2>&1; echo $$?), 0)
+	export ASDF := $(shell which asdf)
+endif
+
 ifeq ($(shell command -v ansible >/dev/null 2>&1; echo $$?), 0)
 	export ANSIBLE := $(shell which ansible)
+endif
+
+ifeq ($(shell command -v ansible-galaxy >/dev/null 2>&1; echo $$?), 0)
+	export ANSIBLE_GALAXY := $(shell which ansible-galaxy)
 endif
 
 ifeq ($(shell command -v ansible-lint >/dev/null 2>&1; echo $$?), 0)
@@ -126,22 +134,29 @@ pip: python ## install pip
 	fi \
 
 ansible: pip ## install ansible
-	@echo "Installing Ansible..."
-	if [ "${UNAME}" = "Darwin" ]; then \
-		brew install ansible ansible-lint; \
-	else \
-		python3 -m pip install ansible ansible-lint; \
-		sudo touch /var/log/ansible.log; \
-		sudo chmod 666 /var/log/ansible.log; \
-	fi
+	if [ -z ${ANSIBLE} ]; then \
+		echo "Installing Ansible..."; \
+		if [ "${UNAME}" = "Darwin" ]; then \
+			brew install ansible ansible-lint; \
+		else \
+			python3 -m pip install ansible ansible-lint; \
+			sudo touch /var/log/ansible.log; \
+			sudo chmod 666 /var/log/ansible.log; \
+		fi
+	fi; \
 
 ansible-galaxy: ansible git ## install ansible galaxy roles
 	@echo "Installing Ansible Galaxy roles..."
-	curl https://raw.githubusercontent.com/pythoninthegrass/framework/master/requirements.yml -o /tmp/requirements.yml; \
+	if [ ! -f /tmp/requirements.yml ]; then \
+		curl https://raw.githubusercontent.com/pythoninthegrass/framework/master/requirements.yml -o /tmp/requirements.yml; \
+	fi; \
 	if [ "${UNAME}" = "Darwin" ]; then \
 		ansible-galaxy install -r /tmp/requirements.yml; \
 	elif [ "${UNAME}" = "Linux" ]; then \
-		~/.local/bin/ansible-galaxy install -r /tmp/requirements.yml; \
+		if [ ! -z "${ASDF}" ]; then \
+			asdf reshim python; \
+		fi; \
+		"${ANSIBLE_GALAXY}" install -r /tmp/requirements.yml; \
 	fi
 
 # TODO: "/usr/bin/sh: 3: [: =: unexpected operator" `ne` and `!=` operators don't work (╯°□°）╯︵ ┻━┻
