@@ -44,6 +44,14 @@ ifeq ($(shell command -v ansible-lint >/dev/null 2>&1; echo $$?), 0)
 	export ANSIBLE_LINT := $(shell which ansible-lint)
 endif
 
+ifeq ($(shell command -v just >/dev/null 2>&1; echo $$?), 0)
+	export JUST := $(shell which just)
+endif
+
+ifeq ($(shell command -v wget >/dev/null 2>&1; echo $$?), 0)
+	export WGET := $(shell which wget)
+endif
+
 ifneq (,$(wildcard /etc/os-release))
 	include /etc/os-release
 endif
@@ -74,15 +82,23 @@ sanity-check:  ## output environment variables
 	@echo "PIP: ${PIP}"
 
 xcode: ## install xcode command line tools
-	if [ "${UNAME}" = "Darwin" ]; then \
+	if [ "${UNAME}" = "Darwin" ] && [ "${XCODE}" -ne 1 ]; then \
 		echo "Installing Xcode command line tools..."; \
-		[ "${XCODE}" -ne 1 ] && xcode-select --install; \
+		xcode-select --install; \
+	elif [ "${UNAME}" = "Darwin" ] && [ "${XCODE}" -eq 1 ]; then \
+		echo "xcode already installed."; \
+	else \
+		echo "xcode not available on macOS."; \
 	fi
 
 homebrew: ## install homebrew
 	if [ "${UNAME}" = "Darwin" ] && [ -z "${BREW}" ]; then \
 		echo "Installing Homebrew..."; \
 		/bin/bash -c "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"; \
+	elif [ "${UNAME}" = "Darwin" ] && [ ! -z "${BREW}" ]; then \
+		echo "Homebrew already installed."; \
+	else \
+		echo "brew not available on macOS."; \
 	fi
 
 update: ## update package manager
@@ -107,6 +123,8 @@ git: ## install git
 		sudo dnf install -y git; \
 	elif [ "${ID}" = "arch" ]; then \
 		yes | sudo pacman -S git; \
+	else \
+		echo "git already installed."; \
 	fi
 
 python: ## install python
@@ -119,6 +137,8 @@ python: ## install python
 		sudo dnf install -y python3; \
 	elif [ "${ID}" = "arch" ]; then \
 		yes | sudo pacman -S python; \
+	else \
+		echo "python already installed."; \
 	fi
 
 pip: python ## install pip
@@ -131,7 +151,9 @@ pip: python ## install pip
 		sudo dnf install -y python3-pip; \
 	elif [ "${ID}" = "arch" ] && [ -z "${PIP}" ]; then \
 		yes | sudo pacman -S python-pip; \
-	fi \
+	else \
+		echo "pip already installed."; \
+	fi
 
 ansible: pip ## install ansible
 	if [ -z ${ANSIBLE} ]; then \
@@ -142,8 +164,10 @@ ansible: pip ## install ansible
 			python3 -m pip install ansible ansible-lint; \
 			sudo touch /var/log/ansible.log; \
 			sudo chmod 666 /var/log/ansible.log; \
-		fi
-	fi; \
+		fi; \
+	else \
+		echo "ansible already installed."; \
+	fi
 
 ansible-galaxy: ansible git ## install ansible galaxy roles
 	@echo "Installing Ansible Galaxy roles..."
@@ -159,25 +183,30 @@ ansible-galaxy: ansible git ## install ansible galaxy roles
 		"${ANSIBLE_GALAXY}" install -r /tmp/requirements.yml; \
 	fi
 
-# TODO: "/usr/bin/sh: 3: [: =: unexpected operator" `ne` and `!=` operators don't work (╯°□°）╯︵ ┻━┻
 mpr: ## install the makedeb package repo (mpr) for prebuilt packages
 	@echo "Installing the makedeb package repo (mpr)..."
 	if [ "${ID}" = "ubuntu" ]; then \
-		[ $(command -v wget >/dev/null 2>&1; echo $?) = 0 ] || sudo apt install -y wget; \
+		[ -z "${WGET}" ] || sudo apt install -y wget; \
 		wget -qO - 'https://proget.makedeb.org/debian-feeds/prebuilt-mpr.pub' | gpg --dearmor | sudo tee /usr/share/keyrings/prebuilt-mpr-archive-keyring.gpg 1> /dev/null; \
 		echo "deb [arch=amd64 signed-by=/usr/share/keyrings/prebuilt-mpr-archive-keyring.gpg] https://proget.makedeb.org prebuilt-mpr $(lsb_release -cs)" | sudo tee /etc/apt/sources.list.d/prebuilt-mpr.list; \
-	fi; \
+	else \
+		echo "mpr not available on ${UNAME}."; \
+	fi
 
 just: mpr update## install justfile
-	@echo "Installing Justfile..."
-	if [ "${UNAME}" = "Darwin" ]; then \
-		brew install just; \
-	elif [ "${ID}" = "ubuntu" ]; then \
-		sudo apt install -y just; \
-	elif [ "${ID}" = "fedora" ]; then \
-		sudo dnf install -y just; \
-	elif [ "${ID}" = "arch" ]; then \
-		yes | sudo pacman -S just; \
+	if [ -z "${WGET}" ] && [ -z "${JUST}" ]; then \
+		echo "Installing Justfile..."; \
+		if [ "${UNAME}" = "Darwin" ]; then \
+			brew install just; \
+		elif [ "${ID}" = "ubuntu" ]; then \
+			sudo apt install -y just; \
+		elif [ "${ID}" = "fedora" ]; then \
+			sudo dnf install -y just; \
+		elif [ "${ID}" = "arch" ]; then \
+			yes | sudo pacman -S just; \
+		fi; \
+	else \
+		echo "just already installed."; \
 	fi
 
 install: sanity-check update xcode homebrew git python pip ansible ansible-galaxy mpr just  ## install all dependencies
