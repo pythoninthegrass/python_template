@@ -1,0 +1,14 @@
+ARG POSTGRES_VER=${POSTGRES_VER:-latest}
+
+FROM postgres:${POSTGRES_VER}
+
+ENV POSTGRES_USER=${POSTGRES_USER:-postgres}
+ENV POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-mysecretpassword}
+ENV POSTGRES_DB=${POSTGRES_DB:-postgres}
+ENV POSTGRES_HOST=${POSTGRES_HOST:-localhost}
+ENV POSTGRES_PORT=${POSTGRES_PORT:-5432}
+
+EXPOSE ${POSTGRES_PORT}
+
+# ENTRYPOINT [ "/bin/bash" ]
+# CMD [ "postgres", "-c", "listen_addresses='*'" ]
