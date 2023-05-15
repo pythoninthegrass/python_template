@@ -1,5 +1,6 @@
 fail_fast: true
 
+# TODO: ruff
 repos:
   # checks for secrets via rules (gitleaks.toml)
   - repo: https://github.com/zricethezav/gitleaks
@@ -10,10 +11,10 @@ repos:
     rev: 23.1.0
     hooks:
     - id: black
-  - repo: https://github.com/PyCQA/flake8
-    rev: 6.0.0
-    hooks:
-    - id: flake8
+  # - repo: https://github.com/PyCQA/flake8
+  #   rev: 6.0.0
+  #   hooks:
+  #   - id: flake8
   # - repo: https://github.com/timothycrosley/isort
   #   rev: 5.10.1
   #   hooks:
