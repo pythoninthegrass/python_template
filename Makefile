@@ -75,6 +75,7 @@ sanity-check:  ## output environment variables
 	@echo "UNAME: ${UNAME}"
 	@echo "SHELL: ${SHELL}"
 	@echo "ID: ${ID}"
+	@echo "ID_LIKE: ${ID_LIKE}"
 	@echo "XCODE: ${XCODE}"
 	@echo "BREW: ${BREW}"
 	@echo "HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK: ${HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK}"
@@ -105,7 +106,7 @@ update: ## update package manager
 	@echo "Updating package manager..."
 	if [ "${UNAME}" = "Darwin" ] && [ "$(command -v brew >/dev/null 2>&1; echo $?)" -eq 0 ]; then \
 		brew update; \
-	elif [ "${ID}" = "ubuntu" ]; then \
+	elif [ "${ID}" = "ubuntu" ] || [ "${ID_LIKE}" = "debian" ]; then \
 		sudo apt update; \
 	elif [ "${ID}" = "fedora" ]; then \
 		sudo dnf update; \
@@ -117,7 +118,7 @@ git: ## install git
 	@echo "Installing Git..."
 	if [ "${UNAME}" = "Darwin" ] && [ "$(command -v brew >/dev/null 2>&1; echo $?)" -eq 0 ]; then \
 		brew install git; \
-	elif [ "${ID}" = "ubuntu" ]; then \
+	elif [ "${ID}" = "ubuntu" ] || [ "${ID_LIKE}" = "debian" ]; then \
 		sudo apt install -y git; \
 	elif [ "${ID}" = "fedora" ]; then \
 		sudo dnf install -y git; \
@@ -131,7 +132,7 @@ python: ## install python
 	@echo "Installing Python..."
 	if [ "${UNAME}" = "Darwin" ] && [ -z "${PYTHON}" ]; then \
 		brew install python; \
-	elif [ "${ID}" = "ubuntu" ]; then \
+	elif [ "${ID}" = "ubuntu" ] || [ "${ID_LIKE}" = "debian" ]; then \
 		sudo apt install -y python3; \
 	elif [ "${ID}" = "fedora" ]; then \
 		sudo dnf install -y python3; \
@@ -145,7 +146,7 @@ pip: python ## install pip
 	@echo "Installing Pip..."
 	if [ "${UNAME}" = "Darwin" ] && [ -z "${PYTHON})" ]; then \
 		brew install python; \
-	elif [ "${ID}" = "ubuntu" ] && [ -z "${PIP}" ]; then \
+	elif [ "${ID}" = "ubuntu" ] || [ "${ID_LIKE}" = "debian" ] && [ -z "${PIP}" ]; then \
 		sudo apt install -y python3-pip; \
 	elif [ "${ID}" = "fedora" ] && [ -z "${PIP}" ]; then \
 		sudo dnf install -y python3-pip; \
@@ -183,9 +184,10 @@ ansible-galaxy: ansible git ## install ansible galaxy roles
 		"${ANSIBLE_GALAXY}" install -r /tmp/requirements.yml; \
 	fi
 
+# TODO: QA @ kali
 mpr: ## install the makedeb package repo (mpr) for prebuilt packages
 	@echo "Installing the makedeb package repo (mpr)..."
-	if [ "${ID}" = "ubuntu" ]; then \
+	if [ "${ID}" = "ubuntu" ] || [ "${ID_LIKE}" = "debian" ]; then \
 		[ -z "${WGET}" ] || sudo apt install -y wget; \
 		wget -qO - 'https://proget.makedeb.org/debian-feeds/prebuilt-mpr.pub' | gpg --dearmor | sudo tee /usr/share/keyrings/prebuilt-mpr-archive-keyring.gpg 1> /dev/null; \
 		echo "deb [arch=amd64 signed-by=/usr/share/keyrings/prebuilt-mpr-archive-keyring.gpg] https://proget.makedeb.org prebuilt-mpr $(lsb_release -cs)" | sudo tee /etc/apt/sources.list.d/prebuilt-mpr.list; \
@@ -193,12 +195,12 @@ mpr: ## install the makedeb package repo (mpr) for prebuilt packages
 		echo "mpr not available on ${UNAME}."; \
 	fi
 
-just: mpr update## install justfile
+just: mpr update ## install justfile
 	if [ -z "${WGET}" ] && [ -z "${JUST}" ]; then \
 		echo "Installing Justfile..."; \
 		if [ "${UNAME}" = "Darwin" ]; then \
 			brew install just; \
-		elif [ "${ID}" = "ubuntu" ]; then \
+		elif [ "${ID}" = "ubuntu" ] || [ "${ID_LIKE}" = "debian" ]; then \
 			sudo apt install -y just; \
 		elif [ "${ID}" = "fedora" ]; then \
 			sudo dnf install -y just; \
@@ -213,7 +215,7 @@ tldr: ## install tldr
 	@echo "Installing Pip..."
 	if [ "${UNAME}" = "Darwin" ] && [ -z "${PYTHON})" ]; then \
 		brew install tldr; \
-	elif [ "${ID}" = "ubuntu" ] && [ -z "${PIP}" ]; then \
+	elif [ "${ID}" = "ubuntu" ] || [ "${ID_LIKE}" = "debian" ] && [ -z "${PIP}" ]; then \
 		sudo apt install -y tldr-py; \
 	elif [ "${ID}" = "fedora" ] && [ -z "${PIP}" ]; then \
 		sudo dnf install -y tldr; \
