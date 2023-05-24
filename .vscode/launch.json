@@ -84,5 +84,6 @@
             ],
             // "runtimeExecutable": "${env:HOME}/.n/bin/node"
         }
-    ]
+    ],
+    "ansible.python.interpreterPath": "${workspaceFolder}/.venv/bin/python"
 }

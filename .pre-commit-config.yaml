@@ -2,15 +2,21 @@ fail_fast: true
 
 # TODO: ruff
 repos:
-  # checks for secrets via rules (gitleaks.toml)
+   # checks for secrets via rules (gitleaks.toml)
   - repo: https://github.com/zricethezav/gitleaks
-    rev: v8.15.3
+    rev: v8.16.3
     hooks:
       - id: gitleaks
-  - repo: https://github.com/ambv/black
-    rev: 23.1.0
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    # Ruff version.
+    rev: v0.0.269
     hooks:
-    - id: black
+      - id: ruff
+        args: [--fix, --exit-non-zero-on-fix]
+  # - repo: https://github.com/ambv/black
+  #   rev: 23.1.0
+  #   hooks:
+  #   - id: black
   # - repo: https://github.com/PyCQA/flake8
   #   rev: 6.0.0
   #   hooks:
