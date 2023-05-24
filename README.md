@@ -4,9 +4,11 @@
 <!-- <img src="https://user-images.githubusercontent.com/4097471/144654508-823c6e31-5e10-404c-9f9f-0d6b9d6ce617.jpg" width="300"> -->
 
 ## Summary
-Oftentimes the initial setup of a Python repo can take a few minutes to a couple hours.
-By laying the foundation to rapidly implement an idea, can focus on the good bits instead of
+Oftentimes the initial setup of a Python repo can take a few minutes to a couple hours. By laying the foundation to rapidly implement an idea, can focus on the good bits instead of
 DevOps drudgery.
+
+## Star History
+[![Star History Chart](https://api.star-history.com/svg?repos=pythoninthegrass/python_template&type=Date)](https://star-history.com/#pythoninthegrass/python_template&Date)
 
 ### Caveat Emptor
 Very little of this gets tested on Windows hosts. Windows Subsystem for Linux (WSL) is used where necessary with the default Ubuntu LTS install. Moved bulk of document to the [markdown](markdown/) directory to opt-in vs. opt-out of documentation.
