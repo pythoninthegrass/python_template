@@ -6,7 +6,7 @@ authors = ["pythoninthegrass <4097471+pythoninthegrass@users.noreply.github.com>
 
 [tool.poetry.dependencies]
 python = "^3.10"
-requests = "^2.27.1"
+requests = "^2.31.0"
 bs4 = "^0.0.1"
 pandas = "^1.4.0"
 playwright = "^1.18.1"
