@@ -65,7 +65,7 @@ RESET  := $(shell tput -Txterm sgr0)
 
 # targets
 .PHONY: all
-all: ansible ansible-galaxy sanity-check git help homebrew just install mpr update xcode
+all: ansible ansible-galaxy sanity-check git help homebrew just install mpr tldr update xcode
 
 # * cf. `distrobox create --name i-use-arch-btw --image archlinux:latest && distrobox enter i-use-arch-btw`
 # * || `distrobox create --name debby --image debian:stable && distrobox enter debby`
@@ -209,7 +209,21 @@ just: mpr update## install justfile
 		echo "just already installed."; \
 	fi
 
-install: sanity-check update xcode homebrew git python pip ansible ansible-galaxy mpr just  ## install all dependencies
+tldr: ## install tldr
+	@echo "Installing Pip..."
+	if [ "${UNAME}" = "Darwin" ] && [ -z "${PYTHON})" ]; then \
+		brew install tldr; \
+	elif [ "${ID}" = "ubuntu" ] && [ -z "${PIP}" ]; then \
+		sudo apt install -y tldr-py; \
+	elif [ "${ID}" = "fedora" ] && [ -z "${PIP}" ]; then \
+		sudo dnf install -y tldr; \
+	elif [ "${ID}" = "arch" ] && [ -z "${PIP}" ]; then \
+		yes | sudo pacman -S tldr; \
+	else \
+		echo "tldr already installed."; \
+	fi
+
+install: sanity-check update xcode homebrew git python pip ansible ansible-galaxy mpr just tldr  ## install all dependencies
 
 help: ## show this help
 	@echo ''
