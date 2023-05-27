@@ -1,6 +1,5 @@
 fail_fast: true
 
-# TODO: ruff
 repos:
    # checks for secrets via rules (gitleaks.toml)
   - repo: https://github.com/zricethezav/gitleaks
@@ -9,7 +8,7 @@ repos:
       - id: gitleaks
   - repo: https://github.com/astral-sh/ruff-pre-commit
     # Ruff version.
-    rev: v0.0.269
+    rev: v0.0.270
     hooks:
       - id: ruff
         args: [--fix, --exit-non-zero-on-fix]
