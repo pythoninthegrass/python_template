@@ -48,7 +48,6 @@ repos:
     - id: end-of-file-fixer
     - id: fix-byte-order-marker
     - id: mixed-line-ending
-    - id: name-tests-test
     - id: pretty-format-json
       # https://pre-commit.com/#regular-expressions
       exclude: |
