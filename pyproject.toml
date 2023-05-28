@@ -44,7 +44,7 @@ ruff = "^0.0.269"
 select = ["E", "F"]
 ignore = []
 # Skip unused variable rules
-extend-ignore = ["D203", "E203", "E251", "E266", "E302", "E305", "E401", "E402", "E501", "F401", "F403", "W503"]
+extend-ignore = ["D203", "E203", "E251", "E266", "E401", "E402", "E501", "F401", "F403", "F405"]
 
 # Allow autofix for all enabled rules (when `--fix`) is provided.
 fixable = ["A", "B", "C", "D", "E", "F", "G", "I", "N", "Q", "S", "T", "W", "ANN", "ARG", "BLE", "COM", "DJ", "DTZ", "EM", "ERA", "EXE", "FBT", "ICN", "INP", "ISC", "NPY", "PD", "PGH", "PIE", "PL", "PT", "PTH", "PYI", "RET", "RSE", "RUF", "SIM", "SLF", "TCH", "TID", "TRY", "UP", "YTT"]
@@ -85,10 +85,6 @@ dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
 
 # Assume Python 3.11.
 target-version = "py311"
-
-[tool.ruff.isort]
-atomic = true
-skip_gitignore = true
 
 [tool.ruff.mccabe]
 # Unlike Flake8, default to a complexity level of 10.
