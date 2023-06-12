@@ -21,10 +21,10 @@ cwd = Path.cwd()
 cwd_bn = cwd.name
 
 # add './' prefix to cwd_bn
-rel = "./" + cwd_bn
+rel = f"./{cwd_bn}"
 
 # add 'CWD=' prefix to rel
-cwd_str = "CWD=" + rel
+cwd_str = f"CWD={rel}"
 
 # call git via subprocess to find name of repo
 abs = subprocess.check_output(["git", "rev-parse", "--show-toplevel"]).decode("utf-8").strip()
