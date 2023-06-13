@@ -44,10 +44,10 @@ WSL allows Windows users to run Linux (Unix) [locally at a system-level](https:/
         [user]
         default=<username>
 
-        # mounts host drive at /mnt/c/
+        # mounts host drive at /mnt/c/ and retain permissions
         [automount]
         enabled = true
-        options = "uid=1000,gid=1000"
+        options = "uid=1000,gid=1000,metadata"
 
         # WSL2-specific options
         [wsl2]
