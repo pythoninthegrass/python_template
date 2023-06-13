@@ -56,10 +56,11 @@ WSL allows Windows users to run Linux (Unix) [locally at a system-level](https:/
         ```
   * After making changes to the configuration file, WSL needs to be shutdown for [8 seconds](https://docs.microsoft.com/en-us/windows/wsl/wsl-config#the-8-second-rule)
     * `wsl --shutdown`
-  * **OPTIONAL**: Change home directory to host Windows' home
+  * **OPTIONAL**
+   * Change home directory to host Windows' home
     ```bash
     # copy dotfiles to host home directory
-    cp $HOME/.* /mnt/c/Users/<username>
+    cp -rfv $HOME/.* /mnt/c/Users/<username>
 
     # edit /etc/passwd
     <username>:x:1000:1000:,,,:/mnt/c/Users/<username>:/bin/bash
