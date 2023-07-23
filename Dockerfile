@@ -1,3 +1,5 @@
+# syntax=docker/dockerfile:1.6
+
 # SOURCES
 # https://denisbrogg.hashnode.dev/efficient-python-docker-image-from-any-poetry-project
 # https://binx.io/2022/06/13/poetry-docker/

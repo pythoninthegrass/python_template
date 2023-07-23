@@ -1,6 +1,6 @@
-# syntax = docker/dockerfile:1.5
+# syntax = docker/dockerfile:1.6
 
-ARG PYTHON_VERSION=3.10.10
+ARG PYTHON_VERSION=3.11.4
 
 FROM python:${PYTHON_VERSION}-slim-bullseye
 
