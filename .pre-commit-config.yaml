@@ -52,6 +52,7 @@ repos:
       # https://pre-commit.com/#regular-expressions
       exclude: |
           (?x)^(
+              .devcontainer/devcontainer.json|
               .vscode/launch.json|
               .vscode/settings.json
           )$
