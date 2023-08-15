@@ -32,9 +32,12 @@ ENV POETRY_NO_INTERACTION=1
 ENV VENV="/opt/venv"
 ENV PATH="$POETRY_HOME/bin:$VENV/bin:$PATH"
 
+COPY requirements.txt requirements.txt
+
 RUN python -m venv $VENV \
-    && . "${VENV}/bin/activate" \
-    && python -m pip install "poetry==${POETRY_VERSION}"
+    && . "${VENV}/bin/activate"\
+    && python -m pip install "poetry==${POETRY_VERSION}" \
+    && python -m pip install -r requirements.txt
 
 FROM python:${PYTHON_VERSION}-slim-bullseye AS runner
 
@@ -67,20 +70,29 @@ RUN apt -qq update && apt -qq install \
     curl \
     dpkg \
     git \
+    iputils-ping \
     lsof \
     p7zip \
     perl \
+    shellcheck \
     tldr \
     tree \
     && rm -rf /var/lib/apt/lists/*
 
-RUN groupadd ${USER_NAME} \
-    && useradd -m ${USER_NAME} -g ${USER_GROUP}
+RUN groupadd $USER_NAME \
+    && useradd -m $USER_NAME -g $USER_GROUP
+
+# create read/write dirs
+RUN <<EOF
+#!/usr/bin/env bash
+mkdir -p /app/{certs,staticfiles}
+chown -R "${USER_NAME}:${USER_GROUP}" /app/
+EOF
 
 USER $USER_NAME
 WORKDIR $HOME
 
-COPY --from=builder --chown=nonroot:nonroot $VENV $VENV
+COPY --from=builder --chown=${USER_NAME}:${USER_GROUP} $VENV $VENV
 
 # qol: tooling
 RUN <<EOF
@@ -99,7 +111,7 @@ yes | ~/.fzf/install
 EOF
 
 # qol: .bashrc
-RUN <<EOF tee -a $HOME/.bashrc
+RUN tee -a $HOME/.bashrc <<EOF
 # shared history
 HISTFILE=/var/tmp/.bash_history
 HISTFILESIZE=100
@@ -117,5 +129,8 @@ EOF
 
 # $PATH
 ENV PATH=$VENV_PATH/bin:$HOME/.local/bin:$PATH
+
+# port needed by app
+EXPOSE 8000
 
 CMD ["sleep", "infinity"]

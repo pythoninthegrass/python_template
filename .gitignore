@@ -8,6 +8,7 @@
 **/raw/
 gitleaks_report*.json
 redis.conf
+.ruff*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
