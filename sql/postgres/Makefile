@@ -14,7 +14,7 @@ RESET  := $(shell tput -Txterm sgr0)
 all: build pull run up stop down psql help
 
 build: ## build postgres image
-	docker build -f Dockerfile.postgress -t some-postgres:latest .
+	docker build -f Dockerfile.postgres -t some-postgres:latest .
 
 build-py: ## build python image
 	docker build -f Dockerfile -t some-python:latest .
