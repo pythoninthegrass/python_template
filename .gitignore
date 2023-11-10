@@ -1,5 +1,4 @@
 # ETC
-**/django/composeexample/
 **/django/data/
 *.sqlite
 !*.example
