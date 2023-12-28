@@ -9,11 +9,23 @@ else
 fi
 export PATH="${VENV}/bin:$HOME/.asdf/bin:$HOME/.asdf/shims:$PATH"
 
-# . "${VENV}/bin/activate"
+# get the root directory
+GIT_ROOT="$(git rev-parse --show-toplevel 2>/dev/null)"
+SCRIPT_DIR=$(dirname "$(readlink -f "$0")")
 
-# BASE_DIR="$(dirname "$(readlink -f "$0")")"
-# SRV_DIR="${BASE_DIR}/app/commerce"
+if [ -n "$GIT_ROOT" ]; then
+	TLD="$(git rev-parse --show-toplevel)"
+else
+	TLD="${SCRIPT_DIR}"
+fi
 
+# expect the .env file to be in the root directory
+ENV_FILE="${TLD}/.env"
+
+# source .env file skipping commented lines
+[ -f "${ENV_FILE}" ] && export $(grep -v '^#' ${ENV_FILE} | xargs)
+
+# iterate to an available port
 move_port() {
 	echo "Port $1 is in use, trying $PORT"
 	while [ ! -z "$(lsof -i :$PORT | grep LISTEN | awk '{print $2}')" ]; do
@@ -23,10 +35,11 @@ move_port() {
 	echo "Port $PORT is available. Using it instead of $1"
 }
 
+# check if port is available
 port_check() {
-	if [ -z "$1" ]; then
+	if [ $# -eq 0 ] && [ -z $PORT ]; then
 		PORT=8000
-	elif [ "$1" -gt 0 ] 2>/dev/null; then
+	elif [ $# -gt 0 ] 2>/dev/null; then
 		PORT="$1"
 	fi
 	[ -z "$(lsof -i :$PORT | grep LISTEN | awk '{print $2}')" ] || move_port "$PORT"

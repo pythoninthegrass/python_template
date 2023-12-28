@@ -26,6 +26,7 @@ python-decouple = "^3.6"
 requests = "^2.27.1"
 requests-cache = "^0.9.1"
 websockets = "^10.3"
+uvicorn = {extras = ["gunicorn"], version = "^0.25.0"}
 
 [tool.poetry.group.dev.dependencies]
 flask = "^2.2.3"
